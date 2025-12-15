@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate; // WAJIB: Import Facade Gate
+use App\Models\User; // WAJIB: Import Model User
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Definisikan Gate 'is_admin'
+        // Gate ini memeriksa apakah role pengguna yang sedang login adalah 'admin'
+        Gate::define('is_admin', function (User $user) {
+            // Kita asumsikan kolom role di tabel users berisi string 'admin'
+            return $user->role === 'admin';
+        });
     }
 }

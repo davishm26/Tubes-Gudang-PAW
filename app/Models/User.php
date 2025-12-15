@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany; // Tambahkan ini
 
 class User extends Authenticatable
 {
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // <--- PENTING: TAMBAHKAN KOLOM 'role' DI SINI
     ];
 
     /**
@@ -44,5 +46,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Opsional: Definisikan relasi ke transaksi stok
+    // Relasi: Satu User (Admin/Staf) membuat BANYAK transaksi Stok Masuk
+    public function inventoryIns(): HasMany
+    {
+        return $this->hasMany(InventoryIn::class);
+    }
+
+    // Relasi: Satu User (Admin/Staf) membuat BANYAK transaksi Stok Keluar
+    public function inventoryOuts(): HasMany
+    {
+        return $this->hasMany(InventoryOut::class);
     }
 }
