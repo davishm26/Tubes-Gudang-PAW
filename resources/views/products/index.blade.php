@@ -48,7 +48,6 @@
                             @forelse ($products as $product)
                                 <tr>
                                     <td class="py-4 px-6 whitespace-nowrap">
-                                        {{-- PERBAIKAN DI SINI: Menggunakan $product->image dan Storage::url() --}}
                                         @if($product->image)
                                             <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="w-12 h-12 object-cover rounded border border-gray-200">
                                         @else

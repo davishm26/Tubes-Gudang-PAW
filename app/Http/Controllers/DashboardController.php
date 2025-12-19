@@ -57,6 +57,43 @@ class DashboardController extends Controller
         // Notifikasi Stok Rendah
         $lowStockProducts = Product::where('stock', '<=', 10)->orderBy('stock')->get();
 
+        // Additional Alerts: Out of Stock, Overstock
+        $outOfStockProducts = Product::where('stock', '=', 0)->orderBy('name')->get();
+        $overstockThreshold = 100; // configurable threshold (adjust as needed)
+        $overstockProducts = Product::where('stock', '>=', $overstockThreshold)->orderByDesc('stock')->get();
+
+        // Daily activity (today)
+        $inboundToday = InventoryIn::whereDate('date', now()->toDateString())->sum('quantity');
+        $outboundToday = InventoryOut::whereDate('date', now()->toDateString())->sum('quantity');
+
+        // Pending orders: no orders table in this project; default to 0
+        $pendingOrders = 0;
+
+        // Top moving items (last 30 days)
+        $topPeriodDays = 30;
+        $topMoving = InventoryOut::select('product_id', DB::raw('SUM(quantity) as total_sold'))
+            ->where('date', '>=', now()->subDays($topPeriodDays))
+            ->groupBy('product_id')
+            ->orderByDesc('total_sold')
+            ->with('product')
+            ->take(10)
+            ->get();
+
+        // Slow moving items: products with NO outs in last 90 days
+        $slowPeriodDays = 90;
+        $activeOutProductIds = InventoryOut::where('date', '>=', now()->subDays($slowPeriodDays))
+            ->groupBy('product_id')
+            ->pluck('product_id')
+            ->toArray();
+
+        $slowMoving = Product::whereNotIn('id', $activeOutProductIds)
+            ->where('stock', '>', 0)
+            ->take(10)
+            ->get();
+
+        // Total asset value: requires a cost/price column which doesn't exist in schema. set null
+        $totalAssetValue = null;
+
 
         // Siapkan data untuk Chart JS di View
         $chartData = [
@@ -78,7 +115,15 @@ class DashboardController extends Controller
             'lowStockCount',
             'recentActivities',
             'lowStockProducts',
-            'chartData'
+            'chartData',
+            'outOfStockProducts',
+            'overstockProducts',
+            'inboundToday',
+            'outboundToday',
+            'pendingOrders',
+            'topMoving',
+            'slowMoving',
+            'totalAssetValue'
         ));
     }
 }

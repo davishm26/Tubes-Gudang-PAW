@@ -7,6 +7,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryInController;
 use App\Http\Controllers\InventoryOutController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('categories', CategoryController::class);
+    // 5. Route Resource: User Management (Hanya Admin)
+    // Use the middleware class directly to avoid alias resolution issues
+    Route::resource('users', UserController::class)
+        ->except(['show'])
+        ->middleware(\App\Http\Middleware\AdminMiddleware::class);
 });
 
 
