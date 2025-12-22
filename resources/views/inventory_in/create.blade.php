@@ -118,4 +118,26 @@
             </div>
         </div>
     </div>
+
+    {{-- Script untuk Auto-fill Supplier --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productSelect = document.getElementById('product_id');
+            const supplierSelect = document.getElementById('supplier_id');
+
+            // Data produk dengan supplier_id
+            const productSuppliers = @json($products->pluck('supplier_id', 'id'));
+
+            productSelect.addEventListener('change', function() {
+                const selectedProductId = this.value;
+                const supplierId = productSuppliers[selectedProductId];
+
+                if (supplierId) {
+                    supplierSelect.value = supplierId;
+                } else {
+                    supplierSelect.value = '';
+                }
+            });
+        });
+    </script>
 </x-app-layout>

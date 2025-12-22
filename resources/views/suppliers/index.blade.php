@@ -27,6 +27,16 @@
                     </div>
                 @endif
 
+                {{-- Form Pencarian --}}
+                <form method="GET" action="{{ route('suppliers.index') }}" class="mb-4">
+                    <div class="flex">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari pemasok atau kontak..." class="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r-md">
+                            Cari
+                        </button>
+                    </div>
+                </form>
+
                 {{-- Tabel Data --}}
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">

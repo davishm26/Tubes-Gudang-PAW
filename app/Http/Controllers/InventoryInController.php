@@ -28,7 +28,7 @@ class InventoryInController extends Controller
      */
     public function create()
     {
-        $products = Product::all(['id', 'name', 'stock']);
+        $products = Product::with('supplier')->get(['id', 'name', 'stock', 'supplier_id']);
         // Pastikan Anda mengimpor Supplier di bagian atas jika tidak ingin menggunakan namespace penuh
         $suppliers = \App\Models\Supplier::all(['id', 'name']);
         return view('inventory_in.create', compact('products', 'suppliers'));

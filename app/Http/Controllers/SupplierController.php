@@ -11,10 +11,17 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource (READ).
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil semua data pemasok
-        $suppliers = Supplier::all();
+        $query = Supplier::query();
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('contact', 'like', '%' . $search . '%');
+        }
+
+        $suppliers = $query->get();
 
         // Tampilkan view index pemasok, kirim data supplier
         return view('suppliers.index', compact('suppliers'));

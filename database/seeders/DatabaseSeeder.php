@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Staf',
                 'password' => Hash::make('password'),
-                'role' => 'staf',
+                'role' => 'staff',
                 'email_verified_at' => now(), // Tambahkan verifikasi instan
             ]
         );

@@ -10,6 +10,16 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <a href="{{ route('categories.create') }}" class="bg-indigo-500 text-white p-2 rounded mb-4 inline-block">Tambah Kategori</a>
 
+                {{-- Form Pencarian --}}
+                <form method="GET" action="{{ route('categories.index') }}" class="mb-4">
+                    <div class="flex">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori..." class="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r-md">
+                            Cari
+                        </button>
+                    </div>
+                </form>
+
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr>

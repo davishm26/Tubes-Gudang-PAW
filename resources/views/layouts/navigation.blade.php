@@ -37,7 +37,7 @@
                             <x-dropdown align="right" width="56">
                                 <x-slot name="trigger">
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Stok & Riwayat') }}</div>
+                                        <div>{{ __('Riwayat Masuk & Keluar') }}</div>
 
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -48,32 +48,61 @@
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold">{{ __('Pencatatan') }}</div>
-                                    <x-dropdown-link :href="route('inventory-in.create')">{{ __('Catat Stok Masuk') }}</x-dropdown-link>
-                                    <x-dropdown-link :href="route('inventory-out.create')">{{ __('Catat Stok Keluar') }}</x-dropdown-link>
-
-                                    <div class="border-t my-2"></div>
-                                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold">{{ __('Riwayat') }}</div>
                                     <x-dropdown-link :href="route('inventory-in.history')">{{ __('Riwayat Masuk') }}</x-dropdown-link>
                                     <x-dropdown-link :href="route('inventory-out.history')">{{ __('Riwayat Keluar') }}</x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>
                         </div>
 
-                    @elseif(Auth::user() && Auth::user()->role === 'staff')
-                        {{-- Staff: allowed to record stock and view history --}}
-                        <x-nav-link :href="route('inventory-in.create')" :active="request()->routeIs('inventory-in.create')">
-                            {{ __('Catat Stok Masuk') }}
+                    @elseif(Auth::user() && (Auth::user()->role === 'staff' || Auth::user()->role === 'staf'))
+                        {{-- Staff: ordered navigation --}}
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('inventory-out.create')" :active="request()->routeIs('inventory-out.create')">
-                            {{ __('Catat Stok Keluar') }}
+
+                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                            {{ __('Produk') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('inventory-in.history')" :active="request()->routeIs('inventory-in.history')">
-                            {{ __('Riwayat Masuk') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('inventory-out.history')" :active="request()->routeIs('inventory-out.history')">
-                            {{ __('Riwayat Keluar') }}
-                        </x-nav-link>
+
+                        {{-- Dropdown for Stok Masuk dan Keluar --}}
+                        <div class="hidden sm:flex sm:items-center">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
+                                        <div>{{ __('Produk Masuk & Keluar') }}</div>
+                                        <div class="ms-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
+                                <x-slot name="content">
+                                    <x-dropdown-link :href="route('inventory-in.create')">{{ __('Catat Stok Masuk') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('inventory-out.create')">{{ __('Catat Stok Keluar') }}</x-dropdown-link>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
+
+                        {{-- Dropdown for History Masuk Keluar --}}
+                        <div class="hidden sm:flex sm:items-center">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
+                                        <div>{{ __('Riwayat Masuk & Keluar') }}</div>
+                                        <div class="ms-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
+                                <x-slot name="content">
+                                    <x-dropdown-link :href="route('inventory-in.history')">{{ __('Riwayat Masuk') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('inventory-out.history')">{{ __('Riwayat Keluar') }}</x-dropdown-link>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
                     @else
                         {{-- Fallback: show minimal links --}}
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -150,16 +179,8 @@
 
                 <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Stok & Riwayat') }}
+                        {{ __('Riwayat') }}
                     </div>
-
-                    <x-responsive-nav-link :href="route('inventory-in.create')" :active="request()->routeIs('inventory-in.create')">
-                        {{ __('Catat Stok Masuk') }}
-                    </x-responsive-nav-link>
-
-                    <x-responsive-nav-link :href="route('inventory-out.create')" :active="request()->routeIs('inventory-out.create')">
-                        {{ __('Catat Stok Keluar') }}
-                    </x-responsive-nav-link>
 
                     <x-responsive-nav-link :href="route('inventory-in.history')" :active="request()->routeIs('inventory-in.history')">
                         {{ __('Riwayat Masuk') }}
@@ -170,24 +191,44 @@
                     </x-responsive-nav-link>
                 </div>
 
-            @elseif(Auth::user() && Auth::user()->role === 'staff')
-                {{-- Staff: allowed to record stock and view history (mobile) --}}
-                <x-responsive-nav-link :href="route('inventory-in.create')" :active="request()->routeIs('inventory-in.create')">
-                    {{ __('Catat Stok Masuk') }}
+            @elseif(Auth::user() && (Auth::user()->role === 'staff' || Auth::user()->role === 'staf'))
+                {{-- Staff: ordered navigation for mobile --}}
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('inventory-out.create')" :active="request()->routeIs('inventory-out.create')">
-                    {{ __('Catat Stok Keluar') }}
-                </x-responsive-nav-link>
+                <div class="border-t border-gray-200 mt-2 pt-2">
+                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
+                        {{ __('Data Master') }}
+                    </div>
+                    <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                        {{ __('Produk') }}
+                    </x-responsive-nav-link>
+                </div>
 
-                <x-responsive-nav-link :href="route('inventory-in.history')" :active="request()->routeIs('inventory-in.history')">
-                    {{ __('Riwayat Masuk') }}
-                </x-responsive-nav-link>
+                <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
+                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
+                        {{ __('Stok Masuk & Keluar') }}
+                    </div>
+                    <x-responsive-nav-link :href="route('inventory-in.create')" :active="request()->routeIs('inventory-in.create')">
+                        {{ __('Catat Stok Masuk') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('inventory-out.create')" :active="request()->routeIs('inventory-out.create')">
+                        {{ __('Catat Stok Keluar') }}
+                    </x-responsive-nav-link>
+                </div>
 
-                <x-responsive-nav-link :href="route('inventory-out.history')" :active="request()->routeIs('inventory-out.history')">
-                    {{ __('Riwayat Keluar') }}
-                </x-responsive-nav-link>
-
+                <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
+                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
+                        {{ __('History Masuk Keluar') }}
+                    </div>
+                    <x-responsive-nav-link :href="route('inventory-in.history')" :active="request()->routeIs('inventory-in.history')">
+                        {{ __('Riwayat Masuk') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('inventory-out.history')" :active="request()->routeIs('inventory-out.history')">
+                        {{ __('Riwayat Keluar') }}
+                    </x-responsive-nav-link>
+                </div>
             @else
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}

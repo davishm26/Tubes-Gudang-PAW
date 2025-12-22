@@ -14,31 +14,28 @@
                 const chartData = @json($chartData);
 
                 const inventoryChart = new Chart(ctx, {
-                    type: 'line',
+                    type: 'bar',
                     data: {
                         labels: chartData.labels,
                         datasets: [
                             {
                                 label: 'Stok Masuk',
                                 data: chartData.data_in,
-                                borderColor: 'rgba(59, 130, 246, 1)', // blue-500
-                                backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                                fill: true,
-                                tension: 0.1
+                                backgroundColor: 'rgba(59, 130, 246, 0.8)', // blue-500
                             },
                             {
                                 label: 'Stok Keluar',
                                 data: chartData.data_out,
-                                borderColor: 'rgba(239, 68, 68, 1)', // red-500
-                                backgroundColor: 'rgba(239, 68, 68, 0.2)',
-                                fill: true,
-                                tension: 0.1
+                                backgroundColor: 'rgba(239, 68, 68, 0.8)', // red-500
                             }
                         ]
                     },
                     options: {
                         responsive: true,
                         scales: {
+                            x: {
+                                stacked: false
+                            },
                             y: {
                                 beginAtZero: true
                             }

@@ -12,9 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('inventory_out', function (Blueprint $table) {
-            // Tambahkan kolom keterangan setelah kolom 'date'
-            $table->text('description')->nullable()->after('date');
+        Schema::table('inventory_outs', function (Blueprint $table) {
+            // Tambahkan kolom keterangan setelah kolom 'date' jika belum ada
+            if (!Schema::hasColumn('inventory_outs', 'description')) {
+                $table->text('description')->nullable()->after('date');
+            }
         });
     }
 
@@ -24,9 +26,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('inventory_out', function (Blueprint $table) {
-            // Hapus kolom description jika migrasi di-rollback
-            $table->dropColumn('description');
+        Schema::table('inventory_outs', function (Blueprint $table) {
+            // Hapus kolom description jika migrasi di-rollback dan kolom ada
+            if (Schema::hasColumn('inventory_outs', 'description')) {
+                $table->dropColumn('description');
+            }
         });
     }
 };
