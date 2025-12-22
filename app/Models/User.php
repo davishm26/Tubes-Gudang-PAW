@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany; // Tambahkan ini
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Company;
 
 class User extends Authenticatable
 {
@@ -23,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role', // <--- PENTING: TAMBAHKAN KOLOM 'role' DI SINI
+        'company_id',
     ];
 
     /**
@@ -59,5 +62,21 @@ class User extends Authenticatable
     public function inventoryOuts(): HasMany
     {
         return $this->hasMany(InventoryOut::class);
+    }
+
+    /**
+     * Relation: User belongs to a Company (nullable for super_admin)
+     */
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Helper: Is Super Admin?
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
     }
 }

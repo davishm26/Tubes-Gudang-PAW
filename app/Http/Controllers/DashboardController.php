@@ -8,11 +8,23 @@ use App\Models\InventoryIn;
 use App\Models\InventoryOut;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        // --- PERBAIKAN DI SINI ---
+        // Kita definisikan variabel $user dengan PHPDoc agar editor tahu ini adalah Model User
+        /** @var \App\Models\User|null $user */
+        $user = Auth::user();
+
+        // Cek apakah user login DAN apakah dia super admin
+        if ($user && $user->isSuperAdmin()) {
+            return redirect()->route('super_admin.dashboard');
+        }
+        // -------------------------
+
         // 1. DATA STATISTIK RINGKASAN (CARDS)
         $totalProducts = Product::count();
         $totalSuppliers = Supplier::count();
@@ -45,14 +57,21 @@ class DashboardController extends Controller
             ->toArray();
 
         // 3. TABEL NOTIFIKASI/AKTIVITAS
-        $recentActivities = InventoryIn::select('date', 'quantity', 'product_id', DB::raw('"Masuk" as type'), 'user_id')
-            ->union(
-                InventoryOut::select('date', 'quantity', 'product_id', DB::raw('"Keluar" as type'), 'user_id')
-            )
-            ->with(['product', 'user']) // Pastikan relasi ini ada di model InventoryIn dan InventoryOut
-            ->orderBy('date', 'desc')
-            ->take(8)
+        // Ambil 2 query terpisah (masuk + keluar), merge di collection supaya relasi dapat eager-loaded
+        $inActivities = InventoryIn::select('date', 'quantity', 'product_id', DB::raw("'Masuk' as type"), 'user_id')
+            ->with(['product', 'user'])
             ->get();
+
+        $outActivities = InventoryOut::select('date', 'quantity', 'product_id', DB::raw("'Keluar' as type"), 'user_id')
+            ->with(['product', 'user'])
+            ->get();
+
+        $recentActivities = $inActivities->concat($outActivities)
+            ->sortByDesc(function ($item) {
+                return $item->date;
+            })
+            ->values()
+            ->take(8);
 
         // Notifikasi Stok Rendah
         $lowStockProducts = Product::where('stock', '<=', 10)->orderBy('stock')->get();
@@ -94,7 +113,6 @@ class DashboardController extends Controller
         // Total asset value: requires a cost/price column which doesn't exist in schema. set null
         $totalAssetValue = null;
 
-
         // Siapkan data untuk Chart JS di View
         $chartData = [
             'labels' => array_keys($inventoryInHistory + $inventoryOutHistory), // Semua tanggal unik
@@ -106,7 +124,6 @@ class DashboardController extends Controller
             $chartData['data_in'][] = $inventoryInHistory[$date] ?? 0;
             $chartData['data_out'][] = $inventoryOutHistory[$date] ?? 0;
         }
-
 
         return view('dashboard', compact(
             'totalProducts',

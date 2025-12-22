@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryInController;
 use App\Http\Controllers\InventoryOutController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,18 +37,39 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/inventory-out/history', [InventoryOutController::class, 'history'])->name('inventory-out.history');
 
     // 3. Route Resource: Transaksi Stok (Pencatatan)
-    Route::resource('inventory-in', InventoryInController::class)->only(['index', 'create', 'store']);
-    Route::resource('inventory-out', InventoryOutController::class)->only(['index', 'create', 'store']);
+    Route::resource('inventory-in', InventoryInController::class)->only(['index', 'create', 'store'])
+        ->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
+    Route::resource('inventory-out', InventoryOutController::class)->only(['index', 'create', 'store'])
+        ->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
 
     // 4. Route Resource: Data Master (Produk, Supplier, Kategori)
-    Route::resource('products', ProductController::class);
-    Route::resource('suppliers', SupplierController::class);
-    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class)->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
+    Route::resource('suppliers', SupplierController::class)->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
+    Route::resource('categories', CategoryController::class)->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
     // 5. Route Resource: User Management (Hanya Admin)
     // Use the middleware class directly to avoid alias resolution issues
     Route::resource('users', UserController::class)
         ->except(['show'])
         ->middleware(\App\Http\Middleware\AdminMiddleware::class);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Super Admin Routes (Akses Khusus Super Admin)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('super-admin')->name('super_admin.')->middleware(['auth','verified', \App\Http\Middleware\SuperAdminMiddleware::class])->group(function () {
+    Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
+
+    // Tenant management (companies)
+    Route::get('/tenants', [TenantController::class, 'index'])->name('tenants.index');
+    Route::get('/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
+    Route::post('/tenants', [TenantController::class, 'store'])->name('tenants.store');
+    Route::get('/tenants/{company}/edit', [TenantController::class, 'edit'])->name('tenants.edit');
+    Route::put('/tenants/{company}', [TenantController::class, 'update'])->name('tenants.update');
+    Route::post('/tenants/{company}/suspend', [TenantController::class, 'suspend'])->name('tenants.suspend');
+    Route::post('/tenants/{company}/unsuspend', [TenantController::class, 'unsuspend'])->name('tenants.unsuspend');
+    Route::delete('/tenants/{company}', [TenantController::class, 'destroy'])->name('tenants.destroy');
 });
 
 

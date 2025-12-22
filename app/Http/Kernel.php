@@ -31,6 +31,8 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'staff' => \App\Http\Middleware\StaffMiddleware::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'super_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
+        'not_super_admin' => \App\Http\Middleware\NotSuperAdminMiddleware::class,
     ];
 
     /**
@@ -54,6 +56,8 @@ class Kernel extends HttpKernel
         // --- ALIAS WAJIB ANDA ---
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'staff' => \App\Http\Middleware\StaffMiddleware::class,
+        'super_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
+        'not_super_admin' => \App\Http\Middleware\NotSuperAdminMiddleware::class,
 
         // -------------------------
     ];
