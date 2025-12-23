@@ -69,7 +69,12 @@ Route::prefix('super-admin')->name('super_admin.')->middleware(['auth','verified
     Route::put('/tenants/{company}', [TenantController::class, 'update'])->name('tenants.update');
     Route::post('/tenants/{company}/suspend', [TenantController::class, 'suspend'])->name('tenants.suspend');
     Route::post('/tenants/{company}/unsuspend', [TenantController::class, 'unsuspend'])->name('tenants.unsuspend');
+    Route::post('/tenants/{company}/send-notification', [TenantController::class, 'sendNotification'])->name('tenants.send-notification');
     Route::delete('/tenants/{company}', [TenantController::class, 'destroy'])->name('tenants.destroy');
+
+    // Financial report
+    Route::get('/financial-report', [SuperAdminController::class, 'financialReport'])->name('financial-report');
+    Route::post('/financial-report/download', [SuperAdminController::class, 'downloadFinancialReport'])->name('financial-report.download');
 });
 
 

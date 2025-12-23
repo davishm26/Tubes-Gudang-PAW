@@ -11,7 +11,20 @@
 
                 {{-- MENU DESKTOP (Tampilan Laptop/PC) --}}
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if(Auth::user() && Auth::user()->role === 'admin')
+                    @if(Auth::user() && Auth::user()->role === 'super_admin')
+                        <x-nav-link :href="route('super_admin.dashboard')" :active="request()->routeIs('super_admin.dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('super_admin.tenants.index')" :active="request()->routeIs('super_admin.tenants.*')">
+                            {{ __('Tenan') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('super_admin.financial-report')" :active="request()->routeIs('super_admin.financial-report')">
+                            {{ __('Laporan Keuangan') }}
+                        </x-nav-link>
+
+                    @elseif(Auth::user() && Auth::user()->role === 'admin')
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>

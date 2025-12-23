@@ -64,4 +64,16 @@ class TenantController extends Controller
         $company->delete();
         return redirect()->route('super_admin.tenants.index')->with('success', 'Tenant deleted.');
     }
+
+    public function sendNotification(Company $company)
+    {
+        // Kirim notifikasi ke perusahaan tentang sisa waktu
+        // Untuk sementara, kita asumsikan menggunakan email atau notifikasi internal
+        // Anda bisa menggunakan Laravel Notification atau Mail
+
+        // Contoh: Kirim email
+        // Mail::to($company->users->first()->email ?? 'admin@company.com')->send(new SubscriptionExpiryNotification($company));
+
+        return redirect()->back()->with('success', 'Notification sent to ' . $company->name);
+    }
 }

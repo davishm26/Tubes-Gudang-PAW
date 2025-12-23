@@ -24,6 +24,7 @@ class Product extends Model
         'category_id',
         'supplier_id',
         'image', // KOREKSI: Menggunakan 'image' agar sesuai dengan kolom di DB
+        'price',
     ];
 
     /**
