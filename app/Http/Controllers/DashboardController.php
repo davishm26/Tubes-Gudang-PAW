@@ -12,8 +12,37 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // Check if demo mode
+        if (session('demo_mode') === 'true') {
+            // Demo mode should not touch real data; return empty/zeroed dataset
+            $chartData = [
+                'labels' => [],
+                'data_in' => [],
+                'data_out' => [],
+            ];
+
+            return view('dashboard', [
+                'totalProducts' => 0,
+                'totalStock' => 0,
+                'totalSuppliers' => 0,
+                'lowStockCount' => 0,
+                'lowStockProducts' => collect(),
+                'chartData' => $chartData,
+                'recentActivities' => collect(),
+                'outOfStockProducts' => collect(),
+                'overstockProducts' => collect(),
+                'inboundToday' => 0,
+                'outboundToday' => 0,
+                'pendingOrders' => 0,
+                'topMoving' => collect(),
+                'slowMoving' => collect(),
+                'totalAssetValue' => null,
+            ]);
+        }
+
+        // Normal mode
         // --- PERBAIKAN DI SINI ---
         // Kita definisikan variabel $user dengan PHPDoc agar editor tahu ini adalah Model User
         /** @var \App\Models\User|null $user */

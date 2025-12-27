@@ -13,6 +13,23 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        if (session('demo_mode')) {
+            $categories = collect(session('demo_categories', []))->map(fn($c) => (object) $c);
+            if ($categories->isEmpty()) {
+                $categories = collect([
+                    ['id' => 1, 'name' => 'Elektronik'],
+                    ['id' => 2, 'name' => 'Furniture'],
+                ])->map(fn($c) => (object) $c);
+                session(['demo_categories' => $categories]);
+            }
+
+            if ($request->has('search') && !empty($request->search)) {
+                $search = strtolower($request->search);
+                $categories = $categories->filter(fn($c) => str_contains(strtolower($c->name), $search))->values();
+            }
+
+            return view('categories.index', ['categories' => $categories]);
+        }
         $query = Category::query();
 
         if ($request->has('search') && !empty($request->search)) {
@@ -31,7 +48,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        // Tampilkan form untuk menambahkan kategori baru
+        if (session('demo_mode')) {
+            return view('categories.create');
+        }
         return view('categories.create');
     }
 
@@ -40,18 +59,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Validasi Data
-        $request->validate([
-            // Wajib diisi, maksimal 255 karakter, dan harus unik di tabel 'categories'
-            'name' => 'required|string|max:255|unique:categories,name',
-        ]);
-
-        // 2. Simpan ke Database
-        Category::create($request->only('name')); // Hanya ambil kolom 'name'
-
-        // 3. Redirect dengan pesan sukses
-        return redirect()->route('categories.index')
-                         ->with('success', 'Kategori baru berhasil ditambahkan.');
+        if (session('demo_mode')) {
+            $request->validate(['name' => 'required|string|max:255']);
+            $categories = collect(session('demo_categories', []));
+            $nextId = ($categories->max('id') ?? 0) + 1;
+            $categories = $categories->push(['id' => $nextId, 'name' => $request->name]);
+            session(['demo_categories' => $categories]);
+            return redirect()->route('categories.index')->with('success', 'Kategori demo ditambahkan (tidak ke database).');
+        }
+        $request->validate(['name' => 'required|string|max:255|unique:categories,name']);
+        Category::create($request->only('name'));
+        return redirect()->route('categories.index')->with('success', 'Kategori baru berhasil ditambahkan.');
     }
 
     /**
@@ -69,7 +87,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        // Tampilkan form edit dengan data kategori yang sudah ada
+        if (session('demo_mode')) {
+            return redirect()->route('categories.index')->with('info', 'Edit kategori dinonaktifkan pada demo mode.');
+        }
         return view('categories.edit', compact('category'));
     }
 
@@ -78,6 +98,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if (session('demo_mode') === 'true') {
+            return redirect()->route('categories.index')->with('info', 'Update kategori dinonaktifkan pada demo mode.');
+        }
         // 1. Validasi Data
         $request->validate([
             // Gunakan Rule::unique() untuk mengecualikan kategori yang sedang di-edit dari cek unik
@@ -102,6 +125,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if (session('demo_mode') === 'true') {
+            return redirect()->route('categories.index')->with('info', 'Hapus kategori dinonaktifkan pada demo mode.');
+        }
         try {
             // Hapus data kategori
             $category->delete();

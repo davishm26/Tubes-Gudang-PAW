@@ -81,6 +81,70 @@
     </style>
 </head>
 <body class="bg-gray-50">
+    <!-- Demo Mode Modal -->
+    <div id="demoModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-900">Pilih Role Demo</h3>
+                    <button onclick="closeDemoModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <p class="text-gray-600 mb-6">Pilih role untuk mencoba fitur sistem gudang dalam mode demo. Data hanya tersimpan di browser Anda.</p>
+
+                <div class="space-y-4">
+                    <button onclick="startDemo('admin')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-semibold text-lg">Admin</p>
+                                    <p class="text-sm text-white/80">Akses penuh ke semua fitur</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button onclick="startDemo('staff')" class="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-4 rounded-xl hover:from-green-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                    </svg>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-semibold text-lg">Staff</p>
+                                    <p class="text-sm text-white/80">Akses terbatas untuk operasional</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <strong>💡 Mode Demo:</strong> Semua data hanya disimpan di browser Anda dan tidak akan tersimpan secara permanen.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -122,9 +186,9 @@
                     <a href="{{ route('subscription.subscribe') }}" class="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 pulse-glow shadow-lg">
                         Mulai Sekarang - Gratis 14 Hari
                     </a>
-                    <a href="#demo" class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
-                        Lihat Demo
-                    </a>
+                    <button onclick="openDemoModal()" class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
+                        🚀 Coba Demo
+                    </button>
                 </div>
             </div>
         </div>
@@ -390,8 +454,102 @@
                 heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
             }
         });
+
+        // Demo Mode Functions
+        function openDemoModal() {
+            console.log('openDemoModal called');
+            const modal = document.getElementById('demoModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                console.log('Modal opened successfully');
+            } else {
+                console.error('Modal element not found!');
+            }
+        }
+
+        function closeDemoModal() {
+            document.getElementById('demoModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function startDemo(role) {
+            // Simpan role ke session storage
+            sessionStorage.setItem('demo_mode', 'true');
+            sessionStorage.setItem('demo_role', role);
+
+            // Initialize demo data di localStorage jika belum ada
+            if (!localStorage.getItem('demo_initialized')) {
+                initializeDemoData(role);
+            }
+
+            // Redirect ke route demo start yang akan set session
+            window.location.href = `/demo/start?role=${role}`;
+        }
+
+        function initializeDemoData(role) {
+            const demoData = {
+                categories: [
+                    { id: 1, name: 'Elektronik', description: 'Barang elektronik' },
+                    { id: 2, name: 'Furniture', description: 'Perabotan kantor' },
+                    { id: 3, name: 'Alat Tulis', description: 'Perlengkapan tulis' }
+                ],
+                suppliers: [
+                    { id: 2, name: 'CV Furniture Indo', contact: '08198765432', address: 'Bandung' },
+                    { id: 3, name: 'Toko ATK Sejahtera', contact: '08234567890', address: 'Surabaya' }
+                ],
+                products: [
+                    { id: 1, name: 'Laptop Dell', sku: 'LAP001', category_id: 1, supplier_id: 1, stock: 15, min_stock: 5, price: 8500000 },
+                    { id: 2, name: 'Mouse Wireless', sku: 'MOU001', category_id: 1, supplier_id: 1, stock: 50, min_stock: 10, price: 150000 },
+                    { id: 3, name: 'Meja Kantor', sku: 'MJK001', category_id: 2, supplier_id: 2, stock: 8, min_stock: 3, price: 1200000 },
+                    { id: 4, name: 'Kursi Ergonomis', sku: 'KRS001', category_id: 2, supplier_id: 2, stock: 12, min_stock: 4, price: 2500000 },
+                    { id: 5, name: 'Pulpen Box', sku: 'PEN001', category_id: 3, supplier_id: 3, stock: 100, min_stock: 20, price: 25000 }
+                ],
+                inventory_in: [
+                    { id: 1, product_id: 1, quantity: 10, supplier_id: 1, description: 'Pembelian rutin', date: '2025-12-20' },
+                    { id: 2, product_id: 2, quantity: 30, supplier_id: 1, description: 'Stok awal', date: '2025-12-21' }
+                ],
+                inventory_out: [
+                    { id: 1, product_id: 1, quantity: 5, description: 'Pengiriman ke cabang A', date: '2025-12-22' },
+                    { id: 2, product_id: 2, quantity: 10, description: 'Penjualan retail', date: '2025-12-23' }
+                ],
+                users: role === 'admin' ? [
+                    { id: 1, name: 'Demo Admin', email: 'admin@demo.com', role: 'admin' },
+                    { id: 2, name: 'Demo Staff', email: 'staff@demo.com', role: 'staff' }
+                ] : [
+                    { id: 2, name: 'Demo Staff', email: 'staff@demo.com', role: 'staff' }
+                ]
+            };
+
+            // Simpan semua data ke localStorage
+            for (const [key, value] of Object.entries(demoData)) {
+                localStorage.setItem(`demo_${key}`, JSON.stringify(value));
+            }
+
+            // Set counter untuk ID baru
+            localStorage.setItem('demo_categories_counter', '4');
+            localStorage.setItem('demo_suppliers_counter', '4');
+            localStorage.setItem('demo_products_counter', '6');
+            localStorage.setItem('demo_inventory_in_counter', '3');
+            localStorage.setItem('demo_inventory_out_counter', '3');
+            localStorage.setItem('demo_users_counter', '3');
+
+            localStorage.setItem('demo_initialized', 'true');
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDemoModal();
+            }
+        });
+
+        // Close modal on backdrop click
+        document.getElementById('demoModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDemoModal();
+            }
+        });
     </script>
-</body>
-</html>
 </body>
 </html>

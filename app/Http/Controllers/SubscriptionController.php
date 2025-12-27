@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\SvgWriter;
 use Illuminate\Support\Str;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Writer\SvgWriter;
 
 class SubscriptionController extends Controller
 {
@@ -60,9 +60,15 @@ class SubscriptionController extends Controller
 
         // Generate QR Code with payment info text
         $paymentInfo = "Pembayaran Sistem Gudang\nHarga: Rp " . number_format($subscription['price'], 0, ',', '.') . "\nToken: " . $subscription['token'];
-        $qrCode = new QrCode($paymentInfo);
-        $writer = new SvgWriter();
-        $result = $writer->write($qrCode);
+
+        $builder = new Builder(
+            writer: new SvgWriter(),
+            data: $paymentInfo,
+            size: 300,
+            margin: 10
+        );
+
+        $result = $builder->build();
         $qrCodeDataUri = $result->getDataUri();
 
         return view('subscription.payment', compact('subscription', 'qrCodeDataUri'));
@@ -96,12 +102,53 @@ class SubscriptionController extends Controller
                 'email_verified_at' => now(),
             ]);
 
+            // Save subscription data before clearing session
+            $subscriptionData = $subscription;
+
             // Clear session
             session()->forget('subscription');
 
-            return view('subscription.success', compact('company', 'subscription'));
+            return view('subscription.success', [
+                'company' => $company,
+                'subscription' => $subscriptionData
+            ]);
         } catch (\Exception $e) {
             return redirect()->route('subscription.subscribe')->with('error', 'Error processing payment: ' . $e->getMessage());
         }
+    }
+
+    public function startDemo(Request $request)
+    {
+        $role = $request->query('role', 'staff');
+
+        // Validasi role
+        if (!in_array($role, ['admin', 'staff'])) {
+            $role = 'staff';
+        }
+
+        // Set session untuk demo mode
+        session([
+            'demo_mode' => 'true',
+            'demo_role' => $role
+        ]);
+
+        return redirect()->route('dashboard');
+    }
+
+    public function exitDemo()
+    {
+        // Hapus session demo mode dan semua data demo agar bersih saat masuk lagi
+        session()->forget([
+            'demo_mode',
+            'demo_role',
+            'demo_products',
+            'demo_suppliers',
+            'demo_categories',
+            'demo_users',
+            'demo_inventory_in',
+            'demo_inventory_out',
+        ]);
+
+        return redirect()->route('subscription.landing');
     }
 }

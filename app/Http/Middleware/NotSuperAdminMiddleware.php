@@ -13,6 +13,11 @@ class NotSuperAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        // Allow demo mode
+        if (session('demo_mode') === 'true') {
+            return $next($request);
+        }
+
         $user = Auth::user();
 
         if ($user && $user->role === 'super_admin') {

@@ -13,6 +13,26 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
+        if (session('demo_mode')) {
+            $suppliers = collect(session('demo_suppliers', []))->map(fn($s) => (object) $s);
+            if ($suppliers->isEmpty()) {
+                $suppliers = collect([
+                    ['id' => 1, 'name' => 'Demo Supplier', 'contact' => '081234567890'],
+                    ['id' => 2, 'name' => 'Demo Vendor', 'contact' => '082345678901'],
+                ])->map(fn($s) => (object) $s);
+                session(['demo_suppliers' => $suppliers]);
+            }
+
+            if ($request->has('search') && !empty($request->search)) {
+                $search = strtolower($request->search);
+                $suppliers = $suppliers->filter(function ($s) use ($search) {
+                    return str_contains(strtolower($s->name), $search)
+                        || str_contains(strtolower($s->contact ?? ''), $search);
+                })->values();
+            }
+
+            return view('suppliers.index', ['suppliers' => $suppliers]);
+        }
         $query = Supplier::query();
 
         if ($request->has('search') && !empty($request->search)) {
@@ -32,7 +52,9 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        // Tampilkan form untuk menambahkan pemasok baru
+        if (session('demo_mode')) {
+            return view('suppliers.create');
+        }
         return view('suppliers.create');
     }
 
@@ -41,19 +63,24 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
+        if (session('demo_mode')) {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'contact' => 'nullable|string|max:255',
+            ]);
+            $suppliers = collect(session('demo_suppliers', []));
+            $nextId = ($suppliers->max('id') ?? 0) + 1;
+            $suppliers = $suppliers->push(['id' => $nextId, 'name' => $request->name, 'contact' => $request->contact]);
+            session(['demo_suppliers' => $suppliers]);
+            return redirect()->route('suppliers.index')->with('success', 'Pemasok demo ditambahkan (tidak ke database).');
+        }
         // 1. Validasi Data
         $request->validate([
-            // Nama pemasok harus unik
             'name' => 'required|string|max:255|unique:suppliers,name',
-            'contact' => 'nullable|string|max:255', // Kontak boleh kosong
+            'contact' => 'nullable|string|max:255',
         ]);
-
-        // 2. Simpan ke Database
         Supplier::create($request->only(['name', 'contact']));
-
-        // 3. Redirect dengan pesan sukses
-        return redirect()->route('suppliers.index')
-                         ->with('success', 'Pemasok baru berhasil ditambahkan.');
+        return redirect()->route('suppliers.index')->with('success', 'Pemasok baru berhasil ditambahkan.');
     }
 
     /**
@@ -71,7 +98,9 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        // Tampilkan form edit dengan data supplier yang sudah ada
+        if (session('demo_mode')) {
+            return redirect()->route('suppliers.index')->with('info', 'Edit pemasok dinonaktifkan pada demo mode.');
+        }
         return view('suppliers.edit', compact('supplier'));
     }
 
@@ -80,6 +109,9 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
+        if (session('demo_mode') === 'true') {
+            return redirect()->route('suppliers.index')->with('info', 'Update pemasok dinonaktifkan pada demo mode.');
+        }
         // 1. Validasi Data
         $request->validate([
             // Nama harus unik, kecuali dirinya sendiri ($supplier->id)
@@ -105,6 +137,9 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
+        if (session('demo_mode') === 'true') {
+            return redirect()->route('suppliers.index')->with('info', 'Hapus pemasok dinonaktifkan pada demo mode.');
+        }
         try {
             // Hapus data pemasok
             $supplier->delete();

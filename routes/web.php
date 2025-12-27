@@ -23,13 +23,18 @@ Route::match(['get', 'post'], '/subscribe', [SubscriptionController::class, 'sub
 Route::get('/payment', [SubscriptionController::class, 'payment'])->name('subscription.payment');
 Route::post('/pay/{token}', [SubscriptionController::class, 'pay'])->name('subscription.pay');
 
+// Demo Mode Routes
+Route::get('/demo/start', [SubscriptionController::class, 'startDemo'])->name('demo.start');
+Route::get('/demo/exit', [SubscriptionController::class, 'exitDemo'])->name('demo.exit');
+
 
 /*
 |--------------------------------------------------------------------------
 | Authenticated Routes (Akses Setelah Login - Admin & Staf)
+| Note: Demo mode dapat mengakses route ini melalui DemoModeMiddleware
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware([\App\Http\Middleware\DemoOrAuthMiddleware::class, \App\Http\Middleware\DemoModeMiddleware::class])->group(function () {
 
     // 1. Dashboard - Diubah dari closure menjadi memanggil Controller
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -15,6 +15,32 @@ class InventoryOutController extends Controller
      */
     public function index()
     {
+        if (session('demo_mode')) {
+            $items = collect(session('demo_inventory_out', []));
+            if ($items->isEmpty()) {
+                $items = collect([
+                    [
+                        'date' => now()->subDay()->toDateString(),
+                        'quantity' => 2,
+                        'description' => 'Contoh pengeluaran',
+                        'product' => ['name' => 'Produk Demo A'],
+                    ],
+                    [
+                        'date' => now()->toDateString(),
+                        'quantity' => 1,
+                        'description' => 'Contoh pengeluaran 2',
+                        'product' => ['name' => 'Produk Demo B'],
+                    ],
+                ]);
+                session(['demo_inventory_out' => $items]);
+            }
+            $inventoryOuts = $items->map(function ($item) {
+                $obj = (object) $item;
+                $obj->product = (object) $item['product'];
+                return $obj;
+            });
+            return view('inventory_out.index', compact('inventoryOuts'));
+        }
         // Ambil semua transaksi stok keluar
         $inventoryOuts = InventoryOut::with(['product', 'user'])->latest()->get();
         return view('inventory_out.index', compact('inventoryOuts'));
@@ -25,6 +51,33 @@ class InventoryOutController extends Controller
      */
     public function history()
     {
+        if (session('demo_mode')) {
+            $items = collect(session('demo_inventory_out', []));
+            if ($items->isEmpty()) {
+                $items = collect([
+                    [
+                        'date' => now()->subDays(2)->toDateString(),
+                        'quantity' => 5,
+                        'description' => 'Contoh pengeluaran history',
+                        'product' => ['name' => 'Produk Demo A'],
+                    ],
+                    [
+                        'date' => now()->subDay()->toDateString(),
+                        'quantity' => 2,
+                        'description' => 'Contoh pengeluaran history 2',
+                        'product' => ['name' => 'Produk Demo B'],
+                    ],
+                ]);
+                session(['demo_inventory_out' => $items]);
+            }
+            $items = $items->map(function ($item) {
+                $obj = (object) $item;
+                $obj->product = isset($item['product']) ? (object) $item['product'] : null;
+                return $obj;
+            });
+
+            return view('inventory_out.history', ['inventoryOuts' => $items]);
+        }
         // Ambil data stok keluar terbaru beserta relasinya
         $inventoryOuts = InventoryOut::with(['product', 'user'])->latest()->get();
 
@@ -37,6 +90,18 @@ class InventoryOutController extends Controller
      */
     public function create()
     {
+        if (session('demo_mode')) {
+            // Ambil produk dari session demo agar form bekerja tanpa DB
+            $products = collect(session('demo_products', []))->map(function ($p) {
+                $obj = is_array($p) ? (object) $p : $p;
+                return (object) [
+                    'id' => $obj->id ?? null,
+                    'name' => $obj->name ?? 'Produk Demo',
+                    'stock' => $obj->stock ?? 0,
+                ];
+            });
+            return view('inventory_out.create', compact('products'));
+        }
         // Kirim daftar produk ke view untuk dropdown
         $products = Product::all(['id', 'name', 'stock']);
         return view('inventory_out.create', compact('products'));
@@ -47,6 +112,31 @@ class InventoryOutController extends Controller
      */
     public function store(Request $request)
     {
+        if (session('demo_mode')) {
+            $request->validate([
+                'product_id' => 'required',
+                'quantity' => 'required|integer|min:1',
+                'date' => 'required|date',
+                'description' => 'nullable|string|max:255',
+            ]);
+            // Cari produk dari session demo_products
+            $demoProducts = collect(session('demo_products', []))->map(fn($p) => (object) (is_array($p) ? $p : (array) $p));
+            $product = $demoProducts->firstWhere('id', (int) $request->product_id);
+
+            $demoEntry = [
+                'date' => $request->date,
+                'quantity' => $request->quantity,
+                'description' => $request->description,
+                'product' => $product ? ['name' => $product->name ?? 'Produk Demo'] : ['name' => 'Produk Demo'],
+            ];
+
+            $existing = collect(session('demo_inventory_out', []));
+            $updated = $existing->prepend($demoEntry)->values();
+            session(['demo_inventory_out' => $updated]);
+
+            return redirect()->route('inventory-out.history')
+                ->with('success', 'Data demo stok keluar ditambahkan (tidak disimpan ke database).');
+        }
         // 1. Validasi Data
         $request->validate([
             'product_id' => 'required|exists:products,id',

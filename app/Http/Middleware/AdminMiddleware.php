@@ -16,19 +16,24 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // 1. Cek apakah user sudah login
+        // 1. Cek demo mode terlebih dahulu
+        if (session('demo_mode') === 'true' && session('demo_role') === 'admin') {
+            return $next($request);
+        }
+
+        // 2. Cek apakah user sudah login
         if (!Auth::check()) {
             // Jika belum login, alihkan ke halaman login
             return redirect('/login');
         }
 
-        // 2. Cek apakah role user adalah 'admin'
+        // 3. Cek apakah role user adalah 'admin'
         if (Auth::user()->role != 'admin') {
             // Jika user login tapi rolenya BUKAN admin, alihkan ke dashboard
             return redirect('/dashboard')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengakses halaman ini.');
         }
 
-        // 3. Jika role adalah admin, lanjutkan request
+        // 4. Jika role adalah admin, lanjutkan request
         return $next($request);
     }
 }
