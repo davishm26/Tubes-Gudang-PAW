@@ -10,6 +10,7 @@ use App\Http\Controllers\InventoryOutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 | Public Routes (Akses Tanpa Login)
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [SubscriptionController::class, 'landing'])->name('subscription.landing');
+Route::match(['get', 'post'], '/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscription.subscribe');
+Route::get('/payment', [SubscriptionController::class, 'payment'])->name('subscription.payment');
+Route::post('/pay/{token}', [SubscriptionController::class, 'pay'])->name('subscription.pay');
 
 
 /*

@@ -16,12 +16,14 @@ class Company extends Model
         'suspended',
         'meta',
         'subscription_expires_at',
+        'subscription_end_date',
     ];
 
     protected $casts = [
         'suspended' => 'boolean',
         'meta' => 'array',
         'subscription_expires_at' => 'datetime',
+        'subscription_end_date' => 'date',
     ];
 
     public function users(): HasMany

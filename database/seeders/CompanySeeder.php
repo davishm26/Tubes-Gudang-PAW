@@ -28,14 +28,14 @@ class CompanySeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Create one staff user for company 2
+        // Create one super admin user (global, no company)
         User::updateOrCreate([
-            'email' => 'staf@contoh2.com'
+            'email' => 'superadmin@contoh.com'
         ], [
-            'name' => 'Staf Contoh 2',
+            'name' => 'Super Admin',
             'password' => Hash::make('password'),
-            'role' => 'staff',
-            'company_id' => $c2->id,
+            'role' => 'super_admin',
+            'company_id' => null, // Super admin tidak terikat company
             'email_verified_at' => now(),
         ]);
     }
