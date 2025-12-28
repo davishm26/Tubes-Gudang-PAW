@@ -5,12 +5,25 @@
         </h2>
     </x-slot>
 
+    @php
+        // Cek mode demo
+        $isDemo = session('is_demo', false);
+        $demoRole = session('demo_role', null);
+
+        // Tentukan apakah user adalah admin
+        if ($isDemo) {
+            $isAdmin = ($demoRole === 'admin');
+        } else {
+            $isAdmin = (Auth::user()->role === 'admin');
+        }
+    @endphp
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
                 {{-- Tombol untuk Mencatat Baru (Hanya Admin) --}}
-                @if (Auth::user()->role === 'admin')
+                @if ($isAdmin)
                     <a href="{{ route('products.create') }}"
                        class="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded mb-4 inline-block shadow-md">
                         + Tambah Produk Baru
@@ -49,7 +62,7 @@
                                 <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
                                 <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemasok</th>
                                 <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stok</th>
-                                @if (Auth::user()->role === 'admin')
+                                @if ($isAdmin)
                                     <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                                 @endif
                             </tr>
@@ -59,14 +72,20 @@
                                 <tr>
                                     <td class="py-4 px-6 whitespace-nowrap">
                                         @if($product->image)
-                                            <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="w-12 h-12 object-cover rounded border border-gray-200">
+                                            @php
+                                                // Jika URL absolut (http/https), gunakan langsung
+                                                $imageUrl = (str_starts_with($product->image, 'http://') || str_starts_with($product->image, 'https://'))
+                                                    ? $product->image
+                                                    : Storage::url($product->image);
+                                            @endphp
+                                            <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-12 h-12 object-cover rounded border border-gray-200">
                                         @else
                                             <span class="text-xs text-gray-400 italic">Tidak Ada Gambar</span>
                                         @endif
                                     </td>
                                     <td class="py-4 px-6 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">{{ $product->name }}</div>
-                                        <div class="text-xs text-gray-500">SKU: {{ $product->sku }}</div>
+                                        <div class="text-xs text-gray-500">SKU: {{ $product->sku ?? $product->code ?? '-' }}</div>
                                     </td>
                                     <td class="py-4 px-6 whitespace-nowrap">{{ $product->category->name ?? '-' }}</td>
                                     <td class="py-4 px-6 whitespace-nowrap">{{ $product->supplier->name ?? '-' }}</td>
@@ -75,15 +94,18 @@
                                         {{ number_format($product->stock) }}
                                     </td>
 
-                                    @if (Auth::user()->role === 'admin')
+                                    @if ($isAdmin)
                                         <td class="py-4 px-6 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('products.edit', $product->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
 
-                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Yakin ingin menghapus produk ini?')" class="text-red-600 hover:text-red-900">Hapus</button>
-                                            </form>
+                                            {{-- Tombol Hapus - Sembunyikan jika staff di mode demo --}}
+                                            @if (!$isDemo || $demoRole !== 'staff')
+                                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('Yakin ingin menghapus produk ini?')" class="text-red-600 hover:text-red-900">Hapus</button>
+                                                </form>
+                                            @endif
                                         </td>
                                     @endif
                                 </tr>

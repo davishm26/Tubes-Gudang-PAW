@@ -1,6 +1,17 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        @php($currentUser = $demoUser ?? Auth::user())
+        @php
+            // Cek apakah mode demo aktif
+            $isDemo = session('is_demo', false);
+            $demoRole = session('demo_role', null);
+
+            // Gunakan user demo atau user asli
+            if ($isDemo) {
+                $currentUser = (object) session('demo_user');
+            } else {
+                $currentUser = Auth::user();
+            }
+        @endphp
 
         <div class="flex justify-between h-16">
             <div class="flex">
@@ -43,9 +54,12 @@
                             {{ __('Kategori') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                            {{ __('Manajemen User') }}
-                        </x-nav-link>
+                        {{-- Sembunyikan "Manajemen User" jika staff di mode demo --}}
+                        @if(!$isDemo || $demoRole !== 'staff')
+                            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                                {{ __('Manajemen User') }}
+                            </x-nav-link>
+                        @endif
 
                         {{-- DROPDOWN STOK & RIWAYAT (Admin: full access) --}}
                         <div class="hidden sm:flex sm:items-center">
@@ -129,14 +143,18 @@
 
             {{-- USER SETTINGS DROPDOWN (Kanan Atas) --}}
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                {{-- Badge Mode Demo --}}
+                @if($isDemo)
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300 mr-3">
+                        🎭 MODE DEMO ({{ strtoupper($demoRole) }})
+                    </span>
+                @endif
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div class="flex items-center gap-2">
                                 <span>{{ optional($currentUser)->name ?? 'Demo User' }}</span>
-                                @if(isset($isDemoMode) && $isDemoMode)
-                                    <span class="px-2 py-0.5 text-xs rounded bg-orange-100 text-orange-700 border border-orange-300">Demo</span>
-                                @endif
                             </div>
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -147,10 +165,13 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        @if(isset($isDemoMode) && $isDemoMode)
-                            <div class="px-4 py-2 text-xs text-gray-500">Anda sedang dalam Demo Mode</div>
-                            <x-dropdown-link href="/demo/exit">
-                                {{ __('Keluar Demo') }}
+                        @if($isDemo)
+                            <div class="px-4 py-2 text-xs text-gray-500 border-b">
+                                <strong>Anda sedang dalam Mode Demo</strong><br>
+                                Semua perubahan tidak akan tersimpan
+                            </div>
+                            <x-dropdown-link :href="route('demo.exit')">
+                                {{ __('🚪 Keluar dari Mode Demo') }}
                             </x-dropdown-link>
                         @else
                             <x-dropdown-link :href="route('profile.edit')">

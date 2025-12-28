@@ -8,6 +8,22 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                @if (session('success'))
+                    <div class="mb-4 p-3 rounded bg-green-50 text-green-800 border border-green-200">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('info'))
+                    <div class="mb-4 p-3 rounded bg-blue-50 text-blue-800 border border-blue-200">
+                        {{ session('info') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="mb-4 p-3 rounded bg-red-50 text-red-800 border border-red-200">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <a href="{{ route('categories.create') }}" class="bg-indigo-500 text-white p-2 rounded mb-4 inline-block">Tambah Kategori</a>
 
                 {{-- Form Pencarian --}}

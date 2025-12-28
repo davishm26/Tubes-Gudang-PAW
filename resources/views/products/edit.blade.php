@@ -93,10 +93,18 @@
                                 @enderror
 
                                 {{-- Preview Gambar Lama --}}
-                                @if($product->image_path)
+                                @php
+                                    $previewPath = $product->image_path ?? $product->image ?? null;
+                                    $previewUrl = $previewPath
+                                        ? (\Illuminate\Support\Str::startsWith($previewPath, ['http://', 'https://'])
+                                            ? $previewPath
+                                            : Storage::url($previewPath))
+                                        : null;
+                                @endphp
+                                @if($previewUrl)
                                     <div class="mt-2">
                                         <p class="text-xs text-gray-500 mb-1">Gambar Lama:</p>
-                                        <img src="{{ Storage::url($product->image_path) }}" alt="Gambar Lama" class="w-20 h-20 object-cover rounded">
+                                        <img src="{{ $previewUrl }}" alt="Gambar Lama" class="w-20 h-20 object-cover rounded">
                                     </div>
                                 @endif
                             </div>

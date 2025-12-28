@@ -16,8 +16,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // 1. Cek demo mode terlebih dahulu
-        if (session('demo_mode') === 'true' && session('demo_role') === 'admin') {
+        // 1. Cek demo mode terlebih dahulu (support both session keys)
+        $isDemoMode = session('is_demo') || session('demo_mode') === 'true';
+        if ($isDemoMode && session('demo_role') === 'admin') {
             return $next($request);
         }
 

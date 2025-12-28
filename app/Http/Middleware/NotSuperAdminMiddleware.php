@@ -13,8 +13,8 @@ class NotSuperAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // Allow demo mode
-        if (session('demo_mode') === 'true') {
+        // Allow demo mode (support both session keys)
+        if (session('is_demo') || session('demo_mode') === 'true') {
             return $next($request);
         }
 

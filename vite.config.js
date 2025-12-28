@@ -8,4 +8,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        hmr: {
+            overlay: false, // Disable error overlay - page berfungsi normal
+        }
+    }
 });

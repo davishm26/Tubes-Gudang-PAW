@@ -474,18 +474,9 @@
         }
 
         function startDemo(role) {
-            console.log(`Starting demo mode as: ${role}`);
-
-            // Use DemoModeManager from app.js
-            if (window.DemoModeManager) {
-                window.DemoModeManager.startDemo(role);
-
-                // Redirect to products page
-                window.location.href = '/products';
-            } else {
-                console.error('DemoModeManager not loaded!');
-                alert('⚠️ Error: Demo Mode tidak tersedia. Silakan refresh halaman.');
-            }
+            console.log('Starting demo mode as:', role);
+            // Redirect to new demo route
+            window.location.href = `/demo/${role}`;
         }
 
         // Demo Mode: Data is now managed by server-side session

@@ -15,19 +15,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (session('demo_mode') === 'true') {
-            $users = collect(session('demo_users', []))->map(function ($u) {
-                return (object) $u;
-            });
-            if ($users->isEmpty()) {
-                $users = collect([
-                    ['id' => 1, 'name' => 'Demo Admin', 'email' => 'admin@demo.com', 'role' => 'admin'],
-                    ['id' => 2, 'name' => 'Demo Staff', 'email' => 'staff@demo.com', 'role' => 'staff'],
-                ])->map(fn($u) => (object) $u);
-                session(['demo_users' => $users]);
-            }
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            $users = collect([
+                config('demo_data.user.admin'),
+                config('demo_data.user.staff'),
+            ])->map(fn($u) => (object) $u);
+
             return view('users.index', ['users' => $users]);
         }
+
         $users = User::orderBy('name')->get();
         return view('users.index', compact('users'));
     }
@@ -46,18 +44,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if (session('demo_mode') === 'true') {
-            $data = $request->validate([
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'role' => ['required', Rule::in(['admin', 'staff'])],
             ]);
-            $users = collect(session('demo_users', []));
-            $nextId = ($users->max('id') ?? 0) + 1;
-            $users = $users->push(['id' => $nextId, 'name' => $data['name'], 'email' => $data['email'], 'role' => $data['role']]);
-            session(['demo_users' => $users]);
-            return redirect()->route('users.index')->with('success', 'Pengguna demo ditambahkan (tidak ke database).');
+            return redirect()->route('users.index')->with('success', 'Pengguna berhasil ditambahkan! (Simulasi - Data tidak tersimpan)');
         }
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
@@ -75,11 +72,15 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified user.
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        if (session('demo_mode') === 'true') {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
             return redirect()->route('users.index')->with('info', 'Edit user dinonaktifkan pada demo mode.');
         }
+
+        $user = User::findOrFail($id);
         $roles = ['admin', 'staff'];
         return view('users.edit', compact('user', 'roles'));
     }
@@ -87,11 +88,16 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        if (session('demo_mode') === 'true') {
-            return redirect()->route('users.index')->with('info', 'Update user dinonaktifkan pada demo mode.');
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('users.index')->with('success', 'Pengguna berhasil diperbarui! (Simulasi - Data tidak tersimpan)');
         }
+
+        $user = User::findOrFail($id);
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required','email','max:255', Rule::unique('users','email')->ignore($user->id)],
@@ -113,12 +119,16 @@ class UserController extends Controller
     /**
      * Remove the specified user from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        if (session('demo_mode') === 'true') {
-            return redirect()->route('users.index')->with('info', 'Hapus user dinonaktifkan pada demo mode.');
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus! (Simulasi - Data tidak tersimpan)');
         }
-        // Prevent deleting self
+
+        $user = User::findOrFail($id);
+
         if (Auth::id() === $user->id) {
             return redirect()->route('users.index')->with('error', 'Anda tidak bisa menghapus akun sendiri.');
         }

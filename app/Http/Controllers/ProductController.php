@@ -14,47 +14,24 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        // DEMO MODE: gunakan data dari session, tidak query DB
-        if (session('demo_mode')) {
-            // Ambil dari session lalu normalisasi ke object agar Blade bisa akses ->property
-            $products = collect(session('demo_products', []))->map(function ($p) {
-                $obj = is_array($p) ? (object) $p : $p;
-                if (isset($obj->category)) {
-                    $obj->category = is_array($obj->category) ? (object) $obj->category : $obj->category;
-                }
-                if (isset($obj->supplier)) {
-                    $obj->supplier = is_array($obj->supplier) ? (object) $obj->supplier : $obj->supplier;
-                }
+        // DEMO MODE: gunakan data dari config
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            // Ambil data dari config/demo_data.php
+            $products = collect(config('demo_data.products', []))->map(function ($p) {
+                $obj = (object) $p;
+                $obj->category = (object) ['name' => $p['category_name']];
+                $obj->supplier = (object) ['name' => $p['supplier_name']];
+                $obj->sku = $p['code']; // Map 'code' to 'sku' for compatibility
+                // Demo image fallback
+                $obj->image = $p['image'] ?? 'https://placehold.co/80x80?text=Demo';
+                $obj->image_path = $obj->image;
                 return $obj;
             });
 
-            // Seed contoh jika belum ada
-            if ($products->isEmpty()) {
-                $products = collect([
-                    [
-                        'id' => 1,
-                        'name' => 'Laptop Demo',
-                        'sku' => 'DEM001',
-                        'stock' => 15,
-                        'category' => (object)['name' => 'Elektronik'],
-                        'supplier' => (object)['name' => 'Demo Supplier'],
-                        'image' => null,
-                    ],
-                    [
-                        'id' => 2,
-                        'name' => 'Mouse Demo',
-                        'sku' => 'DEM002',
-                        'stock' => 50,
-                        'category' => (object)['name' => 'Elektronik'],
-                        'supplier' => (object)['name' => 'Demo Supplier'],
-                        'image' => null,
-                    ],
-                ])->map(function ($p) { return (object) $p; });
 
-                session(['demo_products' => $products]);
-            }
-
-            // Pencarian sederhana di session
+            // Pencarian sederhana
             if ($request->has('search') && !empty($request->search)) {
                 $search = strtolower($request->search);
                 $products = $products->filter(function ($p) use ($search) {
@@ -89,26 +66,12 @@ class ProductController extends Controller
     public function create()
     {
         // Demo mode: allow access without role check
-        if (session('demo_mode')) {
-            // Normalisasi kategori/supplier dari session ke object
-            $categories = collect(session('demo_categories', []))->map(fn($c) => is_array($c) ? (object) $c : $c);
-            if ($categories->isEmpty()) {
-                $categories = collect([
-                    ['id' => 1, 'name' => 'Elektronik'],
-                    ['id' => 2, 'name' => 'Furniture'],
-                    ['id' => 3, 'name' => 'Alat Tulis'],
-                ])->map(fn($c) => (object) $c);
-                session(['demo_categories' => $categories]);
-            }
+        $isDemoMode = session('is_demo') || session('demo_mode');
 
-            $suppliers = collect(session('demo_suppliers', []))->map(fn($s) => is_array($s) ? (object) $s : $s);
-            if ($suppliers->isEmpty()) {
-                $suppliers = collect([
-                    ['id' => 1, 'name' => 'CV Furniture Indo'],
-                    ['id' => 2, 'name' => 'Toko ATK Sejahtera'],
-                ])->map(fn($s) => (object) $s);
-                session(['demo_suppliers' => $suppliers]);
-            }
+        if ($isDemoMode) {
+            // Ambil data dari config/demo_data.php
+            $categories = collect(config('demo_data.categories', []))->map(fn($c) => (object) $c);
+            $suppliers = collect(config('demo_data.suppliers', []))->map(fn($s) => (object) $s);
             return view('products.create', compact('categories', 'suppliers'));
         }
 
@@ -124,7 +87,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // Demo mode: allow access without role check
-        if (session('demo_mode')) {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
             $request->validate([
                 'name' => 'required|string|max:255',
                 'sku' => 'required|string',
@@ -134,35 +99,8 @@ class ProductController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
-            $categories = collect(session('demo_categories'));
-            $suppliers = collect(session('demo_suppliers'));
-            $category = $categories->firstWhere('id', (int)$request->category_id);
-            $supplier = $suppliers->firstWhere('id', (int)$request->supplier_id);
-
-            $products = collect(session('demo_products'));
-            $nextId = ($products->max('id') ?? 0) + 1;
-
-            $imagePath = null;
-            if ($request->hasFile('image')) {
-                // Simpan ke storage publik agar preview jalan; ini tetap tidak ke DB
-                $imagePath = $request->file('image')->store('products-demo', 'public');
-            }
-
-            $new = (object) [
-                'id' => $nextId,
-                'name' => $request->name,
-                'sku' => $request->sku,
-                'stock' => (int) $request->stock,
-                'category' => $category ? (object)['name' => $category->name] : null,
-                'supplier' => $supplier ? (object)['name' => $supplier->name] : null,
-                'image' => $imagePath,
-            ];
-
-            $products = $products->push($new);
-            session(['demo_products' => $products]);
-
             return redirect()->route('products.index')
-                ->with('success', 'Produk demo ditambahkan (tidak tersimpan di database).');
+                ->with('success', 'Produk berhasil ditambahkan! (Simulasi - Data tidak tersimpan)');
         }
 
         // Real mode: check role
@@ -192,38 +130,57 @@ class ProductController extends Controller
             ->with('success', 'Produk berhasil ditambahkan.');
     }
 
-    public function show(Product $product)
+    public function show($id)
     {
+        // Tidak digunakan, arahkan kembali
         return redirect()->route('products.index');
     }
 
-    public function edit(Product $product)
+    public function edit($id)
     {
-        // Demo mode: disable edit
-        if (session('demo_mode')) {
-            return redirect()->route('products.index')->with('info', 'Edit produk dinonaktifkan pada demo mode.');
+        // Demo mode: show edit form with demo data
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            // Convert product ID to demo data
+            $demoProducts = collect(config('demo_data.products', []));
+            $demoProduct = $demoProducts->firstWhere('id', (int)$id);
+
+            if ($demoProduct) {
+                $product = (object) $demoProduct;
+                $product->sku = $demoProduct['code'];
+            }
+
+            $categories = collect(config('demo_data.categories', []))->map(fn($c) => (object) $c);
+            $suppliers = collect(config('demo_data.suppliers', []))->map(fn($s) => (object) $s);
+            return view('products.edit', compact('product', 'categories', 'suppliers'));
         }
 
         // Real mode: check role
         if (Auth::user()->role !== 'admin') {
             return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengedit produk.');
         }
+        $product = Product::findOrFail($id);
         $categories = Category::all();
         $suppliers = Supplier::all();
         return view('products.edit', compact('product', 'categories', 'suppliers'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
         // Demo mode: disable update
-        if (session('demo_mode')) {
-            return redirect()->route('products.index')->with('info', 'Update produk dinonaktifkan pada demo mode.');
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('products.index')
+                ->with('success', 'Produk berhasil diperbarui! (Simulasi - Data tidak tersimpan)');
         }
 
         // Real mode: check role
         if (Auth::user()->role !== 'admin') {
             return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengupdate produk.');
         }
+        $product = Product::findOrFail($id);
         $request->validate([
             'name' => 'required|string|max:255',
             'sku' => ['required', 'string', Rule::unique('products')->ignore($product->id)],
@@ -253,17 +210,21 @@ class ProductController extends Controller
             ->with('success', 'Produk berhasil diperbarui.');
     }
 
-    public function destroy(Product $product)
+    public function destroy($id)
     {
         // Demo mode: disable delete
-        if (session('demo_mode')) {
-            return redirect()->route('products.index')->with('info', 'Hapus produk dinonaktifkan pada demo mode.');
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('products.index')
+                ->with('success', 'Produk berhasil dihapus! (Simulasi - Data tidak tersimpan)');
         }
 
         // Real mode: check role
         if (Auth::user()->role !== 'admin') {
             return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat menghapus produk.');
         }
+        $product = Product::findOrFail($id);
         // Hapus file fisik dari storage disk 'public'
         if ($product->image) {
             Storage::disk('public')->delete($product->image);

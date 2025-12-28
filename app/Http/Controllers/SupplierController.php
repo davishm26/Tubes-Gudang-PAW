@@ -13,17 +13,12 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        if (session('demo_mode')) {
-            $suppliers = collect(session('demo_suppliers', []))->map(fn($s) => (object) $s);
-            if ($suppliers->isEmpty()) {
-                $suppliers = collect([
-                    ['id' => 1, 'name' => 'Demo Supplier', 'contact' => '081234567890'],
-                    ['id' => 2, 'name' => 'Demo Vendor', 'contact' => '082345678901'],
-                ])->map(fn($s) => (object) $s);
-                session(['demo_suppliers' => $suppliers]);
-            }
+        $isDemo = session('is_demo') || session('demo_mode');
 
-            if ($request->has('search') && !empty($request->search)) {
+        if ($isDemo) {
+            $suppliers = collect(config('demo_data.suppliers', []))->map(fn($s) => (object) $s);
+
+            if ($request->filled('search')) {
                 $search = strtolower($request->search);
                 $suppliers = $suppliers->filter(function ($s) use ($search) {
                     return str_contains(strtolower($s->name), $search)
@@ -52,7 +47,8 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        if (session('demo_mode')) {
+        $isDemo = session('is_demo') || session('demo_mode');
+        if ($isDemo) {
             return view('suppliers.create');
         }
         return view('suppliers.create');
@@ -63,16 +59,13 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        if (session('demo_mode')) {
+        $isDemo = session('is_demo') || session('demo_mode');
+        if ($isDemo) {
             $request->validate([
                 'name' => 'required|string|max:255',
                 'contact' => 'nullable|string|max:255',
             ]);
-            $suppliers = collect(session('demo_suppliers', []));
-            $nextId = ($suppliers->max('id') ?? 0) + 1;
-            $suppliers = $suppliers->push(['id' => $nextId, 'name' => $request->name, 'contact' => $request->contact]);
-            session(['demo_suppliers' => $suppliers]);
-            return redirect()->route('suppliers.index')->with('success', 'Pemasok demo ditambahkan (tidak ke database).');
+            return redirect()->route('suppliers.index')->with('success', 'Pemasok demo ditambahkan! (Simulasi - tidak tersimpan)');
         }
         // 1. Validasi Data
         $request->validate([
@@ -96,21 +89,29 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource (UPDATE Form).
      */
-    public function edit(Supplier $supplier)
+    public function edit($id)
     {
-        if (session('demo_mode')) {
-            return redirect()->route('suppliers.index')->with('info', 'Edit pemasok dinonaktifkan pada demo mode.');
+        $isDemo = session('is_demo') || session('demo_mode');
+        if ($isDemo) {
+            $demo = collect(config('demo_data.suppliers', []))->firstWhere('id', (int)$id);
+            if (!$demo) {
+                return redirect()->route('suppliers.index')->with('error', 'Pemasok demo tidak ditemukan.');
+            }
+            $supplier = (object)$demo;
+            return view('suppliers.edit', compact('supplier'));
         }
+        $supplier = Supplier::findOrFail($id);
         return view('suppliers.edit', compact('supplier'));
     }
 
     /**
      * Update the specified resource in storage (UPDATE Logic).
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, $id)
     {
-        if (session('demo_mode') === 'true') {
-            return redirect()->route('suppliers.index')->with('info', 'Update pemasok dinonaktifkan pada demo mode.');
+        $isDemo = session('is_demo') || session('demo_mode');
+        if ($isDemo) {
+            return redirect()->route('suppliers.index')->with('success', 'Pemasok demo diperbarui! (Simulasi - tidak tersimpan)');
         }
         // 1. Validasi Data
         $request->validate([
@@ -119,10 +120,12 @@ class SupplierController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('suppliers')->ignore($supplier->id),
+                Rule::unique('suppliers')->ignore($id),
             ],
             'contact' => 'nullable|string|max:255',
         ]);
+
+        $supplier = Supplier::findOrFail($id);
 
         // 2. Update Data
         $supplier->update($request->only(['name', 'contact']));
@@ -135,11 +138,13 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage (DELETE Logic).
      */
-    public function destroy(Supplier $supplier)
+    public function destroy($id)
     {
-        if (session('demo_mode') === 'true') {
-            return redirect()->route('suppliers.index')->with('info', 'Hapus pemasok dinonaktifkan pada demo mode.');
+        $isDemo = session('is_demo') || session('demo_mode');
+        if ($isDemo) {
+            return redirect()->route('suppliers.index')->with('success', 'Pemasok demo dihapus! (Simulasi - tidak tersimpan)');
         }
+        $supplier = Supplier::findOrFail($id);
         try {
             // Hapus data pemasok
             $supplier->delete();

@@ -13,15 +13,10 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        if (session('demo_mode')) {
-            $categories = collect(session('demo_categories', []))->map(fn($c) => (object) $c);
-            if ($categories->isEmpty()) {
-                $categories = collect([
-                    ['id' => 1, 'name' => 'Elektronik'],
-                    ['id' => 2, 'name' => 'Furniture'],
-                ])->map(fn($c) => (object) $c);
-                session(['demo_categories' => $categories]);
-            }
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            $categories = collect(config('demo_data.categories'))->map(fn($c) => (object) $c);
 
             if ($request->has('search') && !empty($request->search)) {
                 $search = strtolower($request->search);
@@ -30,6 +25,7 @@ class CategoryController extends Controller
 
             return view('categories.index', ['categories' => $categories]);
         }
+
         $query = Category::query();
 
         if ($request->has('search') && !empty($request->search)) {
@@ -39,7 +35,6 @@ class CategoryController extends Controller
 
         $categories = $query->get();
 
-        // Tampilkan view index dengan data kategori
         return view('categories.index', compact('categories'));
     }
 
@@ -59,14 +54,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if (session('demo_mode')) {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
             $request->validate(['name' => 'required|string|max:255']);
-            $categories = collect(session('demo_categories', []));
-            $nextId = ($categories->max('id') ?? 0) + 1;
-            $categories = $categories->push(['id' => $nextId, 'name' => $request->name]);
-            session(['demo_categories' => $categories]);
-            return redirect()->route('categories.index')->with('success', 'Kategori demo ditambahkan (tidak ke database).');
+            return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan! (Simulasi - Data tidak tersimpan)');
         }
+
         $request->validate(['name' => 'required|string|max:255|unique:categories,name']);
         Category::create($request->only('name'));
         return redirect()->route('categories.index')->with('success', 'Kategori baru berhasil ditambahkan.');
@@ -85,25 +79,32 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource (UPDATE Form).
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        if (session('demo_mode')) {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
             return redirect()->route('categories.index')->with('info', 'Edit kategori dinonaktifkan pada demo mode.');
         }
+
+        $category = Category::findOrFail($id);
         return view('categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage (UPDATE Logic).
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        if (session('demo_mode') === 'true') {
-            return redirect()->route('categories.index')->with('info', 'Update kategori dinonaktifkan pada demo mode.');
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('categories.index')->with('success', 'Kategori berhasil diperbarui! (Simulasi - Data tidak tersimpan)');
         }
-        // 1. Validasi Data
+
+        $category = Category::findOrFail($id);
+
         $request->validate([
-            // Gunakan Rule::unique() untuk mengecualikan kategori yang sedang di-edit dari cek unik
             'name' => [
                 'required',
                 'string',
@@ -112,10 +113,8 @@ class CategoryController extends Controller
             ],
         ]);
 
-        // 2. Update Data
         $category->update($request->only('name'));
 
-        // 3. Redirect dengan pesan sukses
         return redirect()->route('categories.index')
                          ->with('success', 'Kategori berhasil diperbarui.');
     }
@@ -123,21 +122,22 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage (DELETE Logic).
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        if (session('demo_mode') === 'true') {
-            return redirect()->route('categories.index')->with('info', 'Hapus kategori dinonaktifkan pada demo mode.');
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus! (Simulasi - Data tidak tersimpan)');
         }
+
         try {
-            // Hapus data kategori
+            $category = Category::findOrFail($id);
             $category->delete();
 
-            // Redirect dengan pesan sukses
             return redirect()->route('categories.index')
                              ->with('success', 'Kategori berhasil dihapus.');
 
         } catch (\Illuminate\Database\QueryException $e) {
-            // Tangani error jika kategori masih digunakan (relasi dengan produk)
              return redirect()->route('categories.index')
                               ->with('error', 'Gagal menghapus kategori. Pastikan tidak ada Produk yang menggunakan kategori ini.');
         }

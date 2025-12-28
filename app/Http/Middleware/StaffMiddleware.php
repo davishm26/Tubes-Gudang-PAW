@@ -15,6 +15,12 @@ class StaffMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        // Allow demo mode
+        $isDemoMode = session('is_demo') || session('demo_mode') === 'true';
+        if ($isDemoMode) {
+            return $next($request);
+        }
+
         $user = Auth::user();
 
         if (! $user) {

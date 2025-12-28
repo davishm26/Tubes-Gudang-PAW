@@ -15,8 +15,10 @@ class DemoModeMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // Cek apakah demo mode aktif dari session
-        if (Session::get('demo_mode')) {
+        // Cek apakah demo mode aktif dari session (support both keys)
+        $isDemoMode = Session::get('is_demo') || Session::get('demo_mode');
+
+        if ($isDemoMode) {
             $role = Session::get('demo_role', 'staff');
 
             // Buat object user dummy sebagai array untuk view

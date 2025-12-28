@@ -6,6 +6,22 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                @if (session('success'))
+                    <div class="mb-4 p-3 rounded bg-green-50 text-green-800 border border-green-200">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('info'))
+                    <div class="mb-4 p-3 rounded bg-blue-50 text-blue-800 border border-blue-200">
+                        {{ session('info') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="mb-4 p-3 rounded bg-red-50 text-red-800 border border-red-200">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <h3 class="text-lg font-medium mb-4">Daftar Pengguna</h3>
 
                 <div class="mb-4 flex justify-between items-center">
@@ -32,9 +48,9 @@
                                     <td class="py-2 px-4">{{ $user->email }}</td>
                                     <td class="py-2 px-4">{{ $user->role ?? '-' }}</td>
                                     <td class="py-2 px-4 text-right">
-                                        <a href="{{ route('users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                        <a href="{{ route('users.edit', $user->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
 
-                                        <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus pengguna ini?');">
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus pengguna ini?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>

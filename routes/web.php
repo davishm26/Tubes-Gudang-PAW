@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\DemoController; // <-- TAMBAHKAN INI
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +24,13 @@ Route::match(['get', 'post'], '/subscribe', [SubscriptionController::class, 'sub
 Route::get('/payment', [SubscriptionController::class, 'payment'])->name('subscription.payment');
 Route::post('/pay/{token}', [SubscriptionController::class, 'pay'])->name('subscription.pay');
 
-// Demo Mode Routes
+// Demo Mode Routes - Mode Demo Statis (NEW)
+Route::get('/demo/{role}', [DemoController::class, 'enter'])->name('demo.enter');
+Route::get('/demo-exit', [DemoController::class, 'exit'])->name('demo.exit');
+Route::get('/demo-info', [DemoController::class, 'info'])->name('demo.info');
+
+// Demo Mode Routes (Old - Keep untuk kompatibilitas)
 Route::post('/demo/start', [SubscriptionController::class, 'startDemo'])->name('demo.start');
-Route::get('/demo/exit', [SubscriptionController::class, 'exitDemo'])->name('demo.exit');
 
 
 /*
