@@ -10,10 +10,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
                 {{-- Tombol untuk Mencatat Baru (Hanya Admin) --}}
-                <a href="{{ route('suppliers.create') }}"
-                   class="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded mb-4 inline-block shadow-md">
-                    + Tambah Pemasok
-                </a>
+                @php($currentUser = $demoUser ?? Auth::user())
+                @if (!session('demo_mode') && $currentUser && $currentUser->role === 'admin')
+                    <a href="{{ route('suppliers.create') }}"
+                       class="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded mb-4 inline-block shadow-md">
+                        + Tambah Pemasok
+                    </a>
+                @endif
 
                 {{-- Pesan Sukses/Error --}}
                 @if (session('success'))

@@ -474,68 +474,22 @@
         }
 
         function startDemo(role) {
-            // Simpan role ke session storage
-            sessionStorage.setItem('demo_mode', 'true');
-            sessionStorage.setItem('demo_role', role);
+            console.log(`Starting demo mode as: ${role}`);
 
-            // Initialize demo data di localStorage jika belum ada
-            if (!localStorage.getItem('demo_initialized')) {
-                initializeDemoData(role);
+            // Use DemoModeManager from app.js
+            if (window.DemoModeManager) {
+                window.DemoModeManager.startDemo(role);
+
+                // Redirect to products page
+                window.location.href = '/products';
+            } else {
+                console.error('DemoModeManager not loaded!');
+                alert('⚠️ Error: Demo Mode tidak tersedia. Silakan refresh halaman.');
             }
-
-            // Redirect ke route demo start yang akan set session
-            window.location.href = `/demo/start?role=${role}`;
         }
 
-        function initializeDemoData(role) {
-            const demoData = {
-                categories: [
-                    { id: 1, name: 'Elektronik', description: 'Barang elektronik' },
-                    { id: 2, name: 'Furniture', description: 'Perabotan kantor' },
-                    { id: 3, name: 'Alat Tulis', description: 'Perlengkapan tulis' }
-                ],
-                suppliers: [
-                    { id: 2, name: 'CV Furniture Indo', contact: '08198765432', address: 'Bandung' },
-                    { id: 3, name: 'Toko ATK Sejahtera', contact: '08234567890', address: 'Surabaya' }
-                ],
-                products: [
-                    { id: 1, name: 'Laptop Dell', sku: 'LAP001', category_id: 1, supplier_id: 1, stock: 15, min_stock: 5, price: 8500000 },
-                    { id: 2, name: 'Mouse Wireless', sku: 'MOU001', category_id: 1, supplier_id: 1, stock: 50, min_stock: 10, price: 150000 },
-                    { id: 3, name: 'Meja Kantor', sku: 'MJK001', category_id: 2, supplier_id: 2, stock: 8, min_stock: 3, price: 1200000 },
-                    { id: 4, name: 'Kursi Ergonomis', sku: 'KRS001', category_id: 2, supplier_id: 2, stock: 12, min_stock: 4, price: 2500000 },
-                    { id: 5, name: 'Pulpen Box', sku: 'PEN001', category_id: 3, supplier_id: 3, stock: 100, min_stock: 20, price: 25000 }
-                ],
-                inventory_in: [
-                    { id: 1, product_id: 1, quantity: 10, supplier_id: 1, description: 'Pembelian rutin', date: '2025-12-20' },
-                    { id: 2, product_id: 2, quantity: 30, supplier_id: 1, description: 'Stok awal', date: '2025-12-21' }
-                ],
-                inventory_out: [
-                    { id: 1, product_id: 1, quantity: 5, description: 'Pengiriman ke cabang A', date: '2025-12-22' },
-                    { id: 2, product_id: 2, quantity: 10, description: 'Penjualan retail', date: '2025-12-23' }
-                ],
-                users: role === 'admin' ? [
-                    { id: 1, name: 'Demo Admin', email: 'admin@demo.com', role: 'admin' },
-                    { id: 2, name: 'Demo Staff', email: 'staff@demo.com', role: 'staff' }
-                ] : [
-                    { id: 2, name: 'Demo Staff', email: 'staff@demo.com', role: 'staff' }
-                ]
-            };
-
-            // Simpan semua data ke localStorage
-            for (const [key, value] of Object.entries(demoData)) {
-                localStorage.setItem(`demo_${key}`, JSON.stringify(value));
-            }
-
-            // Set counter untuk ID baru
-            localStorage.setItem('demo_categories_counter', '4');
-            localStorage.setItem('demo_suppliers_counter', '4');
-            localStorage.setItem('demo_products_counter', '6');
-            localStorage.setItem('demo_inventory_in_counter', '3');
-            localStorage.setItem('demo_inventory_out_counter', '3');
-            localStorage.setItem('demo_users_counter', '3');
-
-            localStorage.setItem('demo_initialized', 'true');
-        }
+        // Demo Mode: Data is now managed by server-side session
+        // No localStorage initialization needed
 
         // Close modal on ESC key
         document.addEventListener('keydown', function(e) {

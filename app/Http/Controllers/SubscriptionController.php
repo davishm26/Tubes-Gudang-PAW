@@ -119,17 +119,78 @@ class SubscriptionController extends Controller
 
     public function startDemo(Request $request)
     {
-        $role = $request->query('role', 'staff');
+        $role = $request->input('role', 'staff');
 
         // Validasi role
         if (!in_array($role, ['admin', 'staff'])) {
             $role = 'staff';
         }
 
-        // Set session untuk demo mode
+        // Seed demo data ke session (EXACTLY 2 items per feature)
+        $demoProducts = [
+            (object)['id' => 1, 'name' => 'Laptop Demo', 'sku' => 'DEM-001', 'stock' => 15, 'price' => 8500000, 'category' => (object)['name' => 'Elektronik'], 'supplier' => (object)['name' => 'Demo Supplier'], 'image' => 'products-demo/laptop-demo.svg'],
+            (object)['id' => 2, 'name' => 'Mouse Demo', 'sku' => 'DEM-002', 'stock' => 50, 'price' => 150000, 'category' => (object)['name' => 'Elektronik'], 'supplier' => (object)['name' => 'Demo Supplier'], 'image' => 'products-demo/mouse-demo.svg'],
+        ];
+
+        $demoSuppliers = [
+            (object)['id' => 1, 'name' => 'Demo Supplier', 'contact' => '081234567890'],
+            (object)['id' => 2, 'name' => 'Demo Vendor', 'contact' => '082345678901'],
+        ];
+
+        $demoCategories = [
+            (object)['id' => 1, 'name' => 'Elektronik'],
+            (object)['id' => 2, 'name' => 'Furniture'],
+        ];
+
+        $demoInventoryIn = [
+            (object)[
+                'id' => 1,
+                'date' => now()->subDay()->toDateString(),
+                'created_at' => now()->subDay(),
+                'quantity' => 5,
+                'description' => 'Contoh pemasukan demo',
+                'product' => (object)['name' => 'Laptop Demo', 'sku' => 'DEM-001'],
+                'supplier' => (object)['name' => 'Demo Supplier'],
+                'user' => (object)['name' => 'Demo Admin'],
+            ],
+            (object)[
+                'id' => 2,
+                'date' => now()->toDateString(),
+                'created_at' => now(),
+                'quantity' => 3,
+                'description' => 'Contoh pemasukan demo 2',
+                'product' => (object)['name' => 'Mouse Demo', 'sku' => 'DEM-002'],
+                'supplier' => (object)['name' => 'Demo Vendor'],
+                'user' => (object)['name' => 'Demo Staff'],
+            ],
+        ];
+
+        $demoInventoryOut = [
+            (object)[
+                'id' => 1,
+                'date' => now()->subDay()->toDateString(),
+                'quantity' => 2,
+                'description' => 'Contoh pengeluaran demo',
+                'product' => (object)['name' => 'Laptop Demo'],
+            ],
+            (object)[
+                'id' => 2,
+                'date' => now()->toDateString(),
+                'quantity' => 1,
+                'description' => 'Contoh pengeluaran demo 2',
+                'product' => (object)['name' => 'Mouse Demo'],
+            ],
+        ];
+
+        // Set session untuk demo mode dengan SEMUA data seeded dari server
         session([
-            'demo_mode' => 'true',
-            'demo_role' => $role
+            'demo_mode' => true,
+            'demo_role' => $role,
+            'demo_products' => $demoProducts,
+            'demo_suppliers' => $demoSuppliers,
+            'demo_categories' => $demoCategories,
+            'demo_inventory_in' => $demoInventoryIn,
+            'demo_inventory_out' => $demoInventoryOut,
         ]);
 
         return redirect()->route('dashboard');

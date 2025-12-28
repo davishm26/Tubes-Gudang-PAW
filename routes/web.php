@@ -24,7 +24,7 @@ Route::get('/payment', [SubscriptionController::class, 'payment'])->name('subscr
 Route::post('/pay/{token}', [SubscriptionController::class, 'pay'])->name('subscription.pay');
 
 // Demo Mode Routes
-Route::get('/demo/start', [SubscriptionController::class, 'startDemo'])->name('demo.start');
+Route::post('/demo/start', [SubscriptionController::class, 'startDemo'])->name('demo.start');
 Route::get('/demo/exit', [SubscriptionController::class, 'exitDemo'])->name('demo.exit');
 
 

@@ -88,9 +88,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        if (Auth::user()->role !== 'admin') {
-            return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat menambah produk.');
-        }
+        // Demo mode: allow access without role check
         if (session('demo_mode')) {
             // Normalisasi kategori/supplier dari session ke object
             $categories = collect(session('demo_categories', []))->map(fn($c) => is_array($c) ? (object) $c : $c);
@@ -113,6 +111,11 @@ class ProductController extends Controller
             }
             return view('products.create', compact('categories', 'suppliers'));
         }
+
+        // Real mode: check role
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat menambah produk.');
+        }
         $categories = Category::all();
         $suppliers = Supplier::all();
         return view('products.create', compact('categories', 'suppliers'));
@@ -120,9 +123,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        if (Auth::user()->role !== 'admin') {
-            return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat menambah produk.');
-        }
+        // Demo mode: allow access without role check
         if (session('demo_mode')) {
             $request->validate([
                 'name' => 'required|string|max:255',
@@ -164,6 +165,11 @@ class ProductController extends Controller
                 ->with('success', 'Produk demo ditambahkan (tidak tersimpan di database).');
         }
 
+        // Real mode: check role
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat menambah produk.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'sku' => 'required|string|unique:products,sku',
@@ -193,11 +199,14 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        if (Auth::user()->role !== 'admin') {
-            return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengedit produk.');
-        }
+        // Demo mode: disable edit
         if (session('demo_mode')) {
             return redirect()->route('products.index')->with('info', 'Edit produk dinonaktifkan pada demo mode.');
+        }
+
+        // Real mode: check role
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengedit produk.');
         }
         $categories = Category::all();
         $suppliers = Supplier::all();
@@ -206,11 +215,14 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        // Demo mode: disable update
+        if (session('demo_mode')) {
+            return redirect()->route('products.index')->with('info', 'Update produk dinonaktifkan pada demo mode.');
+        }
+
+        // Real mode: check role
         if (Auth::user()->role !== 'admin') {
             return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengupdate produk.');
-        }
-        if (session('demo_mode') === 'true') {
-            return redirect()->route('products.index')->with('info', 'Update produk dinonaktifkan pada demo mode.');
         }
         $request->validate([
             'name' => 'required|string|max:255',
@@ -243,11 +255,14 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        // Demo mode: disable delete
+        if (session('demo_mode')) {
+            return redirect()->route('products.index')->with('info', 'Hapus produk dinonaktifkan pada demo mode.');
+        }
+
+        // Real mode: check role
         if (Auth::user()->role !== 'admin') {
             return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat menghapus produk.');
-        }
-        if (session('demo_mode') === 'true') {
-            return redirect()->route('products.index')->with('info', 'Hapus produk dinonaktifkan pada demo mode.');
         }
         // Hapus file fisik dari storage disk 'public'
         if ($product->image) {
