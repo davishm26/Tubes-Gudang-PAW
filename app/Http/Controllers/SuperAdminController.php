@@ -22,9 +22,9 @@ class SuperAdminController extends Controller
         // All users (global)
         $allUsers = User::with('company')->orderBy('name')->get();
 
-        // Real revenue: total value of stock going out (quantity * product price)
-        $totalRevenue = InventoryOut::join('products', 'inventory_outs.product_id', '=', 'products.id')
-            ->sum(DB::raw('inventory_outs.quantity * COALESCE(products.price, 0)'));
+        // Total Subscription Revenue (all time)
+        $totalRevenue = Company::whereNotNull('subscription_paid_at')
+            ->sum('subscription_price');
 
         return view('super_admin.dashboard', compact('totalTenants', 'tenants', 'allUsers', 'totalRevenue'));
     }
@@ -34,36 +34,34 @@ class SuperAdminController extends Controller
         $startDate = $request->get('start_date', now()->startOfMonth()->format('Y-m-d'));
         $endDate = $request->get('end_date', now()->endOfMonth()->format('Y-m-d'));
 
-        // Pendapatan langganan (subscription) yang dibayar pada periode
-        $subscriptionRevenue = Company::whereNotNull('subscription_paid_at')
+        $subscriptionQuery = Company::whereNotNull('subscription_paid_at')
+            ->whereBetween('subscription_paid_at', [$startDate, $endDate]);
+
+        $subscriptionRevenue = $subscriptionQuery->sum('subscription_price');
+        $subscriptionTransactions = $subscriptionQuery->count();
+
+        $revenueTrend = Company::selectRaw('DATE(subscription_paid_at) as day, SUM(subscription_price) as total')
+            ->whereNotNull('subscription_paid_at')
             ->whereBetween('subscription_paid_at', [$startDate, $endDate])
-            ->sum('subscription_price');
+            ->groupBy('day')
+            ->orderBy('day')
+            ->get();
 
-        // Pendapatan operasional: nilai stok keluar (inventory outs) * harga produk
-        $operationalIncome = InventoryOut::whereBetween('inventory_outs.created_at', [$startDate, $endDate])
-            ->join('products', 'inventory_outs.product_id', '=', 'products.id')
-            ->sum(DB::raw('inventory_outs.quantity * products.price'));
+        $activeSubscribers = Company::where('subscription_status', 'active')
+            ->where('suspended', false)
+            ->count();
 
-        // Total pemasukan = subscription + operasional
-        $totalIncome = $subscriptionRevenue + $operationalIncome;
+        $arpu = $activeSubscribers > 0 ? round($subscriptionRevenue / $activeSubscribers, 2) : 0;
 
-        // Hitung total pengeluaran dari inventory out: sum(quantity * product.price)
-        $totalExpense = InventoryOut::whereBetween('inventory_outs.created_at', [$startDate, $endDate])
-            ->join('products', 'inventory_outs.product_id', '=', 'products.id')
-            ->sum(DB::raw('inventory_outs.quantity * products.price'));
-
-        // Hitung profit
-        $profit = $totalIncome - $totalExpense;
-
-        return view('super_admin.financial_report', compact(
-            'startDate',
-            'endDate',
-            'subscriptionRevenue',
-            'operationalIncome',
-            'totalIncome',
-            'totalExpense',
-            'profit'
-        ));
+        return view('super_admin.financial_report', [
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'subscriptionRevenue' => $subscriptionRevenue,
+            'subscriptionTransactions' => $subscriptionTransactions,
+            'activeSubscribers' => $activeSubscribers,
+            'arpu' => $arpu,
+            'revenueTrend' => $revenueTrend,
+        ]);
     }
 
     public function downloadFinancialReport(Request $request)
@@ -71,36 +69,26 @@ class SuperAdminController extends Controller
         $startDate = $request->get('start_date');
         $endDate = $request->get('end_date');
 
-        // Pendapatan langganan (subscription) yang dibayar pada periode
-        $subscriptionRevenue = Company::whereNotNull('subscription_paid_at')
-            ->whereBetween('subscription_paid_at', [$startDate, $endDate])
-            ->sum('subscription_price');
+        $subscriptionQuery = Company::whereNotNull('subscription_paid_at')
+            ->whereBetween('subscription_paid_at', [$startDate, $endDate]);
 
-        // Pendapatan operasional: nilai stok keluar (inventory outs) * harga produk
-        $operationalIncome = InventoryOut::whereBetween('inventory_outs.created_at', [$startDate, $endDate])
-            ->join('products', 'inventory_outs.product_id', '=', 'products.id')
-            ->sum(DB::raw('inventory_outs.quantity * products.price'));
+        $subscriptionRevenue = $subscriptionQuery->sum('subscription_price');
+        $subscriptionTransactions = $subscriptionQuery->count();
 
-        // Total pemasukan = subscription + operasional
-        $totalIncome = $subscriptionRevenue + $operationalIncome;
+        $activeSubscribers = Company::where('subscription_status', 'active')
+            ->where('suspended', false)
+            ->count();
 
-        // Hitung total pengeluaran dari inventory out: sum(quantity * product.price)
-        $totalExpense = InventoryOut::whereBetween('inventory_outs.created_at', [$startDate, $endDate])
-            ->join('products', 'inventory_outs.product_id', '=', 'products.id')
-            ->sum(DB::raw('inventory_outs.quantity * products.price'));
+        $arpu = $activeSubscribers > 0 ? round($subscriptionRevenue / $activeSubscribers, 2) : 0;
 
-        // Hitung profit
-        $profit = $totalIncome - $totalExpense;
-
-        $pdf = Pdf::loadView('super_admin.financial_report_pdf', compact(
-            'startDate',
-            'endDate',
-            'subscriptionRevenue',
-            'operationalIncome',
-            'totalIncome',
-            'totalExpense',
-            'profit'
-        ));
+        $pdf = Pdf::loadView('super_admin.financial_report_pdf', [
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'subscriptionRevenue' => $subscriptionRevenue,
+            'subscriptionTransactions' => $subscriptionTransactions,
+            'activeSubscribers' => $activeSubscribers,
+            'arpu' => $arpu,
+        ]);
 
         return $pdf->download('laporan_keuangan_' . $startDate . '_to_' . $endDate . '.pdf');
     }

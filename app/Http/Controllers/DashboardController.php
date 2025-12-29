@@ -9,6 +9,7 @@ use App\Models\InventoryOut;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -218,7 +219,7 @@ class DashboardController extends Controller
             ));
         } catch (\Exception $e) {
             // Jika DB error, fallback ke demo mode
-            \Log::error('Dashboard DB Error: ' . $e->getMessage());
+            Log::error('Dashboard DB Error: ' . $e->getMessage());
 
             $demoProducts = collect(config('demo_data.products', []));
             $demoSuppliers = collect(config('demo_data.suppliers', []));

@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="p-4 bg-gray-50 rounded">
-                        <strong>Total Revenue:</strong>
+                        <strong>Total Subscription Revenue:</strong>
                         <div class="text-2xl">Rp <?php echo e(number_format($totalRevenue, 0, ',', '.')); ?></div>
                     </div>
                 </div>

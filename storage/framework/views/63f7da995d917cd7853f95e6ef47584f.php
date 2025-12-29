@@ -44,7 +44,7 @@
 
             <!-- Page Heading -->
             <?php if(isset($header)): ?>
-                <header class="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg">
+                <header class="bg-white shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         <?php echo e($header); ?>
 

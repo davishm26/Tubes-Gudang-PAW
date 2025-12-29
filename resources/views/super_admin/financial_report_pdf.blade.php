@@ -12,39 +12,39 @@
 </head>
 <body>
     <div class="header">
-        <h1>Laporan Keuangan</h1>
-        <p>Periode: {{ $startDate }} - {{ $endDate }}</p>
+        <h1>Financial Report</h1>
+        <p>Period: {{ $startDate }} - {{ $endDate }}</p>
     </div>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Deskripsi</th>
-                <th>Jumlah</th>
+                <th>Description</th>
+                <th>Amount</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Pemasukan Langganan</td>
+                <td>Total Subscription Revenue</td>
                 <td>Rp {{ number_format($subscriptionRevenue, 0, ',', '.') }}</td>
             </tr>
             <tr>
-                <td>Pemasukan Operasional</td>
-                <td>Rp {{ number_format($operationalIncome, 0, ',', '.') }}</td>
+                <td>Subscription Transactions</td>
+                <td>{{ number_format($subscriptionTransactions) }}</td>
             </tr>
             <tr>
-                <td>Total Pemasukan</td>
-                <td>Rp {{ number_format($totalIncome, 0, ',', '.') }}</td>
+                <td>Active Subscribers</td>
+                <td>{{ number_format($activeSubscribers) }}</td>
             </tr>
             <tr>
-                <td>Total Pengeluaran</td>
-                <td>Rp {{ number_format($totalExpense, 0, ',', '.') }}</td>
-            </tr>
-            <tr>
-                <td><strong>Profit</strong></td>
-                <td><strong>Rp {{ number_format($profit, 0, ',', '.') }}</strong></td>
+                <td>Average Revenue per User (ARPU)</td>
+                <td>Rp {{ number_format($arpu, 0, ',', '.') }}</td>
             </tr>
         </tbody>
     </table>
+
+    <div class="summary">
+        <p>Note: All figures reflect subscription revenue only. No expenses, profit, or tax figures are included.</p>
+    </div>
 </body>
 </html>
