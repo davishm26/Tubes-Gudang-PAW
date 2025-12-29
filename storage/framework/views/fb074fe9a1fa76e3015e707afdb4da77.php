@@ -2,4 +2,4 @@
     <?php echo e($slot); ?>
 
 </button>
-<?php /**PATH C:\Users\X1 Yoga\SEMESTER 3\Tubes paw\TUBES-GUDANG-PAW\Tubes-Gudang-PAW\resources\views/components/primary-button.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/components/primary-button.blade.php ENDPATH**/ ?>

@@ -28,14 +28,27 @@ class DashboardController extends Controller
             $totalProducts = $demoProducts->count();
             $totalStock = $demoProducts->sum('stock');
             $totalSuppliers = $demoSuppliers->count();
-            $lowStockProducts = $demoProducts->where('stock', '<', 10);
+            $lowStockProducts = $demoProducts->where('stock', '<', 10)->values();
             $lowStockCount = $lowStockProducts->count();
 
-            // Chart data
+            // Chart data - generate 7 days of dummy data
+            $days = 7;
+            $chartLabels = [];
+            $chartDataIn = [];
+            $chartDataOut = [];
+
+            for ($i = $days - 1; $i >= 0; $i--) {
+                $date = now()->subDays($i);
+                $chartLabels[] = $date->format('d M');
+                // Generate random but realistic inventory movements
+                $chartDataIn[] = rand(20, 120);
+                $chartDataOut[] = rand(10, 80);
+            }
+
             $chartData = [
-                'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
-                'data_in' => [120, 150, 180, 140, 200, 160],
-                'data_out' => [80, 90, 120, 100, 150, 110],
+                'labels' => $chartLabels,
+                'data_in' => $chartDataIn,
+                'data_out' => $chartDataOut,
             ];
 
             return view('dashboard', [
@@ -45,26 +58,15 @@ class DashboardController extends Controller
                 'lowStockCount' => $lowStockCount,
                 'lowStockProducts' => $lowStockProducts->take(5)->map(fn($p) => (object)$p),
                 'chartData' => $chartData,
-                'recentActivities' => collect([
-                    (object)[
-                        'type' => 'Masuk',
-                        'quantity' => 10,
-                        'date' => now()->subDays(1),
-                        'product' => (object)['name' => 'Laptop Demo']
-                    ],
-                    (object)[
-                        'type' => 'Keluar',
-                        'quantity' => 5,
-                        'date' => now()->subDays(2),
-                        'product' => (object)['name' => 'Mouse Demo']
-                    ],
-                    (object)[
-                        'type' => 'Masuk',
-                        'quantity' => 15,
-                        'date' => now()->subDays(3),
-                        'product' => (object)['name' => 'Keyboard Mechanical']
-                    ],
-                ]),
+                'recentActivities' => $demoInventoryIns->concat($demoInventoryOuts)->map(function($item) use ($demoProducts) {
+                    $product = $demoProducts->firstWhere('id', $item['product_id']);
+                    return (object)[
+                        'type' => isset($item['notes']) ? 'Masuk' : 'Keluar',
+                        'quantity' => $item['quantity'],
+                        'date' => $item['date'],
+                        'product' => (object)['name' => $item['product_name']]
+                    ];
+                })->sortByDesc('date')->take(5),
                 'outOfStockProducts' => collect(),
                 'overstockProducts' => collect(),
                 'inboundToday' => $demoInventoryIns->count(),

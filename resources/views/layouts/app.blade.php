@@ -62,5 +62,8 @@
             <script src="{{ asset('js/demo-mode.js') }}"></script>
             <script src="{{ asset('js/demo-display.js') }}"></script>
         @endif
+
+        <!-- Additional Scripts Stack -->
+        @stack('scripts')
     </body>
 </html>

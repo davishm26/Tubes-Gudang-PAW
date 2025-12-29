@@ -13,7 +13,7 @@ class UserController extends Controller
     /**
      * Display a listing of users (admin only).
      */
-    public function index()
+    public function index(Request $request)
     {
         $isDemoMode = session('is_demo') || session('demo_mode');
 
@@ -23,10 +23,30 @@ class UserController extends Controller
                 config('demo_data.user.staff'),
             ])->map(fn($u) => (object) $u);
 
+            if ($request->has('search') && !empty($request->search)) {
+                $search = strtolower($request->search);
+                $users = $users->filter(function($u) use ($search) {
+                    return str_contains(strtolower($u->name), $search) ||
+                           str_contains(strtolower($u->email), $search) ||
+                           str_contains(strtolower($u->role ?? ''), $search);
+                })->values();
+            }
+
             return view('users.index', ['users' => $users]);
         }
 
-        $users = User::orderBy('name')->get();
+        $query = User::query();
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%')
+                  ->orWhere('role', 'like', '%' . $search . '%');
+            });
+        }
+
+        $users = $query->orderBy('name')->get();
         return view('users.index', compact('users'));
     }
 
@@ -77,7 +97,17 @@ class UserController extends Controller
         $isDemoMode = session('is_demo') || session('demo_mode');
 
         if ($isDemoMode) {
-            return redirect()->route('users.index')->with('info', 'Edit user dinonaktifkan pada demo mode.');
+            $users = [
+                config('demo_data.user.admin'),
+                config('demo_data.user.staff'),
+            ];
+            $user = collect($users)->firstWhere('id', (int)$id);
+            if (!$user) {
+                return redirect()->route('users.index')->with('error', 'User tidak ditemukan.');
+            }
+            $user = (object) $user;
+            $roles = ['admin', 'staff'];
+            return view('users.edit', compact('user', 'roles'));
         }
 
         $user = User::findOrFail($id);

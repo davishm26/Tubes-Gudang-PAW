@@ -84,7 +84,12 @@ class CategoryController extends Controller
         $isDemoMode = session('is_demo') || session('demo_mode');
 
         if ($isDemoMode) {
-            return redirect()->route('categories.index')->with('info', 'Edit kategori dinonaktifkan pada demo mode.');
+            $category = collect(config('demo_data.categories'))->firstWhere('id', (int)$id);
+            if (!$category) {
+                return redirect()->route('categories.index')->with('error', 'Kategori tidak ditemukan.');
+            }
+            $category = (object) $category;
+            return view('categories.edit', compact('category'));
         }
 
         $category = Category::findOrFail($id);

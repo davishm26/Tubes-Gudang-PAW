@@ -48,4 +48,4 @@
         </div>
     </body>
 </html>
-<?php /**PATH C:\Users\X1 Yoga\SEMESTER 3\Tubes paw\TUBES-GUDANG-PAW\Tubes-Gudang-PAW\resources\views/layouts/guest.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/layouts/guest.blade.php ENDPATH**/ ?>

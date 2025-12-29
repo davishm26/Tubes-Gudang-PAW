@@ -52,8 +52,8 @@ class DemoController extends Controller
 
         Session::flash('success', 'Anda telah keluar dari Mode Demo.');
 
-        // Redirect ke landing page atau login
-        return redirect('/');
+        // Redirect ke landing page secara eksplisit
+        return redirect()->route('subscription.landing');
     }
 
     /**

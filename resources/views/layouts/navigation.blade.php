@@ -66,7 +66,7 @@
                             <x-dropdown align="right" width="56">
                                 <x-slot name="trigger">
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Riwayat Masuk & Keluar') }}</div>
+                                        <div>{{ __('Riwayat') }}</div>
 
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -98,7 +98,7 @@
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Produk Masuk & Keluar') }}</div>
+                                        <div>{{ __('Stok') }}</div>
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -118,7 +118,7 @@
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Riwayat Masuk & Keluar') }}</div>
+                                        <div>{{ __('Riwayat') }}</div>
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -256,7 +256,7 @@
 
                 <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Stok Masuk & Keluar') }}
+                        {{ __('Stok') }}
                     </div>
                     <x-responsive-nav-link :href="route('inventory-in.create')" :active="request()->routeIs('inventory-in.create')">
                         {{ __('Catat Stok Masuk') }}
@@ -297,16 +297,26 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                @if($isDemo)
+                    <div class="px-4 py-2 text-xs text-gray-500 border-b">
+                        <strong>Mode Demo Aktif</strong><br>
+                        Semua perubahan tidak disimpan
+                    </div>
+                    <x-responsive-nav-link :href="route('demo.exit')">
+                        {{ __('🚪 Keluar dari Mode Demo') }}
                     </x-responsive-nav-link>
-                </form>
+                @else
+                    <x-responsive-nav-link :href="route('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-responsive-nav-link>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-responsive-nav-link>
+                    </form>
+                @endif
             </div>
         </div>
     </div>

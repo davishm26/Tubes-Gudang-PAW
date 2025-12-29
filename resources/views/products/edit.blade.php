@@ -77,7 +77,7 @@
                                 <label for="stock" class="block text-sm font-medium text-gray-700">Stok Saat Ini</label>
                                 <input type="number" name="stock" id="stock" value="{{ $product->stock }}" readonly
                                     class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm cursor-not-allowed">
-                                <p class="text-xs text-gray-500 mt-1">Stok hanya diubah melalui menu Stok Masuk/Keluar.</p>
+                                <p class="text-xs text-gray-500 mt-1">Stok hanya diubah melalui menu Stok.</p>
                                 @error('stock')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror

@@ -119,44 +119,23 @@ class InventoryInController extends Controller
      */
     public function history()
     {
-        if (session('demo_mode')) {
-            $items = collect(session('demo_inventory_in', []));
-            if ($items->isEmpty()) {
-                $items = collect([
-                    [
-                        'date' => now()->subDays(2)->toDateString(),
-                        'created_at' => now()->subDays(2),
-                        'quantity' => 10,
-                        'description' => 'Contoh pemasukan history',
-                        'product' => ['name' => 'Produk Demo A', 'sku' => 'DEM-A'],
-                        'supplier' => ['name' => 'Demo Supplier'],
-                        'user' => ['name' => 'Demo Admin'],
-                    ],
-                    [
-                        'date' => now()->subDay()->toDateString(),
-                        'created_at' => now()->subDay(),
-                        'quantity' => 7,
-                        'description' => 'Contoh pemasukan history 2',
-                        'product' => ['name' => 'Produk Demo B', 'sku' => 'DEM-B'],
-                        'supplier' => ['name' => 'Demo Vendor'],
-                        'user' => ['name' => 'Demo Staff'],
-                    ],
-                ]);
-                session(['demo_inventory_in' => $items]);
-            }
-            $items = $items->map(function ($item) {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            $inventoryIns = collect(config('demo_data.inventory_ins'))->map(function ($item) {
                 $obj = (object) $item;
-                $obj->product = isset($item['product']) ? (object) $item['product'] : null;
-                $obj->supplier = isset($item['supplier']) ? (object) $item['supplier'] : null;
-                $obj->user = isset($item['user']) ? (object) $item['user'] : null;
+                $obj->product = (object) ['name' => $item['product_name']];
+                $obj->supplier = (object) ['name' => 'Demo Supplier'];
+                $obj->user = (object) session('demo_user');
+                $obj->created_at = $item['date'];
                 return $obj;
             });
 
             $inventoryIns = new \Illuminate\Pagination\LengthAwarePaginator(
-                $items,
-                $items->count(),
+                $inventoryIns,
+                $inventoryIns->count(),
                 10,
-                1,
+                request()->get('page', 1),
                 ['path' => request()->url()]
             );
 

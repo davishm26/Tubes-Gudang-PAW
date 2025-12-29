@@ -22,14 +22,22 @@
                     </div>
                 @endif
 
-                <h3 class="text-lg font-medium mb-4">Daftar Pengguna</h3>
-
                 <div class="mb-4 flex justify-between items-center">
-                    <h4 class="text-md font-semibold">Semua Pengguna</h4>
+                    <h3 class="text-lg font-medium">Daftar Pengguna</h3>
                     <a href="{{ route('users.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded text-sm">
                         + Tambah Pengguna
                     </a>
                 </div>
+
+                {{-- Form Pencarian --}}
+                <form method="GET" action="{{ route('users.index') }}" class="mb-4">
+                    <div class="flex">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari user (nama, email, role)..." class="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r-md">
+                            Cari
+                        </button>
+                    </div>
+                </form>
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
