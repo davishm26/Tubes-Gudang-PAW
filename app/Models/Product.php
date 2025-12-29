@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Tambahkan HasFactory
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\BelongsToCompany;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany;
 
     /**
      * The attributes that are mass assignable.
@@ -18,12 +19,13 @@ class Product extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'company_id',
         'name',
         'sku',
         'stock',
         'category_id',
         'supplier_id',
-        'image', // KOREKSI: Menggunakan 'image' agar sesuai dengan kolom di DB
+        'image',
         'price',
     ];
 

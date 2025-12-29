@@ -3,16 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany; // Tambahkan untuk relasi HasMany
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Traits\BelongsToCompany;
 
 class Category extends Model
 {
+    use BelongsToCompany;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'company_id',
         'name',
     ];
 

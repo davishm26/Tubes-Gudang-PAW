@@ -2,37 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // WAJIB
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToCompany;
 
 class InventoryOut extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany;
 
-    // --- WAJIB: Izinkan Mass Assignment untuk kolom-kolom ini ---
     protected $fillable = [
+        'company_id',
         'product_id',
         'quantity',
         'date',
-        'description', // <--- TAMBAHKAN
+        'description',
         'user_id'
     ];
-    // -----------------------------------------------------------
 
-    /**
-     * Relasi ke Produk
-     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * Relasi ke User (siapa yang mencatat)
-     */
     public function user()
     {
-        // Asumsi user_id merujuk ke App\Models\User
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

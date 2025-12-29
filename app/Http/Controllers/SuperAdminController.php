@@ -16,8 +16,14 @@ class SuperAdminController extends Controller
     {
         $totalTenants = Company::count();
 
-        // List all tenant companies with subscription status
-        $tenants = Company::with('users')->orderBy('name')->get();
+        // List all tenant companies with subscription status and revenue
+        $tenants = Company::with('users')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($company) {
+                $company->subscription_revenue = $company->subscription_price ?? 0;
+                return $company;
+            });
 
         // All users (global)
         $allUsers = User::with('company')->orderBy('name')->get();
