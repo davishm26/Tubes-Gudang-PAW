@@ -89,6 +89,15 @@ class DashboardController extends Controller
             if ($user && $user->isSuperAdmin()) {
                 return redirect()->route('super_admin.dashboard');
             }
+
+            // CHECK: Apakah company user suspended?
+            if ($user && $user->company_id && $user->company) {
+                if ($user->company->subscription_status === 'suspended' || $user->company->suspended) {
+                    Auth::logout();
+                    return redirect()->route('subscription.suspended')
+                        ->with('error', 'Akun perusahaan Anda telah di-suspend. Silakan hubungi administrator.');
+                }
+            }
             // -------------------------
 
             // 1. DATA STATISTIK RINGKASAN (CARDS)

@@ -27,6 +27,15 @@ class StaffMiddleware
             abort(403);
         }
 
+        // Check if company is suspended
+        if ($user->company_id && $user->company) {
+            if ($user->company->subscription_status === 'suspended' || $user->company->suspended) {
+                Auth::logout();
+                return redirect()->route('subscription.suspended')
+                    ->with('error', 'Akun perusahaan Anda telah di-suspend. Silakan hubungi administrator.');
+            }
+        }
+
         // Admin: full access
         if ($user->role === 'admin') {
             return $next($request);

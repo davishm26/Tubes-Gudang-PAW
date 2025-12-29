@@ -15,7 +15,10 @@
                     </div>
                     <div class="mb-4">
                         <label class="block">Subscription Status</label>
-                        <input name="subscription_status" value="{{ old('subscription_status', $company->subscription_status) }}" class="border p-2 w-full" />
+                        <select name="subscription_status" class="border p-2 w-full" required>
+                            <option value="active" {{ old('subscription_status', $company->subscription_status) == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="suspended" {{ old('subscription_status', $company->subscription_status) == 'suspended' ? 'selected' : '' }}>Suspended</option>
+                        </select>
                     </div>
                     <div class="flex justify-end">
                         <button class="bg-blue-600 text-white px-3 py-2 rounded">Update</button>

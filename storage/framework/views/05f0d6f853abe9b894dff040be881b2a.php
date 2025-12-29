@@ -35,23 +35,26 @@
                 </div>
 
                 <div class="mt-6">
-                    <h4 class="font-semibold">Tenants</h4>
-                    <table class="min-w-full mt-2 border">
-                        <thead class="bg-gray-100">
+                    <h4 class="font-semibold mb-4">Tenants</h4>
+                    <table class="w-full border border-gray-200 rounded-lg overflow-hidden" style="table-layout: fixed;">
+                        <thead class="bg-gray-100 border-b border-gray-200">
                             <tr>
-                                <th class="p-2 text-left">Name</th>
-                                <th class="p-2">Subscription</th>
-                                <th class="p-2">Suspended</th>
-                                <th class="p-2">Users</th>
+                                <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700 w-1/3">Name</th>
+                                <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700 w-1/3">Subscription</th>
+                                <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700 w-1/3">Users</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y divide-gray-200">
                             <?php $__currentLoopData = $tenants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $t): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr class="border-t">
-                                    <td class="p-2"><?php echo e($t->name); ?></td>
-                                    <td class="p-2"><?php echo e($t->subscription_status); ?></td>
-                                    <td class="p-2 text-center"><?php echo e($t->suspended ? 'Yes' : 'No'); ?></td>
-                                    <td class="p-2"><?php echo e($t->users->count()); ?></td>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 text-center text-sm text-gray-900 w-1/3"><?php echo e($t->name); ?></td>
+                                    <td class="px-6 py-4 text-center text-sm w-1/3">
+                                        <span class="px-3 py-1 rounded-full text-xs font-medium <?php echo e($t->subscription_status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'); ?>">
+                                            <?php echo e(ucfirst($t->subscription_status)); ?>
+
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-center text-sm text-gray-900 font-medium w-1/3"><?php echo e($t->users->count()); ?></td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>

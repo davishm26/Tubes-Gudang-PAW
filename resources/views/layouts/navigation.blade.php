@@ -30,11 +30,11 @@
                         </x-nav-link>
 
                         <x-nav-link :href="route('super_admin.tenants.index')" :active="request()->routeIs('super_admin.tenants.*')">
-                            {{ __('Tenan') }}
+                            {{ __('Tenants') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('super_admin.financial-report')" :active="request()->routeIs('super_admin.financial-report')">
-                            {{ __('Laporan Keuangan') }}
+                            {{ __('Financial Report') }}
                         </x-nav-link>
 
                     @elseif($currentUser && $currentUser->role === 'admin')
@@ -43,30 +43,30 @@
                         </x-nav-link>
 
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                            {{ __('Produk') }}
+                            {{ __('Products') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                            {{ __('Pemasok') }}
+                            {{ __('Suppliers') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                            {{ __('Kategori') }}
+                            {{ __('Categories') }}
                         </x-nav-link>
 
-                        {{-- Sembunyikan "Manajemen User" jika staff di mode demo --}}
+                        {{-- Hide "User Management" if staff in demo mode --}}
                         @if(!$isDemo || $demoRole !== 'staff')
                             <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                                {{ __('Manajemen User') }}
+                                {{ __('User Management') }}
                             </x-nav-link>
                         @endif
 
-                        {{-- DROPDOWN STOK & RIWAYAT (Admin: full access) --}}
+                        {{-- DROPDOWN HISTORY (Admin: full access) --}}
                         <div class="hidden sm:flex sm:items-center">
                             <x-dropdown align="right" width="56">
                                 <x-slot name="trigger">
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Riwayat') }}</div>
+                                        <div>{{ __('History') }}</div>
 
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -77,8 +77,8 @@
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    <x-dropdown-link :href="route('inventory-in.history')">{{ __('Riwayat Masuk') }}</x-dropdown-link>
-                                    <x-dropdown-link :href="route('inventory-out.history')">{{ __('Riwayat Keluar') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('inventory-in.history')">{{ __('Inbound History') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('inventory-out.history')">{{ __('Outbound History') }}</x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>
                         </div>
@@ -90,15 +90,15 @@
                         </x-nav-link>
 
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                            {{ __('Produk') }}
+                            {{ __('Products') }}
                         </x-nav-link>
 
-                        {{-- Dropdown for Stok Masuk dan Keluar --}}
+                        {{-- Dropdown for Stock In and Out --}}
                         <div class="hidden sm:flex sm:items-center">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Stok') }}</div>
+                                        <div>{{ __('Stock') }}</div>
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -107,18 +107,18 @@
                                     </button>
                                 </x-slot>
                                 <x-slot name="content">
-                                    <x-dropdown-link :href="route('inventory-in.create')">{{ __('Catat Stok Masuk') }}</x-dropdown-link>
-                                    <x-dropdown-link :href="route('inventory-out.create')">{{ __('Catat Stok Keluar') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('inventory-in.create')">{{ __('Record Stock In') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('inventory-out.create')">{{ __('Record Stock Out') }}</x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>
                         </div>
 
-                        {{-- Dropdown for History Masuk Keluar --}}
+                        {{-- Dropdown for History In and Out --}}
                         <div class="hidden sm:flex sm:items-center">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Riwayat') }}</div>
+                                        <div>{{ __('History') }}</div>
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -127,8 +127,8 @@
                                     </button>
                                 </x-slot>
                                 <x-slot name="content">
-                                    <x-dropdown-link :href="route('inventory-in.history')">{{ __('Riwayat Masuk') }}</x-dropdown-link>
-                                    <x-dropdown-link :href="route('inventory-out.history')">{{ __('Riwayat Keluar') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('inventory-in.history')">{{ __('Inbound History') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('inventory-out.history')">{{ __('Outbound History') }}</x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>
                         </div>
@@ -141,12 +141,12 @@
                 </div>
             </div>
 
-            {{-- USER SETTINGS DROPDOWN (Kanan Atas) --}}
+            {{-- USER SETTINGS DROPDOWN (Right Top) --}}
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                {{-- Badge Mode Demo --}}
+                {{-- Demo Mode Badge --}}
                 @if($isDemo)
                     <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300 mr-3">
-                        🎭 MODE DEMO ({{ strtoupper($demoRole) }})
+                        🎭 DEMO MODE ({{ strtoupper($demoRole) }})
                     </span>
                 @endif
 
@@ -167,11 +167,11 @@
                     <x-slot name="content">
                         @if($isDemo)
                             <div class="px-4 py-2 text-xs text-gray-500 border-b">
-                                <strong>Anda sedang dalam Mode Demo</strong><br>
-                                Semua perubahan tidak akan tersimpan
+                                <strong>You are in Demo Mode</strong><br>
+                                All changes will not be saved
                             </div>
                             <x-dropdown-link :href="route('demo.exit')">
-                                {{ __('🚪 Keluar dari Mode Demo') }}
+                                {{ __('🚪 Exit Demo Mode') }}
                             </x-dropdown-link>
                         @else
                             <x-dropdown-link :href="route('profile.edit')">
@@ -210,32 +210,32 @@
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                    {{ __('Produk') }}
+                    {{ __('Products') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                    {{ __('Pemasok') }}
+                    {{ __('Suppliers') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                    {{ __('Kategori') }}
+                    {{ __('Categories') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                    {{ __('Manajemen User') }}
+                    {{ __('User Management') }}
                 </x-responsive-nav-link>
 
                 <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Riwayat') }}
+                        {{ __('History') }}
                     </div>
 
                     <x-responsive-nav-link :href="route('inventory-in.history')" :active="request()->routeIs('inventory-in.history')">
-                        {{ __('Riwayat Masuk') }}
+                        {{ __('Inbound History') }}
                     </x-responsive-nav-link>
 
                     <x-responsive-nav-link :href="route('inventory-out.history')" :active="request()->routeIs('inventory-out.history')">
-                        {{ __('Riwayat Keluar') }}
+                        {{ __('Outbound History') }}
                     </x-responsive-nav-link>
                 </div>
 
@@ -247,34 +247,34 @@
 
                 <div class="border-t border-gray-200 mt-2 pt-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Data Master') }}
+                        {{ __('Master Data') }}
                     </div>
                     <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                        {{ __('Produk') }}
+                        {{ __('Products') }}
                     </x-responsive-nav-link>
                 </div>
 
                 <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Stok') }}
+                        {{ __('Stock') }}
                     </div>
                     <x-responsive-nav-link :href="route('inventory-in.create')" :active="request()->routeIs('inventory-in.create')">
-                        {{ __('Catat Stok Masuk') }}
+                        {{ __('Record Stock In') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('inventory-out.create')" :active="request()->routeIs('inventory-out.create')">
-                        {{ __('Catat Stok Keluar') }}
+                        {{ __('Record Stock Out') }}
                     </x-responsive-nav-link>
                 </div>
 
                 <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('History Masuk Keluar') }}
+                        {{ __('Inventory History') }}
                     </div>
                     <x-responsive-nav-link :href="route('inventory-in.history')" :active="request()->routeIs('inventory-in.history')">
-                        {{ __('Riwayat Masuk') }}
+                        {{ __('Inbound History') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('inventory-out.history')" :active="request()->routeIs('inventory-out.history')">
-                        {{ __('Riwayat Keluar') }}
+                        {{ __('Outbound History') }}
                     </x-responsive-nav-link>
                 </div>
             @else

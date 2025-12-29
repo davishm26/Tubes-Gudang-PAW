@@ -77,7 +77,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('super_admin.tenants.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('super_admin.tenants.*'))]); ?>
-                            <?php echo e(__('Tenan')); ?>
+                            <?php echo e(__('Tenants')); ?>
 
                          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -100,7 +100,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('super_admin.financial-report')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('super_admin.financial-report'))]); ?>
-                            <?php echo e(__('Laporan Keuangan')); ?>
+                            <?php echo e(__('Financial Report')); ?>
 
                          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -147,7 +147,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('products.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('products.*'))]); ?>
-                            <?php echo e(__('Produk')); ?>
+                            <?php echo e(__('Products')); ?>
 
                          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -170,7 +170,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('suppliers.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('suppliers.*'))]); ?>
-                            <?php echo e(__('Pemasok')); ?>
+                            <?php echo e(__('Suppliers')); ?>
 
                          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -193,7 +193,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('categories.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('categories.*'))]); ?>
-                            <?php echo e(__('Kategori')); ?>
+                            <?php echo e(__('Categories')); ?>
 
                          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -218,7 +218,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('users.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('users.*'))]); ?>
-                                <?php echo e(__('Manajemen User')); ?>
+                                <?php echo e(__('User Management')); ?>
 
                              <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -246,7 +246,7 @@
 <?php $component->withAttributes(['align' => 'right','width' => '56']); ?>
                                  <?php $__env->slot('trigger', null, []); ?> 
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div><?php echo e(__('Riwayat')); ?></div>
+                                        <div><?php echo e(__('History')); ?></div>
 
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -266,7 +266,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.history'))]); ?><?php echo e(__('Riwayat Masuk')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.history'))]); ?><?php echo e(__('Inbound History')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal68cb1971a2b92c9735f83359058f7108)): ?>
 <?php $attributes = $__attributesOriginal68cb1971a2b92c9735f83359058f7108; ?>
@@ -285,7 +285,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.history'))]); ?><?php echo e(__('Riwayat Keluar')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.history'))]); ?><?php echo e(__('Outbound History')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal68cb1971a2b92c9735f83359058f7108)): ?>
 <?php $attributes = $__attributesOriginal68cb1971a2b92c9735f83359058f7108; ?>
@@ -343,7 +343,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('products.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('products.index'))]); ?>
-                            <?php echo e(__('Produk')); ?>
+                            <?php echo e(__('Products')); ?>
 
                          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -370,7 +370,7 @@
 <?php $component->withAttributes(['align' => 'right','width' => '48']); ?>
                                  <?php $__env->slot('trigger', null, []); ?> 
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div><?php echo e(__('Stok')); ?></div>
+                                        <div><?php echo e(__('Stock')); ?></div>
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -388,7 +388,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.create'))]); ?><?php echo e(__('Catat Stok Masuk')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.create'))]); ?><?php echo e(__('Record Stock In')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal68cb1971a2b92c9735f83359058f7108)): ?>
 <?php $attributes = $__attributesOriginal68cb1971a2b92c9735f83359058f7108; ?>
@@ -407,7 +407,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.create'))]); ?><?php echo e(__('Catat Stok Keluar')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.create'))]); ?><?php echo e(__('Record Stock Out')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal68cb1971a2b92c9735f83359058f7108)): ?>
 <?php $attributes = $__attributesOriginal68cb1971a2b92c9735f83359058f7108; ?>
@@ -444,7 +444,7 @@
 <?php $component->withAttributes(['align' => 'right','width' => '48']); ?>
                                  <?php $__env->slot('trigger', null, []); ?> 
                                     <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div><?php echo e(__('Riwayat')); ?></div>
+                                        <div><?php echo e(__('History')); ?></div>
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -462,7 +462,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.history'))]); ?><?php echo e(__('Riwayat Masuk')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.history'))]); ?><?php echo e(__('Inbound History')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal68cb1971a2b92c9735f83359058f7108)): ?>
 <?php $attributes = $__attributesOriginal68cb1971a2b92c9735f83359058f7108; ?>
@@ -481,7 +481,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.history'))]); ?><?php echo e(__('Riwayat Keluar')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.history'))]); ?><?php echo e(__('Outbound History')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal68cb1971a2b92c9735f83359058f7108)): ?>
 <?php $attributes = $__attributesOriginal68cb1971a2b92c9735f83359058f7108; ?>
@@ -536,7 +536,7 @@
                 
                 <?php if($isDemo): ?>
                     <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300 mr-3">
-                        🎭 MODE DEMO (<?php echo e(strtoupper($demoRole)); ?>)
+                        🎭 DEMO MODE (<?php echo e(strtoupper($demoRole)); ?>)
                     </span>
                 <?php endif; ?>
 
@@ -566,8 +566,8 @@
                      <?php $__env->slot('content', null, []); ?> 
                         <?php if($isDemo): ?>
                             <div class="px-4 py-2 text-xs text-gray-500 border-b">
-                                <strong>Anda sedang dalam Mode Demo</strong><br>
-                                Semua perubahan tidak akan tersimpan
+                                <strong>You are in Demo Mode</strong><br>
+                                All changes will not be saved
                             </div>
                             <?php if (isset($component)) { $__componentOriginal68cb1971a2b92c9735f83359058f7108 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal68cb1971a2b92c9735f83359058f7108 = $attributes; } ?>
@@ -579,7 +579,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('demo.exit'))]); ?>
-                                <?php echo e(__('🚪 Keluar dari Mode Demo')); ?>
+                                <?php echo e(__('🚪 Exit Demo Mode')); ?>
 
                              <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -703,7 +703,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('products.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('products.*'))]); ?>
-                    <?php echo e(__('Produk')); ?>
+                    <?php echo e(__('Products')); ?>
 
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -726,7 +726,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('suppliers.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('suppliers.*'))]); ?>
-                    <?php echo e(__('Pemasok')); ?>
+                    <?php echo e(__('Suppliers')); ?>
 
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -749,7 +749,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('categories.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('categories.*'))]); ?>
-                    <?php echo e(__('Kategori')); ?>
+                    <?php echo e(__('Categories')); ?>
 
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -772,7 +772,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('users.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('users.*'))]); ?>
-                    <?php echo e(__('Manajemen User')); ?>
+                    <?php echo e(__('User Management')); ?>
 
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -787,7 +787,7 @@
 
                 <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        <?php echo e(__('Riwayat')); ?>
+                        <?php echo e(__('History')); ?>
 
                     </div>
 
@@ -801,7 +801,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.history')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('inventory-in.history'))]); ?>
-                        <?php echo e(__('Riwayat Masuk')); ?>
+                        <?php echo e(__('Inbound History')); ?>
 
                      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -824,7 +824,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.history')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('inventory-out.history'))]); ?>
-                        <?php echo e(__('Riwayat Keluar')); ?>
+                        <?php echo e(__('Outbound History')); ?>
 
                      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -865,7 +865,7 @@
 
                 <div class="border-t border-gray-200 mt-2 pt-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        <?php echo e(__('Data Master')); ?>
+                        <?php echo e(__('Master Data')); ?>
 
                     </div>
                     <?php if (isset($component)) { $__componentOriginald69b52d99510f1e7cd3d80070b28ca18 = $component; } ?>
@@ -878,7 +878,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('products.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('products.index'))]); ?>
-                        <?php echo e(__('Produk')); ?>
+                        <?php echo e(__('Products')); ?>
 
                      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -894,7 +894,7 @@
 
                 <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        <?php echo e(__('Stok')); ?>
+                        <?php echo e(__('Stock')); ?>
 
                     </div>
                     <?php if (isset($component)) { $__componentOriginald69b52d99510f1e7cd3d80070b28ca18 = $component; } ?>
@@ -907,7 +907,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.create')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('inventory-in.create'))]); ?>
-                        <?php echo e(__('Catat Stok Masuk')); ?>
+                        <?php echo e(__('Record Stock In')); ?>
 
                      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -929,7 +929,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.create')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('inventory-out.create'))]); ?>
-                        <?php echo e(__('Catat Stok Keluar')); ?>
+                        <?php echo e(__('Record Stock Out')); ?>
 
                      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -945,7 +945,7 @@
 
                 <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
                     <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        <?php echo e(__('History Masuk Keluar')); ?>
+                        <?php echo e(__('Inventory History')); ?>
 
                     </div>
                     <?php if (isset($component)) { $__componentOriginald69b52d99510f1e7cd3d80070b28ca18 = $component; } ?>
@@ -958,7 +958,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-in.history')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('inventory-in.history'))]); ?>
-                        <?php echo e(__('Riwayat Masuk')); ?>
+                        <?php echo e(__('Inbound History')); ?>
 
                      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -980,7 +980,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('inventory-out.history')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('inventory-out.history'))]); ?>
-                        <?php echo e(__('Riwayat Keluar')); ?>
+                        <?php echo e(__('Outbound History')); ?>
 
                      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

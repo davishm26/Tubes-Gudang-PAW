@@ -15,49 +15,45 @@
     <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <a href="<?php echo e(route('super_admin.tenants.create')); ?>" class="mb-4 inline-block bg-blue-600 text-white px-3 py-2 rounded">Create Tenant</a>
+                <a href="<?php echo e(route('super_admin.tenants.create')); ?>" class="mb-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Create Tenant</a>
 
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                <table class="w-full border-collapse border border-gray-200">
+                    <thead class="bg-gray-100">
                         <tr>
-                            <th class="px-6 py-3 text-left">Name</th>
-                            <th class="px-6 py-3">Subscription</th>
-                            <th class="px-6 py-3">Sisa Waktu</th>
-                            <th class="px-6 py-3">Suspended</th>
-                            <th class="px-6 py-3">Actions</th>
+                            <th class="border border-gray-200 px-6 py-3 text-left text-sm font-semibold text-gray-700">Name</th>
+                            <th class="border border-gray-200 px-6 py-3 text-center text-sm font-semibold text-gray-700">Subscription</th>
+                            <th class="border border-gray-200 px-6 py-3 text-center text-sm font-semibold text-gray-700">Subscription End Date</th>
+                            <th class="border border-gray-200 px-6 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody>
                         <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr>
-                                <td class="px-6 py-4"><?php echo e($c->name); ?></td>
-                                <td class="px-6 py-4"><?php echo e($c->subscription_status); ?></td>
-                                <td class="px-6 py-4">
-                                    <?php if($c->subscription_expires_at): ?>
-                                        <?php
-                                            $daysLeft = now()->diffInDays($c->subscription_expires_at, false);
-                                        ?>
-                                        <?php if($daysLeft > 0): ?>
-                                            <?php echo e($daysLeft); ?> hari
-                                        <?php elseif($daysLeft == 0): ?>
-                                            Hari ini
-                                        <?php else: ?>
-                                            Kadaluarsa <?php echo e(abs($daysLeft)); ?> hari yang lalu
-                                        <?php endif; ?>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="border border-gray-200 px-6 py-4 text-sm text-gray-900"><?php echo e($c->name); ?></td>
+                                <td class="border border-gray-200 px-6 py-4 text-center text-sm">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium <?php echo e($c->subscription_status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'); ?>">
+                                        <?php echo e(ucfirst($c->subscription_status)); ?>
+
+                                    </span>
+                                </td>
+                                <td class="border border-gray-200 px-6 py-4 text-center text-sm text-gray-900">
+                                    <?php
+                                        $deadline = $c->subscription_end_date ?? $c->subscription_expires_at;
+                                    ?>
+                                    <?php if($deadline): ?>
+                                        <?php echo e(\Carbon\Carbon::parse($deadline)->format('d/m/Y')); ?>
+
                                     <?php else: ?>
-                                        Tidak ada batas
+                                        No deadline set
                                     <?php endif; ?>
                                 </td>
-                                <td class="px-6 py-4"><?php echo e($c->suspended ? 'Yes' : 'No'); ?></td>
-                                <td class="px-6 py-4">
-                                    <a href="<?php echo e(route('super_admin.tenants.edit', $c)); ?>" class="text-indigo-600 mr-2">Edit</a>
-                                    <form action="<?php echo e(route('super_admin.tenants.send-notification', $c)); ?>" method="POST" style="display:inline"><?php echo csrf_field(); ?><button class="text-blue-600 ml-2">Kirim Notifikasi</button></form>
-                                    <?php if(!$c->suspended): ?>
-                                        <form action="<?php echo e(route('super_admin.tenants.suspend', $c)); ?>" method="POST" style="display:inline"><?php echo csrf_field(); ?><button class="text-red-600 ml-2">Suspend</button></form>
-                                    <?php else: ?>
-                                        <form action="<?php echo e(route('super_admin.tenants.unsuspend', $c)); ?>" method="POST" style="display:inline"><?php echo csrf_field(); ?><button class="text-green-600 ml-2">Unsuspend</button></form>
+                                <td class="border border-gray-200 px-6 py-4 text-center text-sm space-x-2">
+                                    <a href="<?php echo e(route('super_admin.tenants.edit', $c)); ?>" class="inline text-indigo-600 hover:text-indigo-800 font-medium">Edit</a>
+                                    <form action="<?php echo e(route('super_admin.tenants.send-notification', $c)); ?>" method="POST" style="display:inline"><?php echo csrf_field(); ?><button type="submit" class="inline text-blue-600 hover:text-blue-800 font-medium">Notify</button></form>
+                                    <?php if($c->subscription_status !== 'suspended'): ?>
+                                        <form action="<?php echo e(route('super_admin.tenants.suspend', $c)); ?>" method="POST" style="display:inline"><?php echo csrf_field(); ?><button type="submit" class="inline text-red-600 hover:text-red-800 font-medium">Suspend</button></form>
                                     <?php endif; ?>
-                                    <form action="<?php echo e(route('super_admin.tenants.destroy', $c)); ?>" method="POST" style="display:inline" onsubmit="return confirm('Delete tenant?')"><?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?><button class="text-red-800 ml-2">Delete</button></form>
+                                    <form action="<?php echo e(route('super_admin.tenants.destroy', $c)); ?>" method="POST" style="display:inline" onsubmit="return confirm('Are you sure?')"><?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?><button type="submit" class="inline text-red-600 hover:text-red-800 font-medium">Delete</button></form>
                                 </td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

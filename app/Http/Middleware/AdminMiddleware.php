@@ -34,7 +34,17 @@ class AdminMiddleware
             return redirect('/dashboard')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengakses halaman ini.');
         }
 
-        // 4. Jika role adalah admin, lanjutkan request
+        // 4. Cek apakah company user dalam status suspended
+        $user = Auth::user();
+        if ($user->company_id && $user->company) {
+            if ($user->company->subscription_status === 'suspended' || $user->company->suspended) {
+                Auth::logout();
+                return redirect()->route('subscription.suspended')
+                    ->with('error', 'Akun perusahaan Anda telah di-suspend. Silakan hubungi administrator.');
+            }
+        }
+
+        // 5. Jika role adalah admin dan tidak suspended, lanjutkan request
         return $next($request);
     }
 }
