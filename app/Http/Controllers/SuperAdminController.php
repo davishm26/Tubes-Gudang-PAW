@@ -22,10 +22,9 @@ class SuperAdminController extends Controller
         // All users (global)
         $allUsers = User::with('company')->orderBy('name')->get();
 
-        // Dummy revenue: sum of random values per company (temporary)
-        $totalRevenue = $tenants->reduce(function ($carry, $company) {
-            return $carry + rand(1000, 10000);
-        }, 0);
+        // Real revenue: total value of stock going out (quantity * product price)
+        $totalRevenue = InventoryOut::join('products', 'inventory_outs.product_id', '=', 'products.id')
+            ->sum(DB::raw('inventory_outs.quantity * COALESCE(products.price, 0)'));
 
         return view('super_admin.dashboard', compact('totalTenants', 'tenants', 'allUsers', 'totalRevenue'));
     }
@@ -35,10 +34,18 @@ class SuperAdminController extends Controller
         $startDate = $request->get('start_date', now()->startOfMonth()->format('Y-m-d'));
         $endDate = $request->get('end_date', now()->endOfMonth()->format('Y-m-d'));
 
-        // Hitung total pemasukan dari inventory in: sum(quantity * product.price)
-        $totalIncome = InventoryIn::whereBetween('inventory_ins.created_at', [$startDate, $endDate])
-            ->join('products', 'inventory_ins.product_id', '=', 'products.id')
-            ->sum(DB::raw('inventory_ins.quantity * products.price'));
+        // Pendapatan langganan (subscription) yang dibayar pada periode
+        $subscriptionRevenue = Company::whereNotNull('subscription_paid_at')
+            ->whereBetween('subscription_paid_at', [$startDate, $endDate])
+            ->sum('subscription_price');
+
+        // Pendapatan operasional: nilai stok keluar (inventory outs) * harga produk
+        $operationalIncome = InventoryOut::whereBetween('inventory_outs.created_at', [$startDate, $endDate])
+            ->join('products', 'inventory_outs.product_id', '=', 'products.id')
+            ->sum(DB::raw('inventory_outs.quantity * products.price'));
+
+        // Total pemasukan = subscription + operasional
+        $totalIncome = $subscriptionRevenue + $operationalIncome;
 
         // Hitung total pengeluaran dari inventory out: sum(quantity * product.price)
         $totalExpense = InventoryOut::whereBetween('inventory_outs.created_at', [$startDate, $endDate])
@@ -48,7 +55,15 @@ class SuperAdminController extends Controller
         // Hitung profit
         $profit = $totalIncome - $totalExpense;
 
-        return view('super_admin.financial_report', compact('startDate', 'endDate', 'totalIncome', 'totalExpense', 'profit'));
+        return view('super_admin.financial_report', compact(
+            'startDate',
+            'endDate',
+            'subscriptionRevenue',
+            'operationalIncome',
+            'totalIncome',
+            'totalExpense',
+            'profit'
+        ));
     }
 
     public function downloadFinancialReport(Request $request)
@@ -56,10 +71,18 @@ class SuperAdminController extends Controller
         $startDate = $request->get('start_date');
         $endDate = $request->get('end_date');
 
-        // Hitung total pemasukan dari inventory in: sum(quantity * product.price)
-        $totalIncome = InventoryIn::whereBetween('inventory_ins.created_at', [$startDate, $endDate])
-            ->join('products', 'inventory_ins.product_id', '=', 'products.id')
-            ->sum(DB::raw('inventory_ins.quantity * products.price'));
+        // Pendapatan langganan (subscription) yang dibayar pada periode
+        $subscriptionRevenue = Company::whereNotNull('subscription_paid_at')
+            ->whereBetween('subscription_paid_at', [$startDate, $endDate])
+            ->sum('subscription_price');
+
+        // Pendapatan operasional: nilai stok keluar (inventory outs) * harga produk
+        $operationalIncome = InventoryOut::whereBetween('inventory_outs.created_at', [$startDate, $endDate])
+            ->join('products', 'inventory_outs.product_id', '=', 'products.id')
+            ->sum(DB::raw('inventory_outs.quantity * products.price'));
+
+        // Total pemasukan = subscription + operasional
+        $totalIncome = $subscriptionRevenue + $operationalIncome;
 
         // Hitung total pengeluaran dari inventory out: sum(quantity * product.price)
         $totalExpense = InventoryOut::whereBetween('inventory_outs.created_at', [$startDate, $endDate])
@@ -69,7 +92,15 @@ class SuperAdminController extends Controller
         // Hitung profit
         $profit = $totalIncome - $totalExpense;
 
-        $pdf = Pdf::loadView('super_admin.financial_report_pdf', compact('startDate', 'endDate', 'totalIncome', 'totalExpense', 'profit'));
+        $pdf = Pdf::loadView('super_admin.financial_report_pdf', compact(
+            'startDate',
+            'endDate',
+            'subscriptionRevenue',
+            'operationalIncome',
+            'totalIncome',
+            'totalExpense',
+            'profit'
+        ));
 
         return $pdf->download('laporan_keuangan_' . $startDate . '_to_' . $endDate . '.pdf');
     }

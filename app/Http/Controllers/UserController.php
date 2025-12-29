@@ -35,7 +35,18 @@ class UserController extends Controller
             return view('users.index', ['users' => $users]);
         }
 
+        // Tentukan company yang sedang aktif (hanya boleh melihat user dalam company tersebut)
+        $activeCompanyId = Auth::user()?->company_id ?: $request->get('company_id');
+
         $query = User::query();
+
+        // Batasi hanya untuk company yang aktif; jika tidak ada company dipilih, kembalikan kosong
+        if ($activeCompanyId) {
+            $query->where('company_id', $activeCompanyId);
+        } else {
+            $users = collect();
+            return view('users.index', compact('users'));
+        }
 
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
@@ -82,6 +93,13 @@ class UserController extends Controller
             'role' => ['required', Rule::in(['admin', 'staff'])],
         ]);
 
+        // Pastikan user baru terikat ke company yang sama dengan user yang membuatnya
+        $data['company_id'] = Auth::user()?->company_id ?? $request->get('company_id');
+
+        if (!$data['company_id']) {
+            return redirect()->route('users.index')->with('error', 'Pilih perusahaan terlebih dahulu sebelum membuat user.');
+        }
+
         $data['password'] = Hash::make($data['password']);
 
         User::create($data);
@@ -110,7 +128,10 @@ class UserController extends Controller
             return view('users.edit', compact('user', 'roles'));
         }
 
-        $user = User::findOrFail($id);
+        $activeCompanyId = Auth::user()?->company_id ?: request()->get('company_id');
+        $user = User::where('id', $id)
+            ->when($activeCompanyId, fn($q) => $q->where('company_id', $activeCompanyId))
+            ->firstOrFail();
         $roles = ['admin', 'staff'];
         return view('users.edit', compact('user', 'roles'));
     }
@@ -126,7 +147,10 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('success', 'Pengguna berhasil diperbarui! (Simulasi - Data tidak tersimpan)');
         }
 
-        $user = User::findOrFail($id);
+        $activeCompanyId = Auth::user()?->company_id ?: $request->get('company_id');
+        $user = User::where('id', $id)
+            ->when($activeCompanyId, fn($q) => $q->where('company_id', $activeCompanyId))
+            ->firstOrFail();
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -157,7 +181,10 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus! (Simulasi - Data tidak tersimpan)');
         }
 
-        $user = User::findOrFail($id);
+        $activeCompanyId = Auth::user()?->company_id ?: request()->get('company_id');
+        $user = User::where('id', $id)
+            ->when($activeCompanyId, fn($q) => $q->where('company_id', $activeCompanyId))
+            ->firstOrFail();
 
         if (Auth::id() === $user->id) {
             return redirect()->route('users.index')->with('error', 'Anda tidak bisa menghapus akun sendiri.');

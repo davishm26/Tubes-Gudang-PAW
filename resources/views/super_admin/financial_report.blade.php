@@ -23,17 +23,29 @@
                 </form>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="p-4 bg-emerald-50 rounded">
+                        <strong>Pemasukan Langganan:</strong>
+                        <div class="text-2xl">Rp {{ number_format($subscriptionRevenue, 0, ',', '.') }}</div>
+                    </div>
+
                     <div class="p-4 bg-green-50 rounded">
-                        <strong>Total Pemasukan:</strong>
-                        <div class="text-2xl">Rp {{ number_format($totalIncome, 0, ',', '.') }}</div>
+                        <strong>Pemasukan Operasional:</strong>
+                        <div class="text-2xl">Rp {{ number_format($operationalIncome, 0, ',', '.') }}</div>
                     </div>
 
                     <div class="p-4 bg-red-50 rounded">
                         <strong>Total Pengeluaran:</strong>
                         <div class="text-2xl">Rp {{ number_format($totalExpense, 0, ',', '.') }}</div>
                     </div>
+                </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div class="p-4 bg-blue-50 rounded">
+                        <strong>Total Pemasukan:</strong>
+                        <div class="text-2xl">Rp {{ number_format($totalIncome, 0, ',', '.') }}</div>
+                    </div>
+
+                    <div class="p-4 bg-indigo-50 rounded">
                         <strong>Profit:</strong>
                         <div class="text-2xl">Rp {{ number_format($profit, 0, ',', '.') }}</div>
                     </div>

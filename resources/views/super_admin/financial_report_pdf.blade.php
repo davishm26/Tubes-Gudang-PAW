@@ -25,6 +25,14 @@
         </thead>
         <tbody>
             <tr>
+                <td>Pemasukan Langganan</td>
+                <td>Rp {{ number_format($subscriptionRevenue, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td>Pemasukan Operasional</td>
+                <td>Rp {{ number_format($operationalIncome, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
                 <td>Total Pemasukan</td>
                 <td>Rp {{ number_format($totalIncome, 0, ',', '.') }}</td>
             </tr>

@@ -17,6 +17,8 @@ class Company extends Model
         'meta',
         'subscription_expires_at',
         'subscription_end_date',
+        'subscription_price',
+        'subscription_paid_at',
     ];
 
     protected $casts = [
@@ -24,6 +26,7 @@ class Company extends Model
         'meta' => 'array',
         'subscription_expires_at' => 'datetime',
         'subscription_end_date' => 'date',
+        'subscription_paid_at' => 'datetime',
     ];
 
     public function users(): HasMany

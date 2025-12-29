@@ -90,6 +90,8 @@ class SubscriptionController extends Controller
                 'subscription_status' => 'active',
                 'suspended' => false,
                 'subscription_end_date' => $endDate,
+                'subscription_price' => $subscription['price'],
+                'subscription_paid_at' => now(),
             ]);
 
             // Create admin user
