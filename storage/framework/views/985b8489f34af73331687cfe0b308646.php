@@ -161,7 +161,7 @@
                     <a href="#features" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Fitur</a>
                     <a href="#pricing" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Harga</a>
                     <a href="#contact" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Kontak</a>
-                    <a href="{{ route('login') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+                    <a href="<?php echo e(route('login')); ?>" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
                         Masuk
                     </a>
                 </div>
@@ -183,7 +183,7 @@
                     Multi-tenant, real-time dashboard, dan laporan otomatis.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center slide-up" style="animation-delay: 0.6s;">
-                    <a href="{{ route('subscription.subscribe') }}" class="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 pulse-glow shadow-lg">
+                    <a href="<?php echo e(route('subscription.subscribe')); ?>" class="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 pulse-glow shadow-lg">
                         Langganan Sekarang
                     </a>
                     <button onclick="openDemoModal()" class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
@@ -343,7 +343,7 @@
                                 Update gratis
                             </li>
                         </ul>
-                        <a href="{{ route('subscription.subscribe') }}" class="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+                        <a href="<?php echo e(route('subscription.subscribe')); ?>" class="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
                             Langganan Sekarang
                         </a>
                     </div>
@@ -382,10 +382,10 @@
             <h2 class="text-4xl font-bold mb-6">Siap Tingkatkan Efisiensi Gudang Anda?</h2>
             <p class="text-xl text-gray-300 mb-8">Bergabunglah dengan ratusan perusahaan yang telah mempercayai sistem kami</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('subscription.subscribe') }}" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg pulse-glow">
+                <a href="<?php echo e(route('subscription.subscribe')); ?>" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg pulse-glow">
                     Mulai Langganan Sekarang
                 </a>
-                <a href="{{ route('login') }}" class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300">
+                <a href="<?php echo e(route('login')); ?>" class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300">
                     Masuk ke Akun
                 </a>
             </div>
@@ -593,3 +593,4 @@
     </script>
 </body>
 </html>
+<?php /**PATH C:\Users\X1 Yoga\SEMESTER 3\Tubes paw\TUBES-GUDANG-PAW\Tubes-Gudang-PAW\resources\views/subscription/landing.blade.php ENDPATH**/ ?>
