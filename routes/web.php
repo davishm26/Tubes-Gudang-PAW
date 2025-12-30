@@ -12,6 +12,7 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\DemoController; // <-- TAMBAHKAN INI
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,6 +67,10 @@ Route::middleware([\App\Http\Middleware\DemoOrAuthMiddleware::class, \App\Http\M
     Route::resource('users', UserController::class)
         ->except(['show'])
         ->middleware(\App\Http\Middleware\AdminMiddleware::class);
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 });
 
 /*
@@ -90,6 +95,10 @@ Route::prefix('super-admin')->name('super_admin.')->middleware(['auth','verified
     // Financial report
     Route::get('/financial-report', [SuperAdminController::class, 'financialReport'])->name('financial-report');
     Route::post('/financial-report/download', [SuperAdminController::class, 'downloadFinancialReport'])->name('financial-report.download');
+
+    // Notifications
+    Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
+    Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
 });
 
 

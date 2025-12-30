@@ -37,6 +37,10 @@
                             {{ __('Financial Report') }}
                         </x-nav-link>
 
+                        <x-nav-link :href="route('notifications.create')" :active="request()->routeIs('notifications.create')">
+                            {{ __('Send Notification') }}
+                        </x-nav-link>
+
                     @elseif($currentUser && $currentUser->role === 'admin')
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
@@ -60,6 +64,10 @@
                                 {{ __('User Management') }}
                             </x-nav-link>
                         @endif
+
+                        <x-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.index')">
+                            {{ __('Notifications') }}
+                        </x-nav-link>
 
                         {{-- DROPDOWN HISTORY (Admin: full access) --}}
                         <div class="hidden sm:flex sm:items-center">
