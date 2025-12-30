@@ -88,7 +88,12 @@ class UserController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->where(fn($q) => $q->where('company_id', Auth::user()?->company_id)),
+            ],
             'password' => 'required|string|min:6|confirmed',
             'role' => ['required', Rule::in(['admin', 'staff'])],
         ]);
@@ -154,7 +159,14 @@ class UserController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => ['required','email','max:255', Rule::unique('users','email')->ignore($user->id)],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')
+                    ->ignore($user->id)
+                    ->where(fn($q) => $q->where('company_id', $activeCompanyId)),
+            ],
             'password' => 'nullable|string|min:6|confirmed',
             'role' => ['required', Rule::in(['admin','staff'])],
         ]);

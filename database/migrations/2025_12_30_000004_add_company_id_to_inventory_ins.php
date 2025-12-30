@@ -17,7 +17,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inventory_ins', function (Blueprint $table) {
-            $table->dropForeignKeyIfExists(['company_id']);
+            $table->dropForeignIdIfExists('company_id');
             $table->dropColumn('company_id');
         });
     }

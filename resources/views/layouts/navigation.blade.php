@@ -37,7 +37,7 @@
                             {{ __('Financial Report') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('notifications.create')" :active="request()->routeIs('notifications.create')">
+                        <x-nav-link :href="route('super_admin.notifications.create')" :active="request()->routeIs('super_admin.notifications.create')">
                             {{ __('Send Notification') }}
                         </x-nav-link>
 

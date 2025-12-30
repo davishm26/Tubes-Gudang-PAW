@@ -108,9 +108,15 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat menambah produk.');
         }
 
+        $companyId = Auth::user()?->company_id ?? $request->get('company_id');
+
         $request->validate([
             'name' => 'required|string|max:255',
-            'sku' => 'required|string|unique:products,sku',
+            'sku' => [
+                'required',
+                'string',
+                Rule::unique('products', 'sku')->where(fn($q) => $q->where('company_id', $companyId)),
+            ],
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'supplier_id' => 'required|exists:suppliers,id',
@@ -118,6 +124,7 @@ class ProductController extends Controller
         ]);
 
         $data = $request->except('image');
+        $data['company_id'] = $companyId;
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
@@ -181,9 +188,16 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengupdate produk.');
         }
         $product = Product::findOrFail($id);
+        $companyId = $product->company_id ?? Auth::user()?->company_id ?? $request->get('company_id');
         $request->validate([
             'name' => 'required|string|max:255',
-            'sku' => ['required', 'string', Rule::unique('products')->ignore($product->id)],
+            'sku' => [
+                'required',
+                'string',
+                Rule::unique('products', 'sku')
+                    ->ignore($product->id)
+                    ->where(fn($q) => $q->where('company_id', $companyId)),
+            ],
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'supplier_id' => 'required|exists:suppliers,id',

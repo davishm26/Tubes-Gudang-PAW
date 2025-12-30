@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Traits\BelongsToCompany;
 
 class Notification extends Model
 {
+    use BelongsToCompany;
+
     protected $fillable = [
+        'company_id',
         'sender_id',
         'recipient_id',
         'template',

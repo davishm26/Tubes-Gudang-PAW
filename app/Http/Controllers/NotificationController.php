@@ -44,7 +44,10 @@ class NotificationController extends Controller
             'message' => 'required|string',
         ]);
 
+        $recipient = User::findOrFail($request->recipient_id);
+
         Notification::create([
+            'company_id' => $recipient->company_id,
             'sender_id' => Auth::id(),
             'recipient_id' => $request->recipient_id,
             'template' => $request->template,

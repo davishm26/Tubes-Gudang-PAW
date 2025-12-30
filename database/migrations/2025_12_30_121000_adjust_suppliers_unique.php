@@ -9,10 +9,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('suppliers', function (Blueprint $table) {
-            $table->foreignId('company_id')->nullable()->after('id')->constrained('companies')->onDelete('cascade');
-            $table->dropUnique(['name']);
+            // Pastikan tidak ada duplikat index sebelum membuat yang baru
+            try {
+                $table->dropUnique('suppliers_company_id_name_unique');
+            } catch (\Throwable $e) {
+                // ignore if not exists
+            }
+
+            // Buat unique per perusahaan
             $table->unique(['company_id', 'name']);
-            $table->index('company_id');
         });
     }
 
@@ -20,9 +25,7 @@ return new class extends Migration
     {
         Schema::table('suppliers', function (Blueprint $table) {
             $table->dropUnique(['company_id', 'name']);
-            $table->unique(['name']);
-            $table->dropForeignIdIfExists('company_id');
-            $table->dropColumn('company_id');
+            $table->unique('name');
         });
     }
 };

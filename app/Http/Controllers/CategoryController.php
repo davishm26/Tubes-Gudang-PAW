@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category; // Import Model Category
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule; // Import untuk validasi unique saat update
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -61,8 +62,21 @@ class CategoryController extends Controller
             return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan! (Simulasi - Data tidak tersimpan)');
         }
 
-        $request->validate(['name' => 'required|string|max:255|unique:categories,name']);
-        Category::create($request->only('name'));
+        $companyId = Auth::user()?->company_id ?? $request->get('company_id');
+
+        $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('categories', 'name')->where(fn($q) => $q->where('company_id', $companyId)),
+            ],
+        ]);
+
+        Category::create([
+            'name' => $request->name,
+            'company_id' => $companyId,
+        ]);
         return redirect()->route('categories.index')->with('success', 'Kategori baru berhasil ditambahkan.');
     }
 
@@ -108,13 +122,16 @@ class CategoryController extends Controller
         }
 
         $category = Category::findOrFail($id);
+        $companyId = Auth::user()?->company_id ?? $request->get('company_id') ?? $category->company_id;
 
         $request->validate([
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('categories')->ignore($category->id),
+                Rule::unique('categories')
+                    ->ignore($category->id)
+                    ->where(fn($q) => $q->where('company_id', $companyId)),
             ],
         ]);
 

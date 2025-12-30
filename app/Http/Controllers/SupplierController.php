@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Supplier; // <-- WAJIB: Import Model Supplier
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule; // <-- WAJIB: Import Rule untuk validasi unique saat update
+use Illuminate\Support\Facades\Auth;
 
 class SupplierController extends Controller
 {
@@ -67,12 +68,22 @@ class SupplierController extends Controller
             ]);
             return redirect()->route('suppliers.index')->with('success', 'Pemasok demo ditambahkan! (Simulasi - tidak tersimpan)');
         }
+        $companyId = Auth::user()?->company_id ?? $request->get('company_id');
         // 1. Validasi Data
         $request->validate([
-            'name' => 'required|string|max:255|unique:suppliers,name',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('suppliers', 'name')->where(fn($q) => $q->where('company_id', $companyId)),
+            ],
             'contact' => 'nullable|string|max:255',
         ]);
-        Supplier::create($request->only(['name', 'contact']));
+        Supplier::create([
+            'name' => $request->name,
+            'contact' => $request->contact,
+            'company_id' => $companyId,
+        ]);
         return redirect()->route('suppliers.index')->with('success', 'Pemasok baru berhasil ditambahkan.');
     }
 
@@ -113,6 +124,7 @@ class SupplierController extends Controller
         if ($isDemo) {
             return redirect()->route('suppliers.index')->with('success', 'Pemasok demo diperbarui! (Simulasi - tidak tersimpan)');
         }
+        $companyId = Auth::user()?->company_id ?? $request->get('company_id');
         // 1. Validasi Data
         $request->validate([
             // Nama harus unik, kecuali dirinya sendiri ($supplier->id)
@@ -120,7 +132,9 @@ class SupplierController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('suppliers')->ignore($id),
+                Rule::unique('suppliers', 'name')
+                    ->ignore($id)
+                    ->where(fn($q) => $q->where('company_id', $companyId)),
             ],
             'contact' => 'nullable|string|max:255',
         ]);
