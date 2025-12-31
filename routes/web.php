@@ -13,6 +13,7 @@ use App\Http\Controllers\TenantController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\DemoController; // <-- TAMBAHKAN INI
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SuspendedController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,9 +25,7 @@ Route::get('/', [SubscriptionController::class, 'landing'])->name('subscription.
 Route::match(['get', 'post'], '/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscription.subscribe');
 Route::get('/payment', [SubscriptionController::class, 'payment'])->name('subscription.payment');
 Route::post('/pay/{token}', [SubscriptionController::class, 'pay'])->name('subscription.pay');
-Route::get('/suspended', function() {
-    return view('subscription.suspended');
-})->name('subscription.suspended');
+Route::get('/suspended', [SuspendedController::class, 'show'])->middleware('auth')->name('subscription.suspended');
 
 // Demo Mode Routes - Mode Demo Statis (NEW)
 Route::get('/demo/{role}', [DemoController::class, 'enter'])->name('demo.enter');

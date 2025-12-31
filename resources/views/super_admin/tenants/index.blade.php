@@ -81,10 +81,7 @@
                                         <td class="px-6 py-4">
                                             <div class="flex justify-end gap-2 text-sm">
                                                 <a href="{{ route('super_admin.tenants.edit', $company) }}" class="inline-flex items-center rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 font-medium text-indigo-700 hover:bg-indigo-100">Edit</a>
-                                                <form action="{{ route('super_admin.tenants.send-notification', $company) }}" method="POST" class="inline">
-                                                    @csrf
-                                                    <button type="submit" class="inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50">Notify</button>
-                                                </form>
+                                                <a href="{{ route('super_admin.notifications.create', ['company_id' => $company->id]) }}" class="inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50">Notify</a>
                                             </div>
                                         </td>
                                     </tr>

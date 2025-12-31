@@ -19,7 +19,7 @@ class NotificationController extends Controller
         return view('notifications.index', compact('notifications'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         // Untuk super admin membuat notifikasi
         if (Auth::user()->role !== 'super_admin') {
@@ -29,7 +29,16 @@ class NotificationController extends Controller
         $companies = User::where('role', 'admin')->with('company')->get();
         $templates = $this->getTemplates();
 
-        return view('notifications.create', compact('companies', 'templates'));
+        // Pre-fill recipient jika ada company_id dari query parameter (dari Tenants page)
+        $selectedCompanyId = $request->get('company_id');
+        $selectedRecipient = null;
+        if ($selectedCompanyId) {
+            $selectedRecipient = User::where('company_id', $selectedCompanyId)
+                ->where('role', 'admin')
+                ->first();
+        }
+
+        return view('notifications.create', compact('companies', 'templates', 'selectedRecipient'));
     }
 
     public function store(Request $request)

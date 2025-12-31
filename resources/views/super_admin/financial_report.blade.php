@@ -30,7 +30,7 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-6">
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-5 shadow-sm">
                         <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total Subscription Revenue</p>
                         <p class="mt-2 text-3xl font-semibold text-slate-900">Rp {{ number_format($subscriptionRevenue, 0, ',', '.') }}</p>
@@ -42,10 +42,6 @@
                     <div class="rounded-xl border border-slate-200 bg-white px-4 py-5 shadow-sm">
                         <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Active Subscribers</p>
                         <p class="mt-2 text-2xl font-semibold text-slate-900">{{ number_format($activeSubscribers) }}</p>
-                    </div>
-                    <div class="rounded-xl border border-slate-200 bg-white px-4 py-5 shadow-sm">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Avg Revenue per User</p>
-                        <p class="mt-2 text-2xl font-semibold text-slate-900">Rp {{ number_format($arpu, 0, ',', '.') }}</p>
                     </div>
                 </div>
 

@@ -15,7 +15,9 @@
                             <option value="">Pilih Admin Perusahaan</option>
                             @foreach($companies as $company)
                                 @if($company->company)
-                                    <option value="{{ $company->id }}">{{ $company->company->name }} - {{ $company->name }}</option>
+                                    <option value="{{ $company->id }}" @selected($selectedRecipient && $selectedRecipient->id === $company->id)>
+                                        {{ $company->company->name }} - {{ $company->name }}
+                                    </option>
                                 @endif
                             @endforeach
                         </select>

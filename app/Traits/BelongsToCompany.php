@@ -12,15 +12,15 @@ trait BelongsToCompany
         static::addGlobalScope(fn (Builder $query) => $query->whenCompanyContext());
 
         static::creating(function ($model) {
-            if (!$model->company_id && auth()->user()) {
-                $model->company_id = auth()->user()->company_id;
+            if (!$model->company_id && Auth::user()) {
+                $model->company_id = Auth::user()->company_id;
             }
         });
     }
 
     public function scopeWhenCompanyContext(Builder $query): Builder
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user && !$user->isSuperAdmin()) {
             return $query->where('company_id', $user->company_id);

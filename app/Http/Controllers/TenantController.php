@@ -75,27 +75,25 @@ class TenantController extends Controller
 
     public function update(Request $request, Company $company)
     {
-        $data = $request->validate([
+        $status = $request->get('tenant_status');
+
+        $rules = [
             'name' => 'required|string|max:255',
             'tenant_status' => 'required|in:active,suspended',
-            'suspend_reason' => 'nullable|string|max:500',
-        ]);
+            'suspend_reason_type' => $status === 'suspended' ? 'required|in:payment_failed,policy_violation,admin_action,other' : 'nullable',
+            'suspend_reason' => $status === 'suspended' ? 'required|string|min:10|max:500' : 'nullable',
+        ];
 
-        $status = $data['tenant_status'];
+        $data = $request->validate($rules);
+
         $isSuspended = $status === 'suspended';
-
-        $meta = $company->meta ?? [];
-        if ($isSuspended && !empty($data['suspend_reason'])) {
-            $meta['suspend_reason'] = $data['suspend_reason'];
-        } else {
-            unset($meta['suspend_reason']);
-        }
 
         $company->update([
             'name' => $data['name'],
             'subscription_status' => $status,
             'suspended' => $isSuspended,
-            'meta' => $meta,
+            'suspend_reason_type' => $isSuspended ? $data['suspend_reason_type'] : null,
+            'suspend_reason' => $isSuspended ? $data['suspend_reason'] : null,
         ]);
 
         return redirect()->route('super_admin.tenants.index')->with('success', 'Tenant updated.');

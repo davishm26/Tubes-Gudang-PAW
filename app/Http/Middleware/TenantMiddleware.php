@@ -24,8 +24,13 @@ class TenantMiddleware
             abort(403, 'User must belong to a company/tenant');
         }
 
+        // Load company relationship if not already loaded
+        if (!$user->relationLoaded('company')) {
+            $user->load('company');
+        }
+
         if ($user->company && $user->company->suspended) {
-            return response()->view('subscription.suspended', [], 403);
+            return redirect()->route('subscription.suspended');
         }
 
         return $next($request);

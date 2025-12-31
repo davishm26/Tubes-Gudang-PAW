@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCompany;
+use Illuminate\Support\Facades\Auth;
 
 class AuditLog extends Model
 {
@@ -37,7 +37,7 @@ class AuditLog extends Model
 
     public static function logAction(string $entityType, $entityId, string $action, ?array $changes = null, ?User $user = null): void
     {
-        $user = $user ?? auth()->user();
+        $user = $user ?? Auth::user();
 
         if (!$user || !$user->company_id) {
             return;
