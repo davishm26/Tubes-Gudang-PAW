@@ -26,6 +26,7 @@ Route::match(['get', 'post'], '/subscribe', [SubscriptionController::class, 'sub
 Route::get('/payment', [SubscriptionController::class, 'payment'])->name('subscription.payment');
 Route::post('/pay/{token}', [SubscriptionController::class, 'pay'])->name('subscription.pay');
 Route::get('/suspended', [SuspendedController::class, 'show'])->middleware('auth')->name('subscription.suspended');
+Route::post('/suspended/request-reactivation', [SuspendedController::class, 'requestReactivation'])->name('subscription.reactivation.request');
 
 // Demo Mode Routes - Mode Demo Statis (NEW)
 Route::get('/demo/{role}', [DemoController::class, 'enter'])->name('demo.enter');
@@ -94,6 +95,11 @@ Route::prefix('super-admin')->name('super_admin.')->middleware(['auth','verified
     // Financial report
     Route::get('/financial-report', [SuperAdminController::class, 'financialReport'])->name('financial-report');
     Route::post('/financial-report/download', [SuperAdminController::class, 'downloadFinancialReport'])->name('financial-report.download');
+
+    // Reactivation requests
+    Route::get('/reactivation-requests', [SuperAdminController::class, 'reactivationRequests'])->name('reactivation.requests');
+    Route::post('/reactivation/approve/{company}', [SuperAdminController::class, 'approveReactivation'])->name('reactivation.approve');
+    Route::post('/reactivation/reject/{company}', [SuperAdminController::class, 'rejectReactivation'])->name('reactivation.reject');
 
     // Notifications
     Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');

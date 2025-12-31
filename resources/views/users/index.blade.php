@@ -54,7 +54,7 @@
                                 <tr>
                                     <td class="py-2 px-4">{{ $user->name }}</td>
                                     <td class="py-2 px-4">{{ $user->email }}</td>
-                                    <td class="py-2 px-4">{{ $user->role ?? '-' }}</td>
+                                    <td class="py-2 px-4">{{ $user->role === 'staf' ? 'Staf' : ($user->role ?? '-') }}</td>
                                     <td class="py-2 px-4 text-right">
                                         <a href="{{ route('users.edit', $user->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
 

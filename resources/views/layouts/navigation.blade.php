@@ -11,6 +11,7 @@
             } else {
                 $currentUser = Auth::user();
             }
+
         @endphp
 
         <div class="flex justify-between h-16">
@@ -35,6 +36,22 @@
 
                         <x-nav-link :href="route('super_admin.financial-report')" :active="request()->routeIs('super_admin.financial-report')">
                             {{ __('Financial Report') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('super_admin.reactivation.requests')" :active="request()->routeIs('super_admin.reactivation.*')">
+                            <span class="flex items-center gap-2">
+                                {{ __('Reactivation Requests') }}
+                                @php
+                                    $unreadCount = \App\Models\Notification::where('template', 'reactivation_request')
+                                        ->whereNull('read_at')
+                                        ->count();
+                                @endphp
+                                @if($unreadCount > 0)
+                                    <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                                        {{ $unreadCount }}
+                                    </span>
+                                @endif
+                            </span>
                         </x-nav-link>
 
                         <x-nav-link :href="route('super_admin.notifications.create')" :active="request()->routeIs('super_admin.notifications.create')">
@@ -64,10 +81,6 @@
                                 {{ __('User Management') }}
                             </x-nav-link>
                         @endif
-
-                        <x-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.index')">
-                            {{ __('Notifications') }}
-                        </x-nav-link>
 
                         {{-- DROPDOWN HISTORY (Admin: full access) --}}
                         <div class="hidden sm:flex sm:items-center">
@@ -212,7 +225,40 @@
     {{-- MENU MOBILE (Tampilan HP) --}}
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            @if($currentUser && $currentUser->role === 'admin')
+            @if($currentUser && $currentUser->role === 'super_admin')
+                <x-responsive-nav-link :href="route('super_admin.dashboard')" :active="request()->routeIs('super_admin.dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('super_admin.tenants.index')" :active="request()->routeIs('super_admin.tenants.*')">
+                    {{ __('Tenants') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('super_admin.financial-report')" :active="request()->routeIs('super_admin.financial-report')">
+                    {{ __('Financial Report') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('super_admin.reactivation.requests')" :active="request()->routeIs('super_admin.reactivation.*')">
+                    <span class="flex items-center gap-2">
+                        {{ __('Reactivation Requests') }}
+                        @php
+                            $unreadCount = \App\Models\Notification::where('template', 'reactivation_request')
+                                ->whereNull('read_at')
+                                ->count();
+                        @endphp
+                        @if($unreadCount > 0)
+                            <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                                {{ $unreadCount }}
+                            </span>
+                        @endif
+                    </span>
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('super_admin.notifications.create')" :active="request()->routeIs('super_admin.notifications.create')">
+                    {{ __('Send Notification') }}
+                </x-responsive-nav-link>
+
+            @elseif($currentUser && $currentUser->role === 'admin')
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>

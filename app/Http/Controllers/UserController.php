@@ -66,7 +66,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = ['admin', 'staff'];
+        $roles = ['admin', 'staf'];
         return view('users.create', compact('roles'));
     }
 
@@ -81,7 +81,7 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
-                'role' => ['required', Rule::in(['admin', 'staff'])],
+                'role' => ['required', Rule::in(['admin', 'staf'])],
             ]);
             return redirect()->route('users.index')->with('success', 'Pengguna berhasil ditambahkan! (Simulasi - Data tidak tersimpan)');
         }
@@ -95,8 +95,13 @@ class UserController extends Controller
                 Rule::unique('users', 'email')->where(fn($q) => $q->where('company_id', Auth::user()?->company_id)),
             ],
             'password' => 'required|string|min:6|confirmed',
-            'role' => ['required', Rule::in(['admin', 'staff'])],
+            'role' => ['required', Rule::in(['admin', 'staf'])],
         ]);
+
+        // Normalisasi input role agar sesuai enum di database
+        if (($data['role'] ?? null) === 'staff') {
+            $data['role'] = 'staf';
+        }
 
         // Pastikan user baru terikat ke company yang sama dengan user yang membuatnya
         $data['company_id'] = Auth::user()?->company_id ?? $request->get('company_id');
@@ -129,7 +134,7 @@ class UserController extends Controller
                 return redirect()->route('users.index')->with('error', 'User tidak ditemukan.');
             }
             $user = (object) $user;
-            $roles = ['admin', 'staff'];
+            $roles = ['admin', 'staf'];
             return view('users.edit', compact('user', 'roles'));
         }
 
@@ -137,7 +142,7 @@ class UserController extends Controller
         $user = User::where('id', $id)
             ->when($activeCompanyId, fn($q) => $q->where('company_id', $activeCompanyId))
             ->firstOrFail();
-        $roles = ['admin', 'staff'];
+        $roles = ['admin', 'staf'];
         return view('users.edit', compact('user', 'roles'));
     }
 
@@ -168,8 +173,13 @@ class UserController extends Controller
                     ->where(fn($q) => $q->where('company_id', $activeCompanyId)),
             ],
             'password' => 'nullable|string|min:6|confirmed',
-            'role' => ['required', Rule::in(['admin','staff'])],
+            'role' => ['required', Rule::in(['admin','staf'])],
         ]);
+
+        // Normalisasi input role agar sesuai enum di database
+        if (($data['role'] ?? null) === 'staff') {
+            $data['role'] = 'staf';
+        }
 
         if (empty($data['password'])) {
             unset($data['password']);

@@ -63,32 +63,61 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const labels = {!! json_encode($revenueTrend->pluck('day')) !!};
-        const data = {!! json_encode($revenueTrend->pluck('total')) !!};
+        document.addEventListener('DOMContentLoaded', function() {
+            const labels = {!! json_encode($revenueTrend->pluck('day')->toArray()) !!};
+            const data = {!! json_encode($revenueTrend->pluck('total')->toArray()) !!};
 
-        const ctx = document.getElementById('revenueChart');
-        if (ctx && labels.length) {
+            const ctx = document.getElementById('revenueChart');
+            if (!ctx) return;
+
+            // Jika tidak ada data, tampilkan pesan
+            if (!labels || labels.length === 0 || !data || data.length === 0) {
+                ctx.parentElement.parentElement.innerHTML = '<div class="flex items-center justify-center h-72"><p class="text-slate-500 text-center">Tidak ada data subscription untuk periode ini</p></div>';
+                return;
+            }
+
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels,
+                    labels: labels,
                     datasets: [{
                         label: 'Subscription Revenue',
-                        data,
-                        fill: false,
+                        data: data,
+                        fill: true,
                         borderColor: '#4f46e5',
-                        backgroundColor: '#4f46e5',
-                        tension: 0.25,
-                        pointRadius: 3,
-                        pointHoverRadius: 5,
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#4f46e5',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
                     plugins: {
-                        legend: { display: false },
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: { size: 13, weight: '500' }
+                            }
+                        },
                         tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            displayColors: true,
                             callbacks: {
                                 label: function(context) {
                                     const value = context.parsed.y || 0;
@@ -98,18 +127,23 @@
                         }
                     },
                     scales: {
-                        x: { grid: { display: false } },
+                        x: {
+                            grid: { display: false, drawBorder: true },
+                            ticks: { font: { size: 12 } }
+                        },
                         y: {
                             beginAtZero: true,
                             ticks: {
                                 callback: function(value) {
-                                    return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
-                                }
-                            }
+                                    return 'Rp ' + new Intl.NumberFormat('id-ID', { notation: 'compact', compactDisplay: 'short' }).format(value);
+                                },
+                                font: { size: 12 }
+                            },
+                            grid: { color: 'rgba(0, 0, 0, 0.05)' }
                         }
                     }
                 }
             });
-        }
+        });
     </script>
 </x-app-layout>

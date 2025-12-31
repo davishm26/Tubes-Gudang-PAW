@@ -38,7 +38,7 @@
                 <div class="px-8 py-8">
 
                     <!-- Status Information Card -->
-                    @if(!empty($suspendReason) || !empty($suspendReasonType))
+                    <?php if(!empty($suspendReason) || !empty($suspendReasonType)): ?>
                         <div class="mb-8 p-6 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200">
                             <h2 class="text-lg font-semibold text-slate-900 mb-6">Informasi Status Akun</h2>
 
@@ -53,12 +53,12 @@
                                 </div>
 
                                 <!-- Suspension Category -->
-                                @if(!empty($suspendReasonType))
+                                <?php if(!empty($suspendReasonType)): ?>
                                     <div class="flex items-start gap-4">
                                         <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-slate-200 text-slate-700 font-semibold text-sm flex-shrink-0">2</span>
                                         <div class="flex-1">
                                             <p class="text-sm font-semibold text-slate-600 uppercase tracking-wide mb-2">Kategori Pembatasan</p>
-                                            @php
+                                            <?php
                                                 $reasonTypeLabels = [
                                                     'payment_failed' => ['label' => 'Pembayaran Tertunda', 'icon' => '💳', 'desc' => 'Terdapat masalah pembayaran yang perlu diselesaikan'],
                                                     'policy_violation' => ['label' => 'Pelanggaran Kebijakan', 'icon' => '⚖️', 'desc' => 'Terdapat aktivitas yang melanggar ketentuan layanan'],
@@ -66,35 +66,35 @@
                                                     'other' => ['label' => 'Alasan Lainnya', 'icon' => '📋', 'desc' => 'Pembatasan untuk alasan tertentu'],
                                                 ];
                                                 $reasonInfo = $reasonTypeLabels[$suspendReasonType] ?? $reasonTypeLabels['other'];
-                                            @endphp
+                                            ?>
                                             <div class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-amber-300">
-                                                <span class="text-lg">{{ $reasonInfo['icon'] }}</span>
-                                                <span class="font-semibold text-amber-900">{{ $reasonInfo['label'] }}</span>
+                                                <span class="text-lg"><?php echo e($reasonInfo['icon']); ?></span>
+                                                <span class="font-semibold text-amber-900"><?php echo e($reasonInfo['label']); ?></span>
                                             </div>
-                                            <p class="text-sm text-slate-600 mt-2">{{ $reasonInfo['desc'] }}</p>
+                                            <p class="text-sm text-slate-600 mt-2"><?php echo e($reasonInfo['desc']); ?></p>
                                         </div>
                                     </div>
-                                @endif
+                                <?php endif; ?>
 
                                 <!-- Detailed Explanation -->
-                                @if(!empty($suspendReason))
+                                <?php if(!empty($suspendReason)): ?>
                                     <div class="flex items-start gap-4 pt-2">
                                         <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-slate-200 text-slate-700 font-semibold text-sm flex-shrink-0">3</span>
                                         <div class="flex-1">
                                             <p class="text-sm font-semibold text-slate-600 uppercase tracking-wide mb-2">Penjelasan Detail</p>
-                                            <p class="text-slate-700 leading-relaxed bg-white p-4 rounded-lg border border-slate-200">{{ $suspendReason }}</p>
+                                            <p class="text-slate-700 leading-relaxed bg-white p-4 rounded-lg border border-slate-200"><?php echo e($suspendReason); ?></p>
                                         </div>
                                     </div>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </div>
-                    @else
+                    <?php else: ?>
                         <div class="mb-8 p-6 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200">
                             <p class="text-slate-700 leading-relaxed">
                                 Akun perusahaan Anda telah dibatasi oleh administrator sistem. Untuk informasi lebih lengkap mengenai penyebab pembatasan, silakan hubungi tim dukungan kami.
                             </p>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
                     <!-- Action Guidance Section -->
                     <div class="bg-slate-50 rounded-xl border border-slate-200 p-6 mb-8">
@@ -125,7 +125,7 @@
                     </div>
 
                     <!-- Subscription Info (jika terkait payment) -->
-                    @if($company && $suspendReasonType === 'payment_failed')
+                    <?php if($company && $suspendReasonType === 'payment_failed'): ?>
                         <div class="bg-blue-50 rounded-xl border border-blue-200 p-6 mb-8">
                             <h4 class="font-semibold text-blue-900 mb-4 flex items-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,20 +136,20 @@
                             <div class="space-y-3 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-blue-700 font-medium">Status Langganan:</span>
-                                    <span class="text-blue-900 font-semibold">{{ ucfirst($company->subscription_status ?? 'N/A') }}</span>
+                                    <span class="text-blue-900 font-semibold"><?php echo e(ucfirst($company->subscription_status ?? 'N/A')); ?></span>
                                 </div>
-                                @if($company->subscription_price)
+                                <?php if($company->subscription_price): ?>
                                     <div class="flex justify-between">
                                         <span class="text-blue-700 font-medium">Harga Langganan:</span>
-                                        <span class="text-blue-900 font-semibold">Rp {{ number_format($company->subscription_price, 0, ',', '.') }}</span>
+                                        <span class="text-blue-900 font-semibold">Rp <?php echo e(number_format($company->subscription_price, 0, ',', '.')); ?></span>
                                     </div>
-                                @endif
-                                @if($company->subscription_end_date)
+                                <?php endif; ?>
+                                <?php if($company->subscription_end_date): ?>
                                     <div class="flex justify-between">
                                         <span class="text-blue-700 font-medium">Tanggal Berakhir:</span>
-                                        <span class="text-blue-900 font-semibold">{{ \Carbon\Carbon::parse($company->subscription_end_date)->format('d M Y') }}</span>
+                                        <span class="text-blue-900 font-semibold"><?php echo e(\Carbon\Carbon::parse($company->subscription_end_date)->format('d M Y')); ?></span>
                                     </div>
-                                @endif
+                                <?php endif; ?>
                                 <div class="mt-4 pt-4 border-t border-blue-200">
                                     <p class="text-blue-800 text-xs">
                                         💡 <strong>Catatan:</strong> Untuk mengaktifkan kembali akun, harap selesaikan pembayaran yang tertunda atau hubungi tim dukungan untuk informasi lebih lanjut.
@@ -157,7 +157,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
                     <!-- Request Reactivation Form -->
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-200 p-6 mb-8">
@@ -169,29 +169,36 @@
                         </h4>
                         <p class="text-sm text-green-800 mb-4">Sampaikan kondisi Anda dan tim kami akan segera meninjau permintaan reaktivasi akun Anda.</p>
 
-                        @if(session('success'))
+                        <?php if(session('success')): ?>
                             <div class="mb-4 p-4 bg-green-100 border border-green-300 rounded-lg">
-                                <p class="text-sm text-green-800 font-medium">✓ {{ session('success') }}</p>
+                                <p class="text-sm text-green-800 font-medium">✓ <?php echo e(session('success')); ?></p>
                             </div>
-                        @endif
+                        <?php endif; ?>
 
-                        @if(session('error'))
+                        <?php if(session('error')): ?>
                             <div class="mb-4 p-4 bg-red-100 border border-red-300 rounded-lg">
-                                <p class="text-sm text-red-800 font-medium">✗ {{ session('error') }}</p>
+                                <p class="text-sm text-red-800 font-medium">✗ <?php echo e(session('error')); ?></p>
                             </div>
-                        @endif
+                        <?php endif; ?>
 
-                        <form action="{{ route('subscription.reactivation.request') }}" method="POST" class="space-y-4">
-                            @csrf
+                        <form action="<?php echo e(route('subscription.reactivation.request')); ?>" method="POST" class="space-y-4">
+                            <?php echo csrf_field(); ?>
                             <div>
                                 <label for="contact_email" class="block text-sm font-medium text-green-900 mb-1">Email Kontak <span class="text-red-600">*</span></label>
                                 <input type="email" id="contact_email" name="contact_email" required
                                     class="w-full px-4 py-2 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                     placeholder="email@perusahaan.com"
-                                    value="{{ old('contact_email', Auth::check() ? Auth::user()->email : '') }}">
-                                @error('contact_email')
-                                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                                    value="<?php echo e(old('contact_email', Auth::check() ? Auth::user()->email : '')); ?>">
+                                <?php $__errorArgs = ['contact_email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <p class="text-red-600 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             </div>
 
                             <div>
@@ -199,20 +206,34 @@
                                 <input type="text" id="contact_phone" name="contact_phone"
                                     class="w-full px-4 py-2 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                     placeholder="08123456789"
-                                    value="{{ old('contact_phone') }}">
-                                @error('contact_phone')
-                                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                                    value="<?php echo e(old('contact_phone')); ?>">
+                                <?php $__errorArgs = ['contact_phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <p class="text-red-600 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             </div>
 
                             <div>
                                 <label for="message" class="block text-sm font-medium text-green-900 mb-1">Pesan Anda <span class="text-red-600">*</span></label>
                                 <textarea id="message" name="message" required rows="4"
                                     class="w-full px-4 py-2 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                    placeholder="Jelaskan alasan permintaan reaktivasi dan langkah yang telah Anda lakukan...">{{ old('message') }}</textarea>
-                                @error('message')
-                                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                                    placeholder="Jelaskan alasan permintaan reaktivasi dan langkah yang telah Anda lakukan..."><?php echo e(old('message')); ?></textarea>
+                                <?php $__errorArgs = ['message'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <p class="text-red-600 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 <p class="text-xs text-green-700 mt-1">Maksimal 1000 karakter</p>
                             </div>
 
@@ -256,7 +277,7 @@
 
                 <!-- Footer Action -->
                 <div class="bg-slate-50 border-t border-slate-200 px-8 py-6 flex justify-center">
-                    <a href="{{ route('subscription.landing') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-slate-600 text-white font-semibold shadow-md hover:bg-slate-700 active:bg-slate-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
+                    <a href="<?php echo e(route('subscription.landing')); ?>" class="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-slate-600 text-white font-semibold shadow-md hover:bg-slate-700 active:bg-slate-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
                         ← Kembali ke Halaman Utama
                     </a>
                 </div>
@@ -272,3 +293,4 @@
     </div>
 </body>
 </html>
+<?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/subscription/suspended.blade.php ENDPATH**/ ?>

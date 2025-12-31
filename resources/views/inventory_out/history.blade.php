@@ -39,7 +39,7 @@
                                     {{-- Produk --}}
                                     <td class="px-6 py-4 font-medium text-gray-900">
                                         {{ $item->product->name ?? 'Produk Dihapus' }}
-                                        <div class="text-xs text-gray-500">SKU: -</div>
+                                        <div class="text-xs text-gray-500">SKU: {{ $item->product->sku ?? '-' }}</div>
                                     </td>
 
                                     {{-- Jumlah (Bold Merah) --}}

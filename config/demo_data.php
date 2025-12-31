@@ -205,9 +205,9 @@ return [
         ],
         'staff' => [
             'id' => 998,
-            'name' => 'Demo Staff',
+            'name' => 'Demo Staf',
             'email' => 'staff@demo.com',
-            'role' => 'staff',
+            'role' => 'staf',
         ],
     ],
 ];

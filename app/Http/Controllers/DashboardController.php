@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\InventoryIn;
 use App\Models\InventoryOut;
+use App\Models\Notification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -76,6 +77,7 @@ class DashboardController extends Controller
                 'topMoving' => $demoProducts->take(3)->map(fn($p) => (object)$p),
                 'slowMoving' => collect(),
                 'totalAssetValue' => $demoProducts->sum(fn($p) => $p['price'] * $p['stock']),
+                'unreadNotifications' => 0,
             ]);
         }
 
@@ -106,6 +108,10 @@ class DashboardController extends Controller
             $totalSuppliers = Supplier::count();
             $totalStock = Product::sum('stock');
             $lowStockCount = Product::where('stock', '<=', 10)->count();
+
+            $unreadNotifications = $user
+                ? Notification::where('recipient_id', $user->id)->whereNull('read_at')->count()
+                : 0;
 
             // 2. DATA GRAFIK (Untuk 30 hari terakhir)
             $days = 30;
@@ -215,7 +221,8 @@ class DashboardController extends Controller
                 'pendingOrders',
                 'topMoving',
                 'slowMoving',
-                'totalAssetValue'
+                'totalAssetValue',
+                'unreadNotifications'
             ));
         } catch (\Exception $e) {
             // Jika DB error, fallback ke demo mode
@@ -250,6 +257,7 @@ class DashboardController extends Controller
                 'topMoving' => $demoProducts->take(3)->map(fn($p) => (object)$p),
                 'slowMoving' => collect(),
                 'totalAssetValue' => $demoProducts->sum(fn($p) => $p['price'] * $p['stock']),
+                'unreadNotifications' => 0,
             ]);
         }
     }

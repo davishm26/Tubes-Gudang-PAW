@@ -39,7 +39,7 @@
                             <label class="block text-sm font-medium text-gray-700">Role</label>
                             <select name="role" class="mt-1 block w-full border rounded px-3 py-2">
                                 @foreach($roles as $r)
-                                    <option value="{{ $r }}" {{ old('role', $user->role)===$r ? 'selected' : '' }}>{{ ucfirst($r) }}</option>
+                                    <option value="{{ $r }}" {{ old('role', $user->role)===$r ? 'selected' : '' }}>{{ $r === 'staf' ? 'Staf' : ucfirst($r) }}</option>
                                 @endforeach
                             </select>
                             @error('role')<p class="text-sm text-red-600">{{ $message }}</p>@enderror

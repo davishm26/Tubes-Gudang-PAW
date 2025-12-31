@@ -45,7 +45,7 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
                                 <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Pemasok</th>
                                 <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kontak</th>
                                 <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
@@ -54,7 +54,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @forelse ($suppliers as $supplier)
                                 <tr>
-                                    <td class="py-4 px-6 whitespace-nowrap">{{ $supplier->id }}</td>
+                                    <td class="py-4 px-6 whitespace-nowrap">{{ $loop->iteration }}</td>
                                     <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">{{ $supplier->name }}</td>
                                     <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">{{ $supplier->contact ?? '-' }}</td>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\InventoryIn;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -131,7 +132,20 @@ class ProductController extends Controller
             $data['image'] = $path;
         }
 
-        Product::create($data);
+        $product = Product::create($data);
+
+        // Jika ada stok awal, catat di InventoryIn
+        if ($request->input('stock', 0) > 0) {
+            InventoryIn::create([
+                'company_id' => $companyId,
+                'product_id' => $product->id,
+                'supplier_id' => $request->input('supplier_id'),
+                'quantity' => $request->input('stock'),
+                'date' => now(),
+                'description' => 'Penambahan stok produk baru',
+                'user_id' => Auth::id(),
+            ]);
+        }
 
         return redirect()->route('products.index')
             ->with('success', 'Produk berhasil ditambahkan.');
