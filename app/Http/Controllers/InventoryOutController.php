@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException; // Tidak diperlukan di sini, tetapi tidak masalah jika ada
+use App\Services\SystemNotificationService;
 
 class InventoryOutController extends Controller
 {
@@ -115,6 +116,9 @@ class InventoryOutController extends Controller
         // --- LOGIC PENGURANGAN STOK ---
         $product->stock -= $quantityOut;
         $product->save(); // Simpan perubahan stok ke database
+
+        // Notifikasi stok menipis jika melewati ambang batas
+        app(SystemNotificationService::class)->notifyLowStock($product);
 
         // 3. Catat Transaksi
         InventoryOut::create([

@@ -12,8 +12,9 @@ trait BelongsToCompany
         static::addGlobalScope(fn (Builder $query) => $query->whenCompanyContext());
 
         static::creating(function ($model) {
-            if (!$model->company_id && Auth::user()) {
-                $model->company_id = Auth::user()->company_id;
+            $user = Auth::user();
+            if (!$model->company_id && $user && $user instanceof \App\Models\User) {
+                $model->company_id = $user->company_id;
             }
         });
     }
@@ -22,7 +23,8 @@ trait BelongsToCompany
     {
         $user = Auth::user();
 
-        if ($user && !$user->isSuperAdmin()) {
+        // Check if user is authenticated and not a super admin
+        if ($user && $user instanceof \App\Models\User && !$user->isSuperAdmin()) {
             return $query->where('company_id', $user->company_id);
         }
 

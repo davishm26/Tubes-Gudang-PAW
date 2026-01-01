@@ -1,19 +1,28 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Card Container -->
-            <div class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden" x-data="{ status: '{{ old('tenant_status', $company->subscription_status ?? 'active') }}' }">
+            <div class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden" x-data="{ status: '<?php echo e(old('tenant_status', $company->subscription_status ?? 'active')); ?>' }">
 
                 <!-- Header Section -->
                 <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-8 py-6 border-b border-slate-700">
                     <h1 class="text-2xl font-bold text-white mb-1">Edit Tenant Profile</h1>
-                    <p class="text-slate-300 text-sm">Update {{ $company->name }} — access controls and tenant information</p>
+                    <p class="text-slate-300 text-sm">Update <?php echo e($company->name); ?> — access controls and tenant information</p>
                 </div>
 
                 <!-- Form Section -->
-                <form method="POST" action="{{ route('super_admin.tenants.update', $company) }}" class="p-8 space-y-8">
-                    @csrf
-                    @method('PUT')
+                <form method="POST" action="<?php echo e(route('super_admin.tenants.update', $company)); ?>" class="p-8 space-y-8">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PUT'); ?>
 
                     <!-- Tenant Information Section -->
                     <div class="space-y-6">
@@ -33,15 +42,22 @@
                                 id="name"
                                 name="name"
                                 type="text"
-                                value="{{ old('name', $company->name) }}"
+                                value="<?php echo e(old('name', $company->name)); ?>"
                                 required
                                 maxlength="150"
                                 class="w-full px-4 py-3 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none"
                                 placeholder="Enter tenant company name"
                             />
-                            @error('name')
-                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                            @enderror
+                            <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-sm text-red-600 mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             <p class="text-xs text-slate-500 mt-2">Maximum 150 characters</p>
                         </div>
                     </div>
@@ -73,9 +89,16 @@
                                 <option value="active">Active</option>
                                 <option value="suspended">Suspended</option>
                             </select>
-                            @error('tenant_status')
-                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                            @enderror
+                            <?php $__errorArgs = ['tenant_status'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-sm text-red-600 mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             <div class="p-3 rounded-lg bg-blue-50 border border-blue-200">
                                 <p class="text-xs text-blue-700"><span class="font-semibold">ℹ️ Note:</span> Controls tenant access only. Subscription and billing are not affected by status changes.</p>
                             </div>
@@ -105,13 +128,20 @@
                                     style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22><path stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 14l-7 7m0 0l-7-7m7 7V3%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.25rem; padding-right: 2.75rem;"
                                 >
                                     <option value="">-- Select reason type --</option>
-                                    <option value="policy_violation" {{ old('suspend_reason_type', $company->suspend_reason_type ?? '') === 'policy_violation' ? 'selected' : '' }}>Policy Violation</option>
-                                    <option value="admin_action" {{ old('suspend_reason_type', $company->suspend_reason_type ?? '') === 'admin_action' ? 'selected' : '' }}>Admin Action</option>
-                                    <option value="other" {{ old('suspend_reason_type', $company->suspend_reason_type ?? '') === 'other' ? 'selected' : '' }}>Other</option>
+                                    <option value="policy_violation" <?php echo e(old('suspend_reason_type', $company->suspend_reason_type ?? '') === 'policy_violation' ? 'selected' : ''); ?>>Policy Violation</option>
+                                    <option value="admin_action" <?php echo e(old('suspend_reason_type', $company->suspend_reason_type ?? '') === 'admin_action' ? 'selected' : ''); ?>>Admin Action</option>
+                                    <option value="other" <?php echo e(old('suspend_reason_type', $company->suspend_reason_type ?? '') === 'other' ? 'selected' : ''); ?>>Other</option>
                                 </select>
-                                @error('suspend_reason_type')
-                                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                                @enderror
+                                <?php $__errorArgs = ['suspend_reason_type'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <p class="text-sm text-red-600 mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             </div>
 
                             <!-- Additional Notes -->
@@ -128,10 +158,17 @@
                                     maxlength="500"
                                     class="w-full px-4 py-3 rounded-lg border border-red-300 text-slate-900 placeholder-slate-400 transition-all focus:border-red-500 focus:ring-2 focus:ring-red-200 focus:outline-none"
                                     placeholder="Provide detailed explanation of the suspension (minimum 10 characters)..."
-                                >{{ old('suspend_reason', $company->suspend_reason ?? '') }}</textarea>
-                                @error('suspend_reason')
-                                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                                @enderror
+                                ><?php echo e(old('suspend_reason', $company->suspend_reason ?? '')); ?></textarea>
+                                <?php $__errorArgs = ['suspend_reason'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <p class="text-sm text-red-600 mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 <p class="text-xs text-slate-500">Minimum 10, maximum 500 characters. Used for internal audit and tenant notification.</p>
                             </div>
                         </div>
@@ -140,7 +177,7 @@
                     <!-- Action Buttons -->
                     <div class="flex items-center justify-end gap-4 pt-8 border-t border-slate-200">
                         <a
-                            href="{{ route('super_admin.tenants.index') }}"
+                            href="<?php echo e(route('super_admin.tenants.index')); ?>"
                             class="px-6 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-medium text-sm hover:bg-slate-50 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2"
                         >
                             Cancel
@@ -161,4 +198,14 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/super_admin/tenants/edit.blade.php ENDPATH**/ ?>

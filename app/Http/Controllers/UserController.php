@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Services\SystemNotificationService;
 
 class UserController extends Controller
 {
@@ -112,7 +113,10 @@ class UserController extends Controller
 
         $data['password'] = Hash::make($data['password']);
 
-        User::create($data);
+        $newUser = User::create($data);
+
+        // Notifikasi user baru untuk admin & super admin
+        app(SystemNotificationService::class)->notifyUserCreated($newUser);
 
         return redirect()->route('users.index')->with('success', 'Pengguna berhasil dibuat.');
     }

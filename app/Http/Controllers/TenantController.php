@@ -80,7 +80,7 @@ class TenantController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'tenant_status' => 'required|in:active,suspended',
-            'suspend_reason_type' => $status === 'suspended' ? 'required|in:payment_failed,policy_violation,admin_action,other' : 'nullable',
+            'suspend_reason_type' => $status === 'suspended' ? 'required|in:policy_violation,admin_action,other' : 'nullable',
             'suspend_reason' => $status === 'suspended' ? 'required|string|min:10|max:500' : 'nullable',
         ];
 

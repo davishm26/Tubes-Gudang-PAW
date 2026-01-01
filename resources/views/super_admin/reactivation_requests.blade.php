@@ -26,7 +26,7 @@
                                 Total: {{ $requests->count() }} permintaan
                             </span>
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800">
-                                Belum dibaca: {{ $requests->where('is_read', false)->count() }}
+                                Permintaan sudah ditangani: {{ $requests->where('is_read', true)->count() }}
                             </span>
                         </div>
                     </div>
@@ -71,16 +71,13 @@
                                                 <div class="flex items-center gap-2">
                                                     @if($isSuspended)
                                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                            🔒 Suspended
+                                                            🔒 Tersuspend
                                                         </span>
                                                     @else
                                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                             ✓ Aktif
                                                         </span>
                                                     @endif
-                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                                        {{ ucfirst($request['company']->subscription_status ?? 'N/A') }}
-                                                    </span>
                                                 </div>
                                             @endif
                                         </div>
@@ -154,9 +151,10 @@
                                     <!-- Actions -->
                                     @php
                                         $isSuspended = $request['company'] && ($request['company']->suspended || $request['company']->subscription_status === 'suspended');
+                                        $isUnread = !$request['is_read']; // Notifikasi belum dibaca = request belum di-handle
                                     @endphp
 
-                                    @if($isSuspended)
+                                    @if($isSuspended && $isUnread)
                                         <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end gap-3">
                                             <!-- Reject Button with Modal -->
                                             <button onclick="openRejectModal({{ $request['company']->id }}, '{{ $request['company_name'] }}')"
@@ -180,9 +178,13 @@
                                                 </button>
                                             </form>
                                         </div>
-                                    @else
+                                    @elseif(!$isSuspended)
                                         <div class="px-6 py-4 bg-green-50 border-t border-green-200">
                                             <p class="text-sm text-green-800 font-medium">✓ Akun sudah aktif kembali</p>
+                                        </div>
+                                    @else
+                                        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                                            <p class="text-sm text-gray-600 font-medium">Permintaan sudah ditangani</p>
                                         </div>
                                     @endif
                                 </div>

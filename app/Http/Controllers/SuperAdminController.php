@@ -10,11 +10,16 @@ use App\Models\InventoryOut;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Services\SystemNotificationService;
+use Carbon\Carbon;
 
 class SuperAdminController extends Controller
 {
     public function dashboard()
     {
+        // Kirim notifikasi langganan mendekati kadaluarsa (dedupe harian)
+        app(SystemNotificationService::class)->notifySubscriptionExpiringForSoonDueCompanies();
+
         $totalTenants = Company::count();
 
         // List all tenant companies with subscription status and revenue
@@ -35,6 +40,10 @@ class SuperAdminController extends Controller
 
         return view('super_admin.dashboard', compact('totalTenants', 'tenants', 'allUsers', 'totalRevenue'));
     }
+
+    // Utility: Trigger notifikasi subscription expiring untuk perusahaan yang mendekati batas waktu.
+    // Dipanggil di dashboard agar berjalan rutin tanpa cron.
+    // Menggunakan dedupe harian di service agar tidak spam.
 
     public function financialReport(Request $request)
     {
@@ -115,7 +124,7 @@ class SuperAdminController extends Controller
         // agar transaksi yang belum memiliki paid_at tetapi memiliki harga tetap terhitung.
         $subscriptionQuery = Company::whereNotNull('subscription_price')
             ->whereBetween(
-                \DB::raw("COALESCE(DATE(subscription_paid_at), DATE(created_at))"),
+                DB::raw("COALESCE(DATE(subscription_paid_at), DATE(created_at))"),
                 [$startDate, $endDate]
             );
 
@@ -142,7 +151,7 @@ class SuperAdminController extends Controller
 
     public function reactivationRequests()
     {
-        // Ambil semua notifikasi dengan template 'reactivation_request'
+        // Ambil semua notifikasi dengan template 'reactivation_request' (termasuk history)
         $requests = \App\Models\Notification::where('template', 'reactivation_request')
             ->with(['sender', 'recipient'])
             ->orderBy('created_at', 'desc')

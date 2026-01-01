@@ -82,6 +82,8 @@ class NotificationController extends Controller
             'reminder' => 'Pengingat: Pastikan semua data inventaris sudah diperbarui.',
             'subscription_expiry' => 'Pemberitahuan: Sisa waktu langganan Anda tersisa 7 hari. Silakan perpanjang langganan untuk menghindari gangguan layanan.',
             'announcement' => 'Pengumuman: [Pesan khusus dari Super Admin].',
+            'low_stock' => 'Peringatan stok menipis untuk produk tertentu.',
+            'user_created' => 'Notifikasi user baru dibuat.',
         ];
     }
 }

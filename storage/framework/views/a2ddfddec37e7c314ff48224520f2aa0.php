@@ -36,7 +36,7 @@
                                 Total: <?php echo e($requests->count()); ?> permintaan
                             </span>
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800">
-                                Belum dibaca: <?php echo e($requests->where('is_read', false)->count()); ?>
+                                Permintaan sudah ditangani: <?php echo e($requests->where('is_read', true)->count()); ?>
 
                             </span>
                         </div>
@@ -90,10 +90,6 @@
                                                             ✓ Aktif
                                                         </span>
                                                     <?php endif; ?>
-                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                                        <?php echo e(ucfirst($request['company']->subscription_status ?? 'N/A')); ?>
-
-                                                    </span>
                                                 </div>
                                             <?php endif; ?>
                                         </div>
@@ -167,9 +163,10 @@
                                     <!-- Actions -->
                                     <?php
                                         $isSuspended = $request['company'] && ($request['company']->suspended || $request['company']->subscription_status === 'suspended');
+                                        $isUnread = !$request['is_read']; // Notifikasi belum dibaca = request belum di-handle
                                     ?>
 
-                                    <?php if($isSuspended): ?>
+                                    <?php if($isSuspended && $isUnread): ?>
                                         <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end gap-3">
                                             <!-- Reject Button with Modal -->
                                             <button onclick="openRejectModal(<?php echo e($request['company']->id); ?>, '<?php echo e($request['company_name']); ?>')"
@@ -193,9 +190,13 @@
                                                 </button>
                                             </form>
                                         </div>
-                                    <?php else: ?>
+                                    <?php elseif(!$isSuspended): ?>
                                         <div class="px-6 py-4 bg-green-50 border-t border-green-200">
                                             <p class="text-sm text-green-800 font-medium">✓ Akun sudah aktif kembali</p>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                                            <p class="text-sm text-gray-600 font-medium">Permintaan sudah ditangani</p>
                                         </div>
                                     <?php endif; ?>
                                 </div>

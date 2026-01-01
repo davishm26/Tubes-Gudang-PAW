@@ -4,17 +4,6 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Dashboard Gudang') }}
             </h2>
-
-            @if(Auth::user() && Auth::user()->role === 'admin')
-                <a href="{{ route('notifications.index') }}" class="relative inline-flex items-center justify-center h-11 w-11 rounded-full border border-indigo-200 bg-white shadow-sm hover:bg-indigo-50 transition" aria-label="Buka notifikasi">
-                    <span class="text-2xl">🔔</span>
-                    @if($unreadNotifications > 0)
-                        <span class="absolute -top-1 -right-1 min-w-[20px] px-1.5 py-0.5 rounded-full text-xs font-semibold bg-red-500 text-white text-center">
-                            {{ $unreadNotifications }}
-                        </span>
-                    @endif
-                </a>
-            @endif
         </div>
     </x-slot>
 

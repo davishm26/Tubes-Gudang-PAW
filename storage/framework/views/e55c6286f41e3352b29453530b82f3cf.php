@@ -593,6 +593,25 @@
 
             
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <?php if(!$isDemo && $currentUser): ?>
+                    <?php
+                        $unreadNotificationCount = \App\Models\Notification::where('recipient_id', $currentUser->id)
+                            ->whereNull('read_at')
+                            ->count();
+                    ?>
+                    <a href="<?php echo e(route('notifications.index')); ?>" class="relative mr-4 text-gray-600 hover:text-gray-800" aria-label="Notifications">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <?php if($unreadNotificationCount > 0): ?>
+                            <span class="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-semibold leading-none text-white bg-red-600 rounded-full">
+                                <?php echo e($unreadNotificationCount); ?>
+
+                            </span>
+                        <?php endif; ?>
+                    </a>
+                <?php endif; ?>
+
                 
                 <?php if($isDemo): ?>
                     <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300 mr-3">
