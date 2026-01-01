@@ -65,8 +65,11 @@
                                             </div>
 
                                             @if($request['company'])
+                                                @php
+                                                    $isSuspended = $request['company']->suspended || $request['company']->subscription_status === 'suspended';
+                                                @endphp
                                                 <div class="flex items-center gap-2">
-                                                    @if($request['company']->suspended)
+                                                    @if($isSuspended)
                                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                                             🔒 Suspended
                                                         </span>
@@ -149,7 +152,11 @@
                                     </div>
 
                                     <!-- Actions -->
-                                    @if($request['company'] && $request['company']->suspended)
+                                    @php
+                                        $isSuspended = $request['company'] && ($request['company']->suspended || $request['company']->subscription_status === 'suspended');
+                                    @endphp
+
+                                    @if($isSuspended)
                                         <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end gap-3">
                                             <!-- Reject Button with Modal -->
                                             <button onclick="openRejectModal({{ $request['company']->id }}, '{{ $request['company_name'] }}')"

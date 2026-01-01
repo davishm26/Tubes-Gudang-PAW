@@ -19,6 +19,8 @@ class Company extends Model
         'subscription_end_date',
         'subscription_price',
         'subscription_paid_at',
+        'suspend_reason',
+        'suspend_reason_type',
     ];
 
     protected $casts = [

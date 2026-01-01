@@ -55,6 +55,15 @@
                                     @else
                                         <span class="text-xs text-gray-500">{{ __('Ditandai dibaca pada') }} {{ $notification->read_at->format('d M Y, H:i') }}</span>
                                     @endif
+
+                                    @if($notification->template === 'subscription_expiry' && Auth::user()?->role === 'admin')
+                                        <a
+                                            href="{{ route('subscription.subscribe') }}"
+                                            class="inline-flex items-center rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        >
+                                            Perpanjang Langganan
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

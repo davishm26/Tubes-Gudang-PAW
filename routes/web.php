@@ -71,6 +71,11 @@ Route::middleware([\App\Http\Middleware\DemoOrAuthMiddleware::class, \App\Http\M
     // Notifications
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
+    // Subscription renewal (tenant/admin)
+    Route::post('/subscription/renew', [SubscriptionController::class, 'renew'])
+        ->middleware(\App\Http\Middleware\AdminMiddleware::class)
+        ->name('subscription.renew');
 });
 
 /*

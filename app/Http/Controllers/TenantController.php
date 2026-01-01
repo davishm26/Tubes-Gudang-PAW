@@ -101,13 +101,21 @@ class TenantController extends Controller
 
     public function suspend(Company $company)
     {
-        $company->update(['suspended' => true]);
+        $company->update([
+            'suspended' => true,
+            'subscription_status' => 'suspended',
+        ]);
         return redirect()->back()->with('success', 'Tenant suspended.');
     }
 
     public function unsuspend(Company $company)
     {
-        $company->update(['suspended' => false]);
+        $company->update([
+            'suspended' => false,
+            'subscription_status' => 'active',
+            'suspend_reason' => null,
+            'suspend_reason_type' => null,
+        ]);
         return redirect()->back()->with('success', 'Tenant unsuspended.');
     }
 

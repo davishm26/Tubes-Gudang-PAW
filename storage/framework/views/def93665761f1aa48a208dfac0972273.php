@@ -70,8 +70,9 @@
                                     <?php
                                         $deadline = $company->subscription_end_date ?? $company->subscription_expires_at;
                                         $isExpired = $deadline ? \Carbon\Carbon::parse($deadline)->isPast() : false;
-                                        $statusLabel = $isExpired ? 'Expired' : ($company->suspended ? 'Suspended' : ($company->subscription_status ?? 'Active'));
-                                        $statusColor = $isExpired ? 'bg-rose-50 text-rose-700 ring-rose-100' : ($company->suspended ? 'bg-amber-50 text-amber-700 ring-amber-100' : 'bg-emerald-50 text-emerald-700 ring-emerald-100');
+                                        $isSuspended = $company->suspended || $company->subscription_status === 'suspended';
+                                        $statusLabel = $isExpired ? 'Expired' : ($isSuspended ? 'Suspended' : ($company->subscription_status ?? 'Active'));
+                                        $statusColor = $isExpired ? 'bg-rose-50 text-rose-700 ring-rose-100' : ($isSuspended ? 'bg-amber-50 text-amber-700 ring-amber-100' : 'bg-emerald-50 text-emerald-700 ring-emerald-100');
                                     ?>
                                     <tr class="hover:bg-slate-50">
                                         <td class="px-6 py-4 font-medium text-slate-900"><?php echo e($company->name); ?></td>

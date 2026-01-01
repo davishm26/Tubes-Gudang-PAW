@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\SvgWriter;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class SubscriptionController extends Controller
 {
@@ -20,30 +22,37 @@ class SubscriptionController extends Controller
     public function subscribe(Request $request)
     {
         if ($request->isMethod('post')) {
+            $isTenantAdmin = Auth::check() && Auth::user()->role === 'admin' && Auth::user()->company;
+
             $request->validate([
                 'years' => 'required|integer|min:1',
-                'company_name' => 'required|string|max:255',
-                'admin_name' => 'required|string|max:255',
-                'admin_email' => 'required|email|unique:users,email',
+                'company_name' => $isTenantAdmin ? 'nullable' : 'required|string|max:255',
+                'admin_name' => $isTenantAdmin ? 'nullable' : 'required|string|max:255',
+                'admin_email' => $isTenantAdmin ? 'nullable|email' : 'required|email|unique:users,email',
             ]);
 
-            $years = $request->years;
-            $price = $years * 1000000; // 1 juta per tahun
+            $years = (int) $request->years;
+            $price = $years * 1_000_000; // 1 juta per tahun
 
             // Generate unique token for payment
             $token = Str::random(32);
 
+            // Siapkan data untuk session (registrasi baru atau perpanjangan)
+            $subscriptionData = [
+                'years' => $years,
+                'price' => $price,
+                'company_name' => $isTenantAdmin ? Auth::user()->company->name : $request->company_name,
+                'admin_name' => $isTenantAdmin ? Auth::user()->name : $request->admin_name,
+                'admin_email' => $isTenantAdmin ? Auth::user()->email : $request->admin_email,
+                'token' => $token,
+            ];
+
+            if ($isTenantAdmin) {
+                $subscriptionData['renew_company_id'] = Auth::user()->company->id;
+            }
+
             // Store in session
-            session([
-                'subscription' => [
-                    'years' => $years,
-                    'price' => $price,
-                    'company_name' => $request->company_name,
-                    'admin_name' => $request->admin_name,
-                    'admin_email' => $request->admin_email,
-                    'token' => $token,
-                ]
-            ]);
+            session(['subscription' => $subscriptionData]);
 
             return redirect()->route('subscription.payment');
         }
@@ -83,8 +92,42 @@ class SubscriptionController extends Controller
 
         try {
             // Simulate payment success
-            // Create company
             $endDate = now()->addYears((int)$subscription['years']);
+
+            // Jika ini perpanjangan tenant admin yang sudah ada
+            if (!empty($subscription['renew_company_id'])) {
+                $company = Company::findOrFail($subscription['renew_company_id']);
+
+                $currentEnd = $company->subscription_end_date
+                    ? Carbon::parse($company->subscription_end_date)
+                    : now();
+
+                if ($currentEnd->lt(now())) {
+                    $currentEnd = now();
+                }
+
+                $newEndDate = $currentEnd->copy()->addYears((int)$subscription['years']);
+
+                $company->update([
+                    'subscription_end_date' => $newEndDate,
+                    'subscription_status' => 'active',
+                    'subscription_price' => $subscription['price'],
+                    'subscription_paid_at' => now(),
+                    'suspended' => false,
+                    'suspend_reason' => null,
+                    'suspend_reason_type' => null,
+                ]);
+
+                $subscriptionData = $subscription;
+                session()->forget('subscription');
+
+                return view('subscription.success', [
+                    'company' => $company,
+                    'subscription' => $subscriptionData
+                ]);
+            }
+
+            // Registrasi baru
             $company = Company::create([
                 'name' => $subscription['company_name'],
                 'subscription_status' => 'active',
@@ -213,5 +256,46 @@ class SubscriptionController extends Controller
         ]);
 
         return redirect()->route('subscription.landing');
+    }
+
+    public function renew(Request $request)
+    {
+        $request->validate([
+            'years' => 'required|integer|min:1|max:10',
+        ]);
+
+        $user = $request->user();
+
+        if (!$user || !$user->company) {
+            return redirect()->back()->with('error', 'Tidak ada perusahaan terkait akun Anda.');
+        }
+
+        $company = $user->company;
+
+        $years = (int) $request->input('years');
+        $pricePerYear = 1_000_000; // Rp 1 juta per tahun
+        $newPrice = $years * $pricePerYear;
+
+        $currentEnd = $company->subscription_end_date
+            ? \Carbon\Carbon::parse($company->subscription_end_date)
+            : now();
+
+        if ($currentEnd->lt(now())) {
+            $currentEnd = now();
+        }
+
+        $newEndDate = $currentEnd->copy()->addYears($years);
+
+        $company->update([
+            'subscription_end_date' => $newEndDate,
+            'subscription_status' => 'active',
+            'subscription_price' => $newPrice,
+            'subscription_paid_at' => now(),
+            'suspended' => false,
+            'suspend_reason' => null,
+            'suspend_reason_type' => null,
+        ]);
+
+        return redirect()->back()->with('success', 'Langganan berhasil diperpanjang hingga ' . $newEndDate->format('d M Y') . '.');
     }
 }

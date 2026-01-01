@@ -10,16 +10,17 @@
     <div class="min-h-screen flex items-center justify-center">
         <div class="max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
             <h1 class="text-2xl font-bold text-center mb-6">Langganan Sistem Gudang</h1>
-            @if(session('error'))
+            <?php if(session('error')): ?>
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                    {{ session('error') }}
+                    <?php echo e(session('error')); ?>
+
                 </div>
-            @endif
-            <form method="POST" action="{{ route('subscription.subscribe') }}">
-                @csrf
+            <?php endif; ?>
+            <form method="POST" action="<?php echo e(route('subscription.subscribe')); ?>">
+                <?php echo csrf_field(); ?>
                 <div class="mb-4">
                     <label for="years" class="block text-sm font-medium text-gray-700">Lama Waktu (Tahun)</label>
-                    <input type="number" name="years" id="years" min="1" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" value="{{ old('years', 1) }}">
+                    <input type="number" name="years" id="years" min="1" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" value="<?php echo e(old('years', 1)); ?>">
                 </div>
                 <div class="mb-4">
                     <label for="company_name" class="block text-sm font-medium text-gray-700">Nama Perusahaan</label>
@@ -28,9 +29,9 @@
                         name="company_name"
                         id="company_name"
                         required
-                        @if(Auth::check() && Auth::user()->company) readonly @endif
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm {{ (Auth::check() && Auth::user()->company) ? 'bg-gray-100 cursor-not-allowed' : '' }}"
-                        value="{{ old('company_name', Auth::check() && Auth::user()->company ? Auth::user()->company->name : '') }}"
+                        <?php if(Auth::check() && Auth::user()->company): ?> readonly <?php endif; ?>
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm <?php echo e((Auth::check() && Auth::user()->company) ? 'bg-gray-100 cursor-not-allowed' : ''); ?>"
+                        value="<?php echo e(old('company_name', Auth::check() && Auth::user()->company ? Auth::user()->company->name : '')); ?>"
                     >
                 </div>
                 <div class="mb-4">
@@ -40,9 +41,9 @@
                         name="admin_name"
                         id="admin_name"
                         required
-                        @if(Auth::check()) readonly @endif
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed' : '' }}"
-                        value="{{ old('admin_name', Auth::check() ? Auth::user()->name : '') }}"
+                        <?php if(Auth::check()): ?> readonly <?php endif; ?>
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm <?php echo e(Auth::check() ? 'bg-gray-100 cursor-not-allowed' : ''); ?>"
+                        value="<?php echo e(old('admin_name', Auth::check() ? Auth::user()->name : '')); ?>"
                     >
                 </div>
                 <div class="mb-4">
@@ -52,9 +53,9 @@
                         name="admin_email"
                         id="admin_email"
                         required
-                        @if(Auth::check()) readonly @endif
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed' : '' }}"
-                        value="{{ old('admin_email', Auth::check() ? Auth::user()->email : '') }}"
+                        <?php if(Auth::check()): ?> readonly <?php endif; ?>
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm <?php echo e(Auth::check() ? 'bg-gray-100 cursor-not-allowed' : ''); ?>"
+                        value="<?php echo e(old('admin_email', Auth::check() ? Auth::user()->email : '')); ?>"
                     >
                 </div>
                 <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Lanjutkan ke Pembayaran</button>
@@ -63,3 +64,4 @@
     </div>
 </body>
 </html>
+<?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/subscription/subscribe.blade.php ENDPATH**/ ?>

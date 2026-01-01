@@ -111,8 +111,13 @@ class SuperAdminController extends Controller
         $startDate = $request->get('start_date');
         $endDate = $request->get('end_date');
 
-        $subscriptionQuery = Company::whereNotNull('subscription_paid_at')
-            ->whereBetween('subscription_paid_at', [$startDate, $endDate]);
+        // Selaraskan logika dengan tampilan dashboard: gunakan COALESCE(subscription_paid_at, created_at)
+        // agar transaksi yang belum memiliki paid_at tetapi memiliki harga tetap terhitung.
+        $subscriptionQuery = Company::whereNotNull('subscription_price')
+            ->whereBetween(
+                \DB::raw("COALESCE(DATE(subscription_paid_at), DATE(created_at))"),
+                [$startDate, $endDate]
+            );
 
         $subscriptionRevenue = $subscriptionQuery->sum('subscription_price');
         $subscriptionTransactions = $subscriptionQuery->count();
