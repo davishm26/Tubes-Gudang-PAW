@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Create Tenant</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Buat Penyewa</h2>
     </x-slot>
 
     <div class="py-12">
@@ -9,15 +9,15 @@
                 <form method="POST" action="{{ route('super_admin.tenants.store') }}">
                     @csrf
                     <div class="mb-4">
-                        <label class="block">Name</label>
+                        <label class="block">Nama</label>
                         <input name="name" class="border p-2 w-full" required />
                     </div>
                     <div class="mb-4">
-                        <label class="block">Subscription Status</label>
+                        <label class="block">Status Langganan</label>
                         <input name="subscription_status" class="border p-2 w-full" />
                     </div>
                     <div class="flex justify-end">
-                        <button class="bg-blue-600 text-white px-3 py-2 rounded">Create</button>
+                        <button class="bg-blue-600 text-white px-3 py-2 rounded">Buat</button>
                     </div>
                 </form>
             </div>

@@ -81,8 +81,8 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex justify-end gap-2 text-sm">
-                                                <a href="{{ route('super_admin.tenants.edit', $company) }}" class="inline-flex items-center rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 font-medium text-indigo-700 hover:bg-indigo-100">Edit</a>
-                                                <a href="{{ route('super_admin.notifications.create', ['company_id' => $company->id]) }}" class="inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50">Notify</a>
+                                                <a href="{{ route('super_admin.tenants.edit', $company) }}" class="inline-flex items-center rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 font-medium text-indigo-700 hover:bg-indigo-100">Ubah</a>
+                                                <a href="{{ route('super_admin.notifications.create', ['company_id' => $company->id]) }}" class="inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50">Notifikasi</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -107,8 +107,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
                                 </svg>
                             </div>
-                            <p class="font-medium text-slate-700">No tenants available</p>
-                            <p class="text-slate-500">Tenants are created via subscriptions. When they appear, you can monitor and manage them here.</p>
+                            <p class="font-medium text-slate-700">Tidak ada penyewa tersedia</p>
+                            <p class="text-slate-500">Penyewa dibuat melalui langganan. Ketika muncul, Anda dapat memantau dan mengelolanya di sini.</p>
                         </div>
                     </div>
                 @endif

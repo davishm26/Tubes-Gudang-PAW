@@ -72,6 +72,17 @@ Route::middleware([\App\Http\Middleware\DemoOrAuthMiddleware::class, \App\Http\M
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 
+    // Audit Logs (Admin & Super Admin can view)
+    Route::get('/audit-logs', [\App\Http\Controllers\AuditLogController::class, 'index'])
+        ->name('audit-logs.index')
+        ->middleware(\App\Http\Middleware\AdminMiddleware::class);
+    Route::get('/audit-logs/{id}', [\App\Http\Controllers\AuditLogController::class, 'show'])
+        ->name('audit-logs.show')
+        ->middleware(\App\Http\Middleware\AdminMiddleware::class);
+    Route::get('/audit-logs-export', [\App\Http\Controllers\AuditLogController::class, 'export'])
+        ->name('audit-logs.export')
+        ->middleware(\App\Http\Middleware\AdminMiddleware::class);
+
     // Subscription renewal (tenant/admin)
     Route::post('/subscription/renew', [SubscriptionController::class, 'renew'])
         ->middleware(\App\Http\Middleware\AdminMiddleware::class)

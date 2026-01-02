@@ -1,12 +1,12 @@
 <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            <?php echo e(__('Delete Account')); ?>
+            <?php echo e(__('Hapus Akun')); ?>
 
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            <?php echo e(__('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.')); ?>
+            <?php echo e(__('Saat akun dihapus, seluruh sumber daya dan data akan terhapus permanen. Sebelum melanjutkan, unduh data yang ingin Anda simpan.')); ?>
 
         </p>
     </header>
@@ -20,7 +20,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['x-data' => '','x-on:click.prevent' => '$dispatch(\'open-modal\', \'confirm-user-deletion\')']); ?><?php echo e(__('Delete Account')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['x-data' => '','x-on:click.prevent' => '$dispatch(\'open-modal\', \'confirm-user-deletion\')']); ?><?php echo e(__('Hapus Akun')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal656e8c5ea4d9a4fa173298297bfe3f11)): ?>
 <?php $attributes = $__attributesOriginal656e8c5ea4d9a4fa173298297bfe3f11; ?>
@@ -46,26 +46,26 @@
             <?php echo method_field('delete'); ?>
 
             <h2 class="text-lg font-medium text-gray-900">
-                <?php echo e(__('Are you sure you want to delete your account?')); ?>
+                <?php echo e(__('Apakah Anda yakin ingin menghapus akun?')); ?>
 
             </h2>
 
             <p class="mt-1 text-sm text-gray-600">
-                <?php echo e(__('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.')); ?>
+                <?php echo e(__('Setelah akun dihapus, semua sumber daya dan data akan terhapus permanen. Masukkan kata sandi untuk mengonfirmasi penghapusan akun.')); ?>
 
             </p>
 
             <div class="mt-6">
                 <?php if (isset($component)) { $__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-label','data' => ['for' => 'password','value' => ''.e(__('Password')).'','class' => 'sr-only']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-label','data' => ['for' => 'password','value' => ''.e(__('Kata Sandi')).'','class' => 'sr-only']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('input-label'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['for' => 'password','value' => ''.e(__('Password')).'','class' => 'sr-only']); ?>
+<?php $component->withAttributes(['for' => 'password','value' => ''.e(__('Kata Sandi')).'','class' => 'sr-only']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581)): ?>
@@ -79,14 +79,14 @@
 
                 <?php if (isset($component)) { $__componentOriginal18c21970322f9e5c938bc954620c12bb = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal18c21970322f9e5c938bc954620c12bb = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['id' => 'password','name' => 'password','type' => 'password','class' => 'mt-1 block w-3/4','placeholder' => ''.e(__('Password')).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['id' => 'password','name' => 'password','type' => 'password','class' => 'mt-1 block w-3/4','placeholder' => ''.e(__('Kata Sandi')).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['id' => 'password','name' => 'password','type' => 'password','class' => 'mt-1 block w-3/4','placeholder' => ''.e(__('Password')).'']); ?>
+<?php $component->withAttributes(['id' => 'password','name' => 'password','type' => 'password','class' => 'mt-1 block w-3/4','placeholder' => ''.e(__('Kata Sandi')).'']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal18c21970322f9e5c938bc954620c12bb)): ?>
@@ -131,7 +131,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['x-on:click' => '$dispatch(\'close\')']); ?>
-                    <?php echo e(__('Cancel')); ?>
+                    <?php echo e(__('Batal')); ?>
 
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -154,7 +154,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['class' => 'ms-3']); ?>
-                    <?php echo e(__('Delete Account')); ?>
+                    <?php echo e(__('Hapus Akun')); ?>
 
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

@@ -1,12 +1,12 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            <?php echo e(__('Profile Information')); ?>
+            <?php echo e(__('Informasi Profil')); ?>
 
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            <?php echo e(__("Update your account's profile information and email address.")); ?>
+            <?php echo e(__('Perbarui informasi profil dan alamat email akun Anda.')); ?>
 
         </p>
     </header>
@@ -22,14 +22,14 @@
         <div>
             <?php if (isset($component)) { $__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-label','data' => ['for' => 'name','value' => __('Name')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-label','data' => ['for' => 'name','value' => __('Nama')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('input-label'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['for' => 'name','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Name'))]); ?>
+<?php $component->withAttributes(['for' => 'name','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Nama'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581)): ?>
@@ -147,18 +147,18 @@
             <?php if($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail()): ?>
                 <div>
                     <p class="text-sm mt-2 text-gray-800">
-                        <?php echo e(__('Your email address is unverified.')); ?>
+                        <?php echo e(__('Alamat email Anda belum terverifikasi.')); ?>
 
 
                         <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <?php echo e(__('Click here to re-send the verification email.')); ?>
+                            <?php echo e(__('Klik di sini untuk mengirim ulang email verifikasi.')); ?>
 
                         </button>
                     </p>
 
                     <?php if(session('status') === 'verification-link-sent'): ?>
                         <p class="mt-2 font-medium text-sm text-green-600">
-                            <?php echo e(__('A new verification link has been sent to your email address.')); ?>
+                            <?php echo e(__('Tautan verifikasi baru telah dikirim ke alamat email Anda.')); ?>
 
                         </p>
                     <?php endif; ?>
@@ -176,7 +176,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes([]); ?><?php echo e(__('Save')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes([]); ?><?php echo e(__('Simpan')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginald411d1792bd6cc877d687758b753742c)): ?>
 <?php $attributes = $__attributesOriginald411d1792bd6cc877d687758b753742c; ?>
@@ -194,7 +194,7 @@
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
                     class="text-sm text-gray-600"
-                ><?php echo e(__('Saved.')); ?></p>
+                ><?php echo e(__('Tersimpan.')); ?></p>
             <?php endif; ?>
         </div>
     </form>

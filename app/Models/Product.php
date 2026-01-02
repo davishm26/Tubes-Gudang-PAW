@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\BelongsToCompany;
+use App\Traits\Auditable;
 
 class Product extends Model
 {
-    use HasFactory, BelongsToCompany;
+    use HasFactory, BelongsToCompany, Auditable;
 
     /**
      * The attributes that are mass assignable.

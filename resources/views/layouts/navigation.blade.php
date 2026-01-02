@@ -27,7 +27,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if($currentUser && $currentUser->role === 'super_admin')
                         <x-nav-link :href="route('super_admin.dashboard')" :active="request()->routeIs('super_admin.dashboard')">
-                            {{ __('Dasbor') }}
+                            {{ __('Beranda') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('super_admin.tenants.index')" :active="request()->routeIs('super_admin.tenants.*')">
@@ -57,10 +57,12 @@
                         <x-nav-link :href="route('super_admin.notifications.create')" :active="request()->routeIs('super_admin.notifications.create')">
                             {{ __('Kirim Notifikasi') }}
                         </x-nav-link>
-
+                        <x-nav-link :href="route('audit-logs.index')" :active="request()->routeIs('audit-logs.*')">
+                            {{ __('Riwayat Audit') }}
+                        </x-nav-link>
                     @elseif($currentUser && $currentUser->role === 'admin')
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dasbor') }}
+                            {{ __('Beranda') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
@@ -81,7 +83,12 @@
                                 {{ __('Manajemen Pengguna') }}
                             </x-nav-link>
                         @endif
-
+                        {{-- Riwayat Audit (Admin Only) --}}
+                        @if(!$isDemo)
+                            <x-nav-link :href="route('audit-logs.index')" :active="request()->routeIs('audit-logs.*')">
+                                {{ __('Riwayat Audit') }}
+                            </x-nav-link>
+                        @endif
                         {{-- DROPDOWN HISTORY (Admin: full access) --}}
                         <div class="hidden sm:flex sm:items-center">
                             <x-dropdown align="right" width="56">
@@ -107,7 +114,7 @@
                     @elseif($currentUser && ($currentUser->role === 'staff' || $currentUser->role === 'staf'))
                         {{-- Staff: ordered navigation --}}
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dasbor') }}
+                            {{ __('Beranda') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
@@ -156,7 +163,7 @@
                     @else
                         {{-- Fallback: show minimal links --}}
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dasbor') }}
+                            {{ __('Beranda') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -245,7 +252,7 @@
         <div class="pt-2 pb-3 space-y-1">
             @if($currentUser && $currentUser->role === 'super_admin')
                 <x-responsive-nav-link :href="route('super_admin.dashboard')" :active="request()->routeIs('super_admin.dashboard')">
-                    {{ __('Dasbor') }}
+                    {{ __('Beranda') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('super_admin.tenants.index')" :active="request()->routeIs('super_admin.tenants.*')">
@@ -278,7 +285,7 @@
 
             @elseif($currentUser && $currentUser->role === 'admin')
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Dasbor') }}
+                    {{ __('Beranda') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
@@ -314,7 +321,7 @@
             @elseif($currentUser && ($currentUser->role === 'staff' || $currentUser->role === 'staf'))
                 {{-- Staff: ordered navigation for mobile --}}
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Dasbor') }}
+                    {{ __('Beranda') }}
                 </x-responsive-nav-link>
 
                 <div class="border-t border-gray-200 mt-2 pt-2">
@@ -351,7 +358,7 @@
                 </div>
             @else
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Dasbor') }}
+                    {{ __('Beranda') }}
                 </x-responsive-nav-link>
             @endif
         </div>

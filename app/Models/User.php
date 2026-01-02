@@ -13,7 +13,12 @@ use App\Models\Company;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, \App\Traits\Auditable;
+
+    /**
+     * Exclude password from audit logs
+     */
+    protected static $auditExcluded = ['password', 'remember_token', 'updated_at', 'email_verified_at'];
 
     /**
      * The attributes that are mass assignable.

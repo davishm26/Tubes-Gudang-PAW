@@ -28,9 +28,9 @@ class AdminMiddleware
             return redirect('/login');
         }
 
-        // 3. Cek apakah role user adalah 'admin'
-        if (Auth::user()->role != 'admin') {
-            // Jika user login tapi rolenya BUKAN admin, alihkan ke dashboard
+        // 3. Cek apakah role user adalah 'admin' atau 'super_admin'
+        if (!in_array(Auth::user()->role, ['admin', 'super_admin'])) {
+            // Jika user login tapi rolenya BUKAN admin/super_admin, alihkan ke dashboard
             return redirect('/dashboard')->with('error', 'Akses ditolak. Hanya Admin yang dapat mengakses halaman ini.');
         }
 
