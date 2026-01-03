@@ -6,17 +6,50 @@ use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class NotificationController extends Controller
 {
     public function index()
     {
-        // Untuk admin melihat notifikasi
+        $isDemo = Session::has('demo_mode') && Session::get('demo_mode');
+
+        // Notifikasi hanya untuk admin atau super admin
+        $role = Auth::user()?->role;
+        if (!$isDemo && !in_array($role, ['admin', 'super_admin'])) {
+            abort(403, 'Unauthorized');
+        }
+
+        if ($isDemo) {
+            return $this->indexDemo();
+        }
+
+        // Real mode: Untuk admin melihat notifikasi
         $notifications = Notification::where('recipient_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
 
         return view('notifications.index', compact('notifications'));
+    }
+
+    /**
+     * Demo mode: Display notifications dari session
+     */
+    private function indexDemo()
+    {
+        $demoNotifications = Session::get('demo_notifications', []);
+
+        // Filter untuk user yang login (berdasarkan demo role)
+        $demoRole = Session::get('demo_role');
+        $userId = $demoRole === 'admin' ? 1 : 2;
+
+        // Filter notifications untuk user yang login
+        $notifications = collect($demoNotifications)
+            ->where('user_id', $userId)
+            ->sortByDesc('created_at')
+            ->values();
+
+        return view('notifications.index', compact('notifications'))->with('isDemo', true);
     }
 
     public function create(Request $request)

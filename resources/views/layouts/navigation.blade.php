@@ -84,7 +84,7 @@
                             </x-nav-link>
                         @endif
                         {{-- Riwayat Audit (Admin Only) --}}
-                        @if(!$isDemo)
+                        @if(!$isDemo || ($isDemo && $demoRole === 'admin'))
                             <x-nav-link :href="route('audit-logs.index')" :active="request()->routeIs('audit-logs.*')">
                                 {{ __('Riwayat Audit') }}
                             </x-nav-link>
@@ -171,11 +171,23 @@
 
             {{-- USER SETTINGS DROPDOWN (Right Top) --}}
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                @if(!$isDemo && $currentUser)
+                @php
+                    $showNotifications = false;
+                    if($currentUser && in_array($currentUser->role, ['admin', 'super_admin'])) {
+                        $showNotifications = true;
+                    } elseif($isDemo && $demoMode && in_array($demoRole ?? null, ['admin', 'super_admin'])) {
+                        $showNotifications = true;
+                    }
+                @endphp
+
+                @if($showNotifications)
                     @php
-                        $unreadNotificationCount = \App\Models\Notification::where('recipient_id', $currentUser->id)
-                            ->whereNull('read_at')
-                            ->count();
+                        $unreadNotificationCount = 0;
+                        if($currentUser) {
+                            $unreadNotificationCount = \App\Models\Notification::where('recipient_id', $currentUser->id)
+                                ->whereNull('read_at')
+                                ->count();
+                        }
                     @endphp
                     <a href="{{ route('notifications.index') }}" class="relative mr-4 text-gray-600 hover:text-gray-800" aria-label="Notifikasi">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -211,8 +223,13 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('profile.edit')">
+                            {{ __('Profil') }}
+                        </x-dropdown-link>
+
                         @if($isDemo)
-                            <div class="px-4 py-2 text-xs text-gray-500 border-b">
+                            <div class="border-t my-2"></div>
+                            <div class="px-4 py-2 text-xs text-gray-500">
                                 <strong>Anda sedang dalam Mode Demo</strong><br>
                                 Semua perubahan tidak akan disimpan
                             </div>
@@ -220,10 +237,6 @@
                                 {{ __('🚪 Keluar Mode Demo') }}
                             </x-dropdown-link>
                         @else
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profil') }}
-                            </x-dropdown-link>
-
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">

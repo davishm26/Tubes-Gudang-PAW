@@ -81,61 +81,90 @@ User dapat mencoba:
     └── web.php                          # Demo routes
 ```
 
-## 🔧 Implementasi Teknis
+## 🔧 Implementasi Teknis (Updated v2.0)
 
-### 1. Session Management
+### 1. Session Management - Seeding dari Config
 ```php
-// Start demo
+// Load semua data dari config/demo_data.php
+$demoData = config('demo_data');
+
+// Start demo dengan data lengkap
 session([
-    'demo_mode' => 'true',
+    'is_demo' => true,
+    'demo_mode' => true,
     'demo_role' => 'admin' // or 'staff'
+    'demo_user' => [...],
+    'demo_categories' => [...],  // 7 kategori
+    'demo_suppliers' => [...],   // 6 supplier
+    'demo_products' => [...],    // 17 produk
+    'demo_inventory_in' => [...],   // 17 data
+    'demo_inventory_out' => [...],  // 10 data
+    'demo_users' => [...],
+    'demo_statistics' => [...]
 ]);
 
 // Exit demo
-session()->forget(['demo_mode', 'demo_role']);
+session()->forget([
+    'is_demo', 'demo_mode', 'demo_role', 'demo_user',
+    'demo_categories', 'demo_suppliers', 'demo_products',
+    'demo_inventory_in', 'demo_inventory_out', 
+    'demo_users', 'demo_statistics'
+]);
 ```
 
-### 2. LocalStorage Structure
-```javascript
-localStorage.setItem('demo_products', JSON.stringify([...]));
-localStorage.setItem('demo_categories', JSON.stringify([...]));
-localStorage.setItem('demo_suppliers', JSON.stringify([...]));
-localStorage.setItem('demo_inventory_in', JSON.stringify([...]));
-localStorage.setItem('demo_inventory_out', JSON.stringify([...]));
-localStorage.setItem('demo_users', JSON.stringify([...]));
-
-// Counters untuk ID generation
-localStorage.setItem('demo_products_counter', '6');
-localStorage.setItem('demo_categories_counter', '4');
-// etc...
-```
-
-### 3. Middleware Chain
+### 2. Data Structure dari config/demo_data.php
 ```php
-Route::middleware(['demo', 'demo_or_auth', 'verified'])->group(function () {
-    // Protected routes yang bisa diakses via demo atau auth
+// Updated dengan data lengkap
+[
+    'categories' => [ /* 7 kategori */ ],
+    'suppliers' => [ /* 6 supplier dengan address */ ],
+    'products' => [ /* 17 produk detail lengkap */ ],
+    'inventory_ins' => [ /* 17 stok masuk history */ ],
+    'inventory_outs' => [ /* 10 stok keluar history */ ],
+    'users' => [ /* admin dan staff user */ ],
+    'statistics' => [ /* statistik demo */ ],
+    'demo_user' => [
+        'admin' => [ /* admin user */ ],
+        'staff' => [ /* staff user */ ]
+    ]
+]
+```
+
+### 3. Dual Session Key Support (Backward Compatible)
+```
+✅ session('is_demo')        // Lama - masih support
+✅ session('demo_mode')      // Baru - lebih jelas
+✅ session('demo_role')      // Role user (admin/staff)
+✅ session('demo_user')      // User data
+✅ session('demo_products')  // 17 produk lengkap
+✅ session('demo_statistics') // Stats demo
+// ... dll
+```
+
+### 4. Middleware Chain
+```php
+Route::middleware([\App\Http\Middleware\DemoOrAuthMiddleware::class, \App\Http\Middleware\DemoModeMiddleware::class])->group(function () {
+    // Routes yang bisa diakses via demo atau auth
+    // DemoOrAuthMiddleware: Allow if authenticated OR demo_mode
+    // DemoModeMiddleware: Inject demo user jika session aktif
 });
 ```
 
-### 4. Form Interception
-```javascript
-// demo-mode.js
-document.addEventListener('submit', function(e) {
-    // Intercept form submission
-    // Extract data
-    // Save to localStorage
-    // Show success message
-    // Redirect
-});
-```
+### 5. Routes Demo Mode
+```php
+// Masuk demo (GET)
+Route::get('/demo/{role}', [DemoController::class, 'enter'])->name('demo.enter');
+// Contoh: /demo/admin atau /demo/staff
 
-### 5. Data Display
-```javascript
-// demo-display.js
-function renderProductsTable() {
-    const products = getDemoData('products');
-    // Render ke DOM
-}
+// Keluar demo (GET)
+Route::get('/demo-exit', [DemoController::class, 'exit'])->name('demo.exit');
+
+// Info debug (GET)
+Route::get('/demo-info', [DemoController::class, 'info'])->name('demo.info');
+
+// Legacy routes untuk backward compatibility
+Route::post('/demo/start', [SubscriptionController::class, 'startDemo'])->name('demo.start');
+Route::post('/demo/exit', [SubscriptionController::class, 'exitDemo'])->name('demo.exit.old');
 ```
 
 ## 🎨 UI Elements

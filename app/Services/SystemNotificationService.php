@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class SystemNotificationService
 {
@@ -109,7 +110,6 @@ class SystemNotificationService
             "Perusahaan ID: {$user->company_id}";
 
         $this->notifyCompanyAdmins($user->company_id, $message, 'user_created');
-        $this->notifySuperAdmins($message, 'user_created');
     }
 
     /**
@@ -155,6 +155,14 @@ class SystemNotificationService
             if ($exists) {
                 return;
             }
+        }
+
+        // Pastikan sender selalu terisi agar tidak melanggar constraint DB
+        $senderId = $senderId ?? Auth::id() ?? $recipientId;
+
+        // Isi company_id bila kosong menggunakan company penerima (opsional)
+        if (!$companyId) {
+            $companyId = User::find($recipientId)?->company_id;
         }
 
         Notification::create([

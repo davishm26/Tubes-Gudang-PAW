@@ -8,12 +8,31 @@
 <?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+    <?php
+        $isDemo = session('is_demo', false) || session('demo_mode', false);
+    ?>
+
      <?php $__env->slot('header', null, []); ?> 
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight"><?php echo e(__('Manajemen User')); ?></h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight"><?php echo e(__('Manajemen User')); ?></h2>
+            <?php if($isDemo): ?>
+                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                    Demo Mode - Read Only
+                </span>
+            <?php endif; ?>
+        </div>
      <?php $__env->endSlot(); ?>
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <?php if($isDemo): ?>
+                <div class="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p class="text-sm text-yellow-800">
+                        <strong>🎭 Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
+                    </p>
+                </div>
+            <?php endif; ?>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <?php if(session('success')): ?>
                     <div class="mb-4 p-3 rounded bg-green-50 text-green-800 border border-green-200">
@@ -36,9 +55,11 @@
 
                 <div class="mb-4 flex justify-between items-center">
                     <h3 class="text-lg font-medium">Daftar Pengguna</h3>
+                    <?php if(!$isDemo): ?>
                     <a href="<?php echo e(route('users.create')); ?>" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded text-sm">
                         + Tambah Pengguna
                     </a>
+                    <?php endif; ?>
                 </div>
 
                 
@@ -64,10 +85,11 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
-                                    <td class="py-2 px-4"><?php echo e($user->name); ?></td>
-                                    <td class="py-2 px-4"><?php echo e($user->email); ?></td>
+                                    <td class="py-2 px-4"><?php echo e($user->name ?? '-'); ?></td>
+                                    <td class="py-2 px-4"><?php echo e($user->email ?? '-'); ?></td>
                                     <td class="py-2 px-4"><?php echo e($user->role === 'staf' ? 'Staf' : ($user->role ?? '-')); ?></td>
                                     <td class="py-2 px-4 text-right">
+                                        <?php if(!$isDemo): ?>
                                         <a href="<?php echo e(route('users.edit', $user->id)); ?>" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
 
                                         <form action="<?php echo e(route('users.destroy', $user->id)); ?>" method="POST" class="inline-block" onsubmit="return confirm('Hapus pengguna ini?');">
@@ -75,6 +97,9 @@
                                             <?php echo method_field('DELETE'); ?>
                                             <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
                                         </form>
+                                        <?php else: ?>
+                                        <span class="text-gray-400 text-sm">Read Only</span>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

@@ -24,7 +24,7 @@
                     <input type="date" name="end_date" id="end_date" value="<?php echo e($endDate); ?>" form="filterForm" class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" />
                 </div>
                 <form method="GET" action="<?php echo e(route('super_admin.financial-report')); ?>" id="filterForm" class="inline-flex">
-                    <button type="submit" class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">Apply</button>
+                    <button type="submit" class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">Terapkan</button>
                 </form>
                 <form method="POST" action="<?php echo e(route('super_admin.financial-report.download')); ?>" class="inline-flex">
                     <?php echo csrf_field(); ?>

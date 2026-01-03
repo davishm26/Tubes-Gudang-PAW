@@ -44,8 +44,14 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        // Only admin can create categories
-        if (Auth::user()->role === 'staf') {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('categories.index')->with('info', 'Demo mode: Tidak dapat menambah kategori dalam mode demo.');
+        }
+
+        // Only admin can edit categories
+        if (Auth::user() && Auth::user()->role === 'staf') {
             abort(403, 'Unauthorized action.');
         }
 
@@ -60,8 +66,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('categories.index')->with('info', 'Demo mode: Tidak dapat menyimpan kategori dalam mode demo.');
+        }
+
         // Only admin can create categories
-        if (Auth::user()->role === 'staf') {
+        if (Auth::user() && Auth::user()->role === 'staf') {
             abort(403, 'Unauthorized action.');
         }
 
@@ -105,12 +117,12 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
         // Only admin can edit categories
-        if (Auth::user()->role === 'staf') {
+        if (!$isDemoMode && Auth::user() && Auth::user()->role === 'staf') {
             abort(403, 'Unauthorized action.');
         }
-
-        $isDemoMode = session('is_demo') || session('demo_mode');
 
         if ($isDemoMode) {
             $category = collect(config('demo_data.categories'))->firstWhere('id', (int)$id);
@@ -130,8 +142,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('categories.index')->with('info', 'Demo mode: Tidak dapat mengubah kategori dalam mode demo.');
+        }
+
         // Only admin can update categories
-        if (Auth::user()->role === 'staf') {
+        if (Auth::user() && Auth::user()->role === 'staf') {
             abort(403, 'Unauthorized action.');
         }
 
@@ -166,8 +184,14 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $isDemoMode = session('is_demo') || session('demo_mode');
+
+        if ($isDemoMode) {
+            return redirect()->route('categories.index')->with('info', 'Demo mode: Tidak dapat menghapus kategori dalam mode demo.');
+        }
+
         // Only admin can delete categories
-        if (Auth::user()->role === 'staf') {
+        if (Auth::user() && Auth::user()->role === 'staf') {
             abort(403, 'Unauthorized action.');
         }
 

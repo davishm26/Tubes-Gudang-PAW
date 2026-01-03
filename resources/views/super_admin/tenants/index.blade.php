@@ -36,10 +36,10 @@
                         </div>
                         <div class="flex gap-3">
                             <button type="submit" class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
-                                Apply
+                                Terapkan
                             </button>
                             <a href="{{ route('super_admin.tenants.index') }}" class="inline-flex items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                                Reset
+                                Atur Ulang
                             </a>
                         </div>
                     </form>

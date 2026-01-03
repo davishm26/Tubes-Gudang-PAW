@@ -1,6 +1,9 @@
 <x-app-layout>
     @php
-        // Helper function untuk ambil nama entity
+        // Check demo mode
+        $isDemo = session('is_demo', false) || session('demo_mode', false);
+
+        // Helper function untuk ambil nama entity (hanya untuk real mode)
         function getEntityName($log) {
             $entityType = class_basename($log->entity_type);
             $entityId = $log->entity_id;
@@ -32,16 +35,33 @@
         }
     @endphp
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Riwayat Audit') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Riwayat Audit') }}
+            </h2>
+            @if($isDemo)
+                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                    Demo Mode - Data Dummy
+                </span>
+            @endif
+        </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{-- Filter Section --}}
+                    {{-- Show demo notice --}}
+                    @if($isDemo)
+                        <div class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <p class="text-sm text-blue-800">
+                                <strong>Demo Mode:</strong> Anda sedang melihat audit logs demo dengan 8 data contoh. Klik pada setiap baris untuk melihat detail lengkap.
+                            </p>
+                        </div>
+                    @endif
+
+                    {{-- Filter Section (Hidden in Demo) --}}
+                    @if(!$isDemo)
                     <form method="GET" action="{{ route('audit-logs.index') }}" class="mb-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             {{-- Entity Type Filter --}}
@@ -84,7 +104,7 @@
                             </div>
 
                             {{-- Company Filter (Super Admin Only) --}}
-                            @if(Auth::user()->role === 'super_admin' && count($companies) > 0)
+                            @if(!$isDemo && Auth::user() && Auth::user()->role === 'super_admin' && count($companies) > 0)
                                 <div>
                                     <label for="company_id" class="block text-sm font-medium text-gray-700 mb-1">Perusahaan</label>
                                     <select name="company_id" id="company_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -102,13 +122,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             {{-- Date From --}}
                             <div>
-                                <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Dari</label>
+                                <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>
                                 <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             </div>
 
                             {{-- Date To --}}
                             <div>
-                                <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Sampai</label>
+                                <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Akhir</label>
                                 <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             </div>
 
@@ -121,16 +141,14 @@
 
                         <div class="flex gap-2">
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Saring
+                                Terapkan
                             </button>
                             <a href="{{ route('audit-logs.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                                 Atur Ulang
                             </a>
-                            <a href="{{ route('audit-logs.export', request()->query()) }}" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Ekspor CSV
-                            </a>
                         </div>
                     </form>
+                    @endif
 
                     {{-- Tabel Riwayat Audit --}}
                     <div class="overflow-x-auto">
@@ -139,7 +157,7 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pengguna</th>
-                                    @if(Auth::user()->role === 'super_admin')
+                                    @if(!$isDemo && Auth::user() && Auth::user()->role === 'super_admin')
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perusahaan</th>
                                     @endif
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entitas</th>
@@ -153,50 +171,85 @@
                                 @forelse($logs as $log)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            <div class="font-medium">{{ $log->created_at->format('Y-m-d H:i:s') }}</div>
-                                            <div class="text-xs text-gray-500">{{ $log->created_at->diffForHumans() }}</div>
+                                            @if($isDemo)
+                                                <div class="font-medium">{{ $log['created_at'] ?? $log['timestamp'] }}</div>
+                                                <div class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($log['created_at'] ?? $log['timestamp'])->diffForHumans() }}</div>
+                                            @else
+                                                <div class="font-medium">{{ $log->created_at->format('Y-m-d H:i:s') }}</div>
+                                                <div class="text-xs text-gray-500">{{ $log->created_at->diffForHumans() }}</div>
+                                            @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $log->user?->name ?? '-' }}
+                                            @if($isDemo)
+                                                {{ $log['user_name'] ?? '-' }}
+                                            @else
+                                                {{ $log->user?->name ?? '-' }}
+                                            @endif
                                         </td>
-                                        @if(Auth::user()->role === 'super_admin')
+                                        @if(!$isDemo && Auth::user() && Auth::user()->role === 'super_admin')
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ $log->company?->name ?? '-' }}
                                             </td>
                                         @endif
                                         <td class="px-6 py-4 text-sm text-gray-900">
-                                            <div class="font-medium">{{ class_basename($log->entity_type) }}</div>
-                                            <div class="text-xs text-gray-500">{{ $log->entity_name ?? '[Unknown]' }} <span class="text-gray-400">#{{ $log->entity_id }}</span></div>
+                                            @if($isDemo)
+                                                <div class="font-medium">{{ $log['entity'] ?? '[Unknown]' }}</div>
+                                                <div class="text-xs text-gray-500">{{ $log['entity_name'] ?? '[Unknown]' }} <span class="text-gray-400">#{{ $log['entity_id'] ?? '-' }}</span></div>
+                                            @else
+                                                <div class="font-medium">{{ class_basename($log->entity_type) }}</div>
+                                                <div class="text-xs text-gray-500">{{ $log->entity_name ?? '[Unknown]' }} <span class="text-gray-400">#{{ $log->entity_id }}</span></div>
+                                            @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                                {{ $log->action === 'created' ? 'bg-green-100 text-green-800' : '' }}
-                                                {{ $log->action === 'updated' ? 'bg-blue-100 text-blue-800' : '' }}
-                                                {{ $log->action === 'deleted' ? 'bg-red-100 text-red-800' : '' }}">
-                                                {{ ucfirst($log->action) }}
+                                                {{ ($log['action'] ?? $log->action ?? null) === 'created' ? 'bg-green-100 text-green-800' : '' }}
+                                                {{ ($log['action'] ?? $log->action ?? null) === 'updated' ? 'bg-blue-100 text-blue-800' : '' }}
+                                                {{ ($log['action'] ?? $log->action ?? null) === 'deleted' ? 'bg-red-100 text-red-800' : '' }}
+                                                {{ ($log['action'] ?? $log->action ?? null) === 'viewed' ? 'bg-gray-100 text-gray-800' : '' }}">
+                                                {{ ucfirst($log['action'] ?? $log->action ?? 'Unknown') }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 text-sm text-gray-500">
-                                            @if($log->changes)
-                                                <button onclick="showChanges({{ json_encode($log->changes) }})" class="text-indigo-600 hover:text-indigo-900">
-                                                    Lihat Perubahan
-                                                </button>
+                                            @if($isDemo)
+                                                @if($log['old_values'] || $log['new_values'])
+                                                    <button onclick="showChanges({{ json_encode(['old' => $log['old_values'], 'new' => $log['new_values']]) }})" class="text-indigo-600 hover:text-indigo-900">
+                                                        Lihat Perubahan
+                                                    </button>
+                                                @else
+                                                    -
+                                                @endif
                                             @else
-                                                -
+                                                @if($log->changes)
+                                                    <button onclick="showChanges({{ json_encode($log->changes) }})" class="text-indigo-600 hover:text-indigo-900">
+                                                        Lihat Perubahan
+                                                    </button>
+                                                @else
+                                                    -
+                                                @endif
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $log->ip_address ?? '-' }}
+                                            @if($isDemo)
+                                                -
+                                            @else
+                                                {{ $log->ip_address ?? '-' }}
+                                            @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('audit-logs.show', $log->id) }}" class="text-indigo-600 hover:text-indigo-900">
-                                                Detail
-                                            </a>
+                                            @if($isDemo)
+                                                <a href="{{ route('audit-logs.show', $log['id']) }}" class="text-indigo-600 hover:text-indigo-900">
+                                                    Detail
+                                                </a>
+                                            @else
+                                                <a href="{{ route('audit-logs.show', $log->id) }}" class="text-indigo-600 hover:text-indigo-900">
+                                                    Detail
+                                                </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="{{ Auth::user()->role === 'super_admin' ? '8' : '7' }}" class="px-6 py-4 text-center text-sm text-gray-500">
+                                        <td colspan="{{ $isDemo || !Auth::user() || Auth::user()->role !== 'super_admin' ? '7' : '8' }}" class="px-6 py-4 text-center text-sm text-gray-500">
                                             Tidak ada riwayat audit.
                                         </td>
                                     </tr>
@@ -206,9 +259,11 @@
                     </div>
 
                     {{-- Pagination --}}
+                    @if(!$isDemo)
                     <div class="mt-4">
                         {{ $logs->links() }}
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -1,4 +1,8 @@
 <section>
+    <?php
+        $isDemo = session('is_demo', false) || session('demo_mode', false);
+    ?>
+
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             <?php echo e(__('Informasi Profil')); ?>
@@ -15,7 +19,11 @@
         <?php echo csrf_field(); ?>
     </form>
 
+    <?php if($isDemo): ?>
+    <form method="post" action="<?php echo e(route('profile.update')); ?>" class="mt-6 space-y-6" onsubmit="event.preventDefault(); alert('Perubahan tidak dapat disimpan dalam mode demo.'); return false;">
+    <?php else: ?>
     <form method="post" action="<?php echo e(route('profile.update')); ?>" class="mt-6 space-y-6">
+    <?php endif; ?>
         <?php echo csrf_field(); ?>
         <?php echo method_field('patch'); ?>
 
@@ -40,6 +48,28 @@
 <?php $component = $__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581; ?>
 <?php unset($__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581); ?>
 <?php endif; ?>
+            <?php if($isDemo): ?>
+            <?php if (isset($component)) { $__componentOriginal18c21970322f9e5c938bc954620c12bb = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal18c21970322f9e5c938bc954620c12bb = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['id' => 'name','name' => 'name','type' => 'text','class' => 'mt-1 block w-full opacity-60','value' => old('name', $user->name),'required' => true,'autofocus' => true,'autocomplete' => 'name','disabled' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('text-input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['id' => 'name','name' => 'name','type' => 'text','class' => 'mt-1 block w-full opacity-60','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('name', $user->name)),'required' => true,'autofocus' => true,'autocomplete' => 'name','disabled' => true]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal18c21970322f9e5c938bc954620c12bb)): ?>
+<?php $attributes = $__attributesOriginal18c21970322f9e5c938bc954620c12bb; ?>
+<?php unset($__attributesOriginal18c21970322f9e5c938bc954620c12bb); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal18c21970322f9e5c938bc954620c12bb)): ?>
+<?php $component = $__componentOriginal18c21970322f9e5c938bc954620c12bb; ?>
+<?php unset($__componentOriginal18c21970322f9e5c938bc954620c12bb); ?>
+<?php endif; ?>
+            <?php else: ?>
             <?php if (isset($component)) { $__componentOriginal18c21970322f9e5c938bc954620c12bb = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal18c21970322f9e5c938bc954620c12bb = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['id' => 'name','name' => 'name','type' => 'text','class' => 'mt-1 block w-full','value' => old('name', $user->name),'required' => true,'autofocus' => true,'autocomplete' => 'name']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -60,6 +90,7 @@
 <?php $component = $__componentOriginal18c21970322f9e5c938bc954620c12bb; ?>
 <?php unset($__componentOriginal18c21970322f9e5c938bc954620c12bb); ?>
 <?php endif; ?>
+            <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginalf94ed9c5393ef72725d159fe01139746 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalf94ed9c5393ef72725d159fe01139746 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['class' => 'mt-2','messages' => $errors->get('name')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -103,6 +134,28 @@
 <?php $component = $__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581; ?>
 <?php unset($__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581); ?>
 <?php endif; ?>
+            <?php if($isDemo): ?>
+            <?php if (isset($component)) { $__componentOriginal18c21970322f9e5c938bc954620c12bb = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal18c21970322f9e5c938bc954620c12bb = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['id' => 'email','name' => 'email','type' => 'email','class' => 'mt-1 block w-full opacity-60','value' => old('email', $user->email),'required' => true,'autocomplete' => 'username','disabled' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('text-input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['id' => 'email','name' => 'email','type' => 'email','class' => 'mt-1 block w-full opacity-60','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('email', $user->email)),'required' => true,'autocomplete' => 'username','disabled' => true]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal18c21970322f9e5c938bc954620c12bb)): ?>
+<?php $attributes = $__attributesOriginal18c21970322f9e5c938bc954620c12bb; ?>
+<?php unset($__attributesOriginal18c21970322f9e5c938bc954620c12bb); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal18c21970322f9e5c938bc954620c12bb)): ?>
+<?php $component = $__componentOriginal18c21970322f9e5c938bc954620c12bb; ?>
+<?php unset($__componentOriginal18c21970322f9e5c938bc954620c12bb); ?>
+<?php endif; ?>
+            <?php else: ?>
             <?php if (isset($component)) { $__componentOriginal18c21970322f9e5c938bc954620c12bb = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal18c21970322f9e5c938bc954620c12bb = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['id' => 'email','name' => 'email','type' => 'email','class' => 'mt-1 block w-full','value' => old('email', $user->email),'required' => true,'autocomplete' => 'username']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -123,6 +176,7 @@
 <?php $component = $__componentOriginal18c21970322f9e5c938bc954620c12bb; ?>
 <?php unset($__componentOriginal18c21970322f9e5c938bc954620c12bb); ?>
 <?php endif; ?>
+            <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginalf94ed9c5393ef72725d159fe01139746 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalf94ed9c5393ef72725d159fe01139746 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['class' => 'mt-2','messages' => $errors->get('email')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -144,7 +198,7 @@
 <?php unset($__componentOriginalf94ed9c5393ef72725d159fe01139746); ?>
 <?php endif; ?>
 
-            <?php if($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail()): ?>
+            <?php if(!$isDemo && $user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail()): ?>
                 <div>
                     <p class="text-sm mt-2 text-gray-800">
                         <?php echo e(__('Alamat email Anda belum terverifikasi.')); ?>
@@ -167,6 +221,27 @@
         </div>
 
         <div class="flex items-center gap-4">
+            <?php if($isDemo): ?>
+            <?php if (isset($component)) { $__componentOriginald411d1792bd6cc877d687758b753742c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald411d1792bd6cc877d687758b753742c = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.primary-button','data' => ['disabled' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('primary-button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['disabled' => true]); ?><?php echo e(__('Simpan')); ?> <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald411d1792bd6cc877d687758b753742c)): ?>
+<?php $attributes = $__attributesOriginald411d1792bd6cc877d687758b753742c; ?>
+<?php unset($__attributesOriginald411d1792bd6cc877d687758b753742c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald411d1792bd6cc877d687758b753742c)): ?>
+<?php $component = $__componentOriginald411d1792bd6cc877d687758b753742c; ?>
+<?php unset($__componentOriginald411d1792bd6cc877d687758b753742c); ?>
+<?php endif; ?>
+            <?php else: ?>
             <?php if (isset($component)) { $__componentOriginald411d1792bd6cc877d687758b753742c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginald411d1792bd6cc877d687758b753742c = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.primary-button','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -186,6 +261,7 @@
 <?php $component = $__componentOriginald411d1792bd6cc877d687758b753742c; ?>
 <?php unset($__componentOriginald411d1792bd6cc877d687758b753742c); ?>
 <?php endif; ?>
+            <?php endif; ?>
 
             <?php if(session('status') === 'profile-updated'): ?>
                 <p

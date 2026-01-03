@@ -180,12 +180,10 @@
             <?php endif; ?>
 
             <div class="flex items-center space-x-4">
-                <?php if(Route::has('register')): ?>
-                    <a href="<?php echo e(route('register')); ?>" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <?php echo e(__('Belum punya akun? Daftar')); ?>
+                <a href="<?php echo e(route('subscription.subscribe')); ?>" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <?php echo e(__('Belum punya akun? Daftar')); ?>
 
-                    </a>
-                <?php endif; ?>
+                </a>
 
                 <?php if (isset($component)) { $__componentOriginald411d1792bd6cc877d687758b753742c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginald411d1792bd6cc877d687758b753742c = $attributes; } ?>

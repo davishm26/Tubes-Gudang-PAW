@@ -171,91 +171,52 @@ class SubscriptionController extends Controller
             $role = 'staff';
         }
 
-        // Seed demo data ke session (EXACTLY 2 items per feature)
-        $demoProducts = [
-            (object)['id' => 1, 'name' => 'Laptop Demo', 'sku' => 'DEM-001', 'stock' => 15, 'price' => 8500000, 'category' => (object)['name' => 'Elektronik'], 'supplier' => (object)['name' => 'Demo Supplier'], 'image' => 'products-demo/laptop-demo.svg'],
-            (object)['id' => 2, 'name' => 'Mouse Demo', 'sku' => 'DEM-002', 'stock' => 50, 'price' => 150000, 'category' => (object)['name' => 'Elektronik'], 'supplier' => (object)['name' => 'Demo Supplier'], 'image' => 'products-demo/mouse-demo.svg'],
-        ];
+        // Load semua demo data dari config (sesuai dengan mode real)
+        $demoData = config('demo_data');
 
-        $demoSuppliers = [
-            (object)['id' => 1, 'name' => 'Demo Supplier', 'contact' => '081234567890'],
-            (object)['id' => 2, 'name' => 'Demo Vendor', 'contact' => '082345678901'],
-        ];
-
-        $demoCategories = [
-            (object)['id' => 1, 'name' => 'Elektronik'],
-            (object)['id' => 2, 'name' => 'Furniture'],
-        ];
-
-        $demoInventoryIn = [
-            (object)[
-                'id' => 1,
-                'date' => now()->subDay()->toDateString(),
-                'created_at' => now()->subDay(),
-                'quantity' => 5,
-                'description' => 'Contoh pemasukan demo',
-                'product' => (object)['name' => 'Laptop Demo', 'sku' => 'DEM-001'],
-                'supplier' => (object)['name' => 'Demo Supplier'],
-                'user' => (object)['name' => 'Demo Admin'],
-            ],
-            (object)[
-                'id' => 2,
-                'date' => now()->toDateString(),
-                'created_at' => now(),
-                'quantity' => 3,
-                'description' => 'Contoh pemasukan demo 2',
-                'product' => (object)['name' => 'Mouse Demo', 'sku' => 'DEM-002'],
-                'supplier' => (object)['name' => 'Demo Vendor'],
-                'user' => (object)['name' => 'Demo Staff'],
-            ],
-        ];
-
-        $demoInventoryOut = [
-            (object)[
-                'id' => 1,
-                'date' => now()->subDay()->toDateString(),
-                'quantity' => 2,
-                'description' => 'Contoh pengeluaran demo',
-                'product' => (object)['name' => 'Laptop Demo'],
-            ],
-            (object)[
-                'id' => 2,
-                'date' => now()->toDateString(),
-                'quantity' => 1,
-                'description' => 'Contoh pengeluaran demo 2',
-                'product' => (object)['name' => 'Mouse Demo'],
-            ],
-        ];
-
-        // Set session untuk demo mode dengan SEMUA data seeded dari server
+        // Set session untuk demo mode dengan SEMUA data dari config (10 core + 3 optional)
         session([
             'demo_mode' => true,
+            'is_demo' => true,  // Support kedua session keys
             'demo_role' => $role,
-            'demo_products' => $demoProducts,
-            'demo_suppliers' => $demoSuppliers,
-            'demo_categories' => $demoCategories,
-            'demo_inventory_in' => $demoInventoryIn,
-            'demo_inventory_out' => $demoInventoryOut,
+            'demo_user' => $demoData['demo_user'][$role],
+            'demo_categories' => $demoData['categories'],
+            'demo_suppliers' => $demoData['suppliers'],
+            'demo_products' => $demoData['products'],
+            'demo_inventory_in' => $demoData['inventory_ins'],
+            'demo_inventory_out' => $demoData['inventory_outs'],
+            'demo_users' => $demoData['users'],
+            'demo_statistics' => $demoData['statistics'],
+            // Optional features
+            'demo_audit_logs' => $demoData['audit_logs'],
+            'demo_notifications' => $demoData['notifications'],
+            'demo_profile_data' => $demoData['profile_data'][$role],
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('success', 'Mode Demo aktif! Data dummy telah dimuat dengan 3 optional features (audit logs, notifications, profile management).');
     }
 
     public function exitDemo()
     {
-        // Hapus session demo mode dan semua data demo agar bersih saat masuk lagi
+        // Hapus session demo mode dan semua data demo (10 core + 3 optional) agar bersih saat masuk lagi
         session()->forget([
             'demo_mode',
+            'is_demo',
             'demo_role',
+            'demo_user',
             'demo_products',
             'demo_suppliers',
             'demo_categories',
             'demo_users',
             'demo_inventory_in',
             'demo_inventory_out',
+            'demo_statistics',
+            'demo_audit_logs',
+            'demo_notifications',
+            'demo_profile_data',
         ]);
 
-        return redirect()->route('subscription.landing');
+        return redirect()->route('subscription.landing')->with('success', 'Demo mode dinonaktifkan. Terima kasih telah mencoba sistem kami!');
     }
 
     public function renew(Request $request)

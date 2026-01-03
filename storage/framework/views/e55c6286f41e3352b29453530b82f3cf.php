@@ -313,7 +313,7 @@
 <?php endif; ?>
                         <?php endif; ?>
                         
-                        <?php if(!$isDemo): ?>
+                        <?php if(!$isDemo || ($isDemo && $demoRole === 'admin')): ?>
                             <?php if (isset($component)) { $__componentOriginalc295f12dca9d42f28a259237a5724830 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalc295f12dca9d42f28a259237a5724830 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.nav-link','data' => ['href' => route('audit-logs.index'),'active' => request()->routeIs('audit-logs.*')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -638,11 +638,23 @@
 
             
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <?php if(!$isDemo && $currentUser): ?>
+                <?php
+                    $showNotifications = false;
+                    if($currentUser && in_array($currentUser->role, ['admin', 'super_admin'])) {
+                        $showNotifications = true;
+                    } elseif($isDemo && $demoMode && in_array($demoRole ?? null, ['admin', 'super_admin'])) {
+                        $showNotifications = true;
+                    }
+                ?>
+
+                <?php if($showNotifications): ?>
                     <?php
-                        $unreadNotificationCount = \App\Models\Notification::where('recipient_id', $currentUser->id)
-                            ->whereNull('read_at')
-                            ->count();
+                        $unreadNotificationCount = 0;
+                        if($currentUser) {
+                            $unreadNotificationCount = \App\Models\Notification::where('recipient_id', $currentUser->id)
+                                ->whereNull('read_at')
+                                ->count();
+                        }
                     ?>
                     <a href="<?php echo e(route('notifications.index')); ?>" class="relative mr-4 text-gray-600 hover:text-gray-800" aria-label="Notifikasi">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -688,8 +700,32 @@
                      <?php $__env->endSlot(); ?>
 
                      <?php $__env->slot('content', null, []); ?> 
+                        <?php if (isset($component)) { $__componentOriginal68cb1971a2b92c9735f83359058f7108 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal68cb1971a2b92c9735f83359058f7108 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.dropdown-link','data' => ['href' => route('profile.edit')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('dropdown-link'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('profile.edit'))]); ?>
+                            <?php echo e(__('Profil')); ?>
+
+                         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal68cb1971a2b92c9735f83359058f7108)): ?>
+<?php $attributes = $__attributesOriginal68cb1971a2b92c9735f83359058f7108; ?>
+<?php unset($__attributesOriginal68cb1971a2b92c9735f83359058f7108); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal68cb1971a2b92c9735f83359058f7108)): ?>
+<?php $component = $__componentOriginal68cb1971a2b92c9735f83359058f7108; ?>
+<?php unset($__componentOriginal68cb1971a2b92c9735f83359058f7108); ?>
+<?php endif; ?>
+
                         <?php if($isDemo): ?>
-                            <div class="px-4 py-2 text-xs text-gray-500 border-b">
+                            <div class="border-t my-2"></div>
+                            <div class="px-4 py-2 text-xs text-gray-500">
                                 <strong>Anda sedang dalam Mode Demo</strong><br>
                                 Semua perubahan tidak akan disimpan
                             </div>
@@ -716,29 +752,6 @@
 <?php unset($__componentOriginal68cb1971a2b92c9735f83359058f7108); ?>
 <?php endif; ?>
                         <?php else: ?>
-                            <?php if (isset($component)) { $__componentOriginal68cb1971a2b92c9735f83359058f7108 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal68cb1971a2b92c9735f83359058f7108 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.dropdown-link','data' => ['href' => route('profile.edit')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('dropdown-link'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('profile.edit'))]); ?>
-                                <?php echo e(__('Profil')); ?>
-
-                             <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal68cb1971a2b92c9735f83359058f7108)): ?>
-<?php $attributes = $__attributesOriginal68cb1971a2b92c9735f83359058f7108; ?>
-<?php unset($__attributesOriginal68cb1971a2b92c9735f83359058f7108); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal68cb1971a2b92c9735f83359058f7108)): ?>
-<?php $component = $__componentOriginal68cb1971a2b92c9735f83359058f7108; ?>
-<?php unset($__componentOriginal68cb1971a2b92c9735f83359058f7108); ?>
-<?php endif; ?>
-
                             <form method="POST" action="<?php echo e(route('logout')); ?>">
                                 <?php echo csrf_field(); ?>
                                 <?php if (isset($component)) { $__componentOriginal68cb1971a2b92c9735f83359058f7108 = $component; } ?>

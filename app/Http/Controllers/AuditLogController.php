@@ -5,16 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\AuditLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuditLogController extends Controller
 {
     /**
      * Display audit logs untuk company yang aktif
+     * Support untuk demo mode (session-based)
      */
     public function index(Request $request)
     {
         $user = Auth::user();
+        $isDemo = Session::has('demo_mode') && Session::get('demo_mode');
 
+        // Demo mode: use session data
+        if ($isDemo) {
+            return $this->indexDemo($request);
+        }
+
+        // Real mode: use database
         // Build query berdasarkan role
         $query = AuditLog::with(['user', 'company']);
 
@@ -91,11 +100,71 @@ class AuditLogController extends Controller
     }
 
     /**
+     * Demo mode: Display audit logs dari session
+     */
+    private function indexDemo(Request $request)
+    {
+        $demoLogs = Session::get('demo_audit_logs', []);
+
+        // Apply filters jika ada
+        $filtered = collect($demoLogs);
+
+        // Filter berdasarkan action
+        if ($request->filled('action')) {
+            $filtered = $filtered->where('action', $request->action);
+        }
+
+        // Filter berdasarkan entity type
+        if ($request->filled('entity_type')) {
+            $filtered = $filtered->where('entity', $request->entity_type);
+        }
+
+        // Search
+        if ($request->filled('search')) {
+            $search = strtolower($request->search);
+            $filtered = $filtered->filter(function($log) use ($search) {
+                return strpos(strtolower($log['entity'] ?? ''), $search) !== false ||
+                       strpos(strtolower($log['action'] ?? ''), $search) !== false ||
+                       strpos($log['entity_id'] ?? '', $search) !== false;
+            });
+        }
+
+        // Sort by timestamp descending
+        $logs = $filtered->sortByDesc('timestamp')->values();
+
+        // Get unique values for filters
+        $entityTypes = collect($demoLogs)->pluck('entity')->unique()->sort();
+        $actions = ['created', 'updated', 'deleted', 'viewed'];
+
+        // Demo users for filter
+        $demoUsers = collect([
+            ['id' => 1, 'name' => 'Admin Demo'],
+            ['id' => 2, 'name' => 'Staff Demo'],
+        ]);
+
+        $companies = [];
+
+        return view('audit_logs.index', compact('logs', 'entityTypes', 'actions', 'demoUsers', 'companies'))->with('isDemo', true);
+    }
+
+    /**
      * Show detail audit log
      */
     public function show($id)
     {
         $user = Auth::user();
+        $isDemo = Session::has('demo_mode') && Session::get('demo_mode');
+
+        if ($isDemo) {
+            $demoLogs = Session::get('demo_audit_logs', []);
+            $log = collect($demoLogs)->firstWhere('id', (int)$id);
+
+            if (!$log) {
+                abort(404, 'Audit log tidak ditemukan');
+            }
+
+            return view('audit_logs.show', compact('log'))->with('isDemo', true);
+        }
 
         $log = AuditLog::with(['user', 'company'])->findOrFail($id);
 

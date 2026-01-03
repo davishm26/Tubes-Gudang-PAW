@@ -19,21 +19,21 @@ class UserController extends Controller
         $isDemoMode = session('is_demo') || session('demo_mode');
 
         if ($isDemoMode) {
-            $users = collect([
-                config('demo_data.user.admin'),
-                config('demo_data.user.staff'),
-            ])->map(fn($u) => (object) $u);
+            // Get demo users from session or config
+            $demoUsers = session('demo_users', config('demo_data.users', []));
+
+            $users = collect($demoUsers)->map(fn($u) => (object) $u);
 
             if ($request->has('search') && !empty($request->search)) {
                 $search = strtolower($request->search);
                 $users = $users->filter(function($u) use ($search) {
-                    return str_contains(strtolower($u->name), $search) ||
-                           str_contains(strtolower($u->email), $search) ||
+                    return str_contains(strtolower($u->name ?? ''), $search) ||
+                           str_contains(strtolower($u->email ?? ''), $search) ||
                            str_contains(strtolower($u->role ?? ''), $search);
                 })->values();
             }
 
-            return view('users.index', ['users' => $users]);
+            return view('users.index', ['users' => $users, 'isDemo' => true]);
         }
 
         // Tentukan company yang sedang aktif (hanya boleh melihat user dalam company tersebut)
