@@ -1,6 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">Edit Produk - StockMaster</x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-slate-900 leading-tight">
             {{ __('Edit Produk: ') . $product->name }}
         </h2>
     </x-slot>
@@ -8,7 +9,7 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white border-b border-emerald-200">
 
                     <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
                         @csrf
@@ -18,30 +19,30 @@
 
                             {{-- Field Nama Produk --}}
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700">Nama Produk</label>
+                                <label for="name" class="block text-sm font-semibold text-slate-700">Nama Produk</label>
                                 <input type="text" name="name" id="name"
                                     value="{{ old('name', $product->name) }}"
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                                    class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
                                 @error('name')
-                                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                                    <p class="text-sm text-rose-600 mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             {{-- Field SKU --}}
                             <div>
-                                <label for="sku" class="block text-sm font-medium text-gray-700">SKU (Kode Produk)</label>
+                                <label for="sku" class="block text-sm font-semibold text-slate-700">SKU (Kode Produk)</label>
                                 <input type="text" name="sku" id="sku"
                                     value="{{ old('sku', $product->sku) }}"
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                                    class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
                                 @error('sku')
-                                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                                    <p class="text-sm text-rose-600 mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             {{-- Field Kategori (Relasi) --}}
                             <div>
-                                <label for="category_id" class="block text-sm font-medium text-gray-700">Kategori</label>
-                                <select name="category_id" id="category_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                                <label for="category_id" class="block text-sm font-semibold text-slate-700">Kategori</label>
+                                <select name="category_id" id="category_id" class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
                                     <option value="" disabled>-- Pilih Kategori --</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}"
@@ -51,14 +52,14 @@
                                     @endforeach
                                 </select>
                                 @error('category_id')
-                                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                                    <p class="text-sm text-rose-600 mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             {{-- Field Pemasok (Relasi) --}}
                             <div>
-                                <label for="supplier_id" class="block text-sm font-medium text-gray-700">Pemasok</label>
-                                <select name="supplier_id" id="supplier_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                                <label for="supplier_id" class="block text-sm font-semibold text-slate-700">Pemasok</label>
+                                <select name="supplier_id" id="supplier_id" class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
                                     <option value="" disabled>-- Pilih Pemasok --</option>
                                     @foreach($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}"

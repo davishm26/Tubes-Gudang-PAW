@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Green Theme for StockMaster */
+@layer components {
+    .btn-primary {
+        @apply inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-xl font-semibold text-sm text-white hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150;
+    }
+
+    .btn-ghost {
+        @apply inline-flex items-center px-4 py-2 bg-white border border-emerald-200 rounded-xl font-semibold text-sm text-emerald-700 hover:bg-emerald-50 focus:bg-emerald-50 active:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150;
+    }
+
+    .btn-danger {
+        @apply inline-flex items-center px-4 py-2 bg-rose-600 border border-transparent rounded-xl font-semibold text-sm text-white hover:bg-rose-700 focus:bg-rose-700 active:bg-rose-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition ease-in-out duration-150;
+    }
+
+    .badge-soft {
+        @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700;
+    }
+
+    .card {
+        @apply rounded-xl p-4 bg-white shadow-sm;
+    }
+
+    .card-muted {
+        @apply rounded-xl p-4 bg-emerald-50/50 border border-emerald-100;
+    }
+
+    .surface-glass {
+        @apply bg-white/95 backdrop-blur-sm;
+    }
+}

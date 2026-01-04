@@ -1,7 +1,8 @@
 <x-app-layout>
+    <x-slot name="title">Dashboard - StockMaster</x-slot>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-slate-900 leading-tight">
                 {{ __('Dashboard Gudang') }}
             </h2>
         </div>
@@ -27,15 +28,15 @@
                             {
                                 label: 'Stok Masuk',
                                 data: chartData.data_in,
-                                backgroundColor: 'rgba(59, 130, 246, 0.8)', // blue-500
-                                borderColor: 'rgba(59, 130, 246, 1)',
+                                backgroundColor: 'rgba(16, 185, 129, 0.8)', // emerald-500
+                                borderColor: 'rgba(16, 185, 129, 1)',
                                 borderWidth: 1
                             },
                             {
                                 label: 'Stok Keluar',
                                 data: chartData.data_out,
-                                backgroundColor: 'rgba(239, 68, 68, 0.8)', // red-500
-                                borderColor: 'rgba(239, 68, 68, 1)',
+                                backgroundColor: 'rgba(249, 115, 22, 0.8)', // orange-500
+                                borderColor: 'rgba(249, 115, 22, 1)',
                                 borderWidth: 1
                             }
                         ]

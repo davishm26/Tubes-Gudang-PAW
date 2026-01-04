@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white/85 backdrop-blur-md border border-white/40 shadow-sm shadow-emerald-500/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @php
             // Cek apakah mode demo aktif
@@ -19,7 +19,7 @@
                 {{-- LOGO --}}
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-emerald-700" />
                     </a>
                 </div>
 
@@ -47,7 +47,7 @@
                                         ->count();
                                 @endphp
                                 @if($unreadCount > 0)
-                                    <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                                    <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-rose-600 rounded-full">
                                         {{ $unreadCount }}
                                     </span>
                                 @endif

@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">Edit Profil - StockMaster</x-slot>
     @php
         $isDemo = session('is_demo', false) || session('demo_mode', false);
     @endphp

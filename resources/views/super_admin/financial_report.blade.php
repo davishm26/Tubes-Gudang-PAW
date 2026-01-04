@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">Laporan Keuangan - StockMaster</x-slot>
     <x-slot name="header">
         <div class="bg-white flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>

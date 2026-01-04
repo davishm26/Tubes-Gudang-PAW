@@ -1,7 +1,8 @@
 <x-app-layout>
+    <x-slot name="title">Edit Kategori - StockMaster</x-slot>
     <x-slot name="header">
         {{-- Tampilkan nama kategori yang sedang diedit di header --}}
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-slate-900 leading-tight">
             {{ __('Edit Kategori: ') . $category->name }}
         </h2>
     </x-slot>
@@ -9,11 +10,11 @@
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white border-b border-emerald-200">
 
                     {{-- === TAMBAHAN: NOTIFIKASI SUKSES === --}}
                     @if (session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <div class="bg-emerald-50 border border-emerald-300 text-emerald-800 px-4 py-3 rounded-lg relative mb-4" role="alert">
                             <strong class="font-bold">Berhasil!</strong>
                             <span class="block sm:inline">{{ session('success') }}</span>
                         </div>
@@ -27,27 +28,27 @@
 
                         {{-- Field Nama Kategori --}}
                         <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700">Nama Kategori</label>
+                            <label for="name" class="block text-sm font-semibold text-slate-700">Nama Kategori</label>
                             <input type="text"
                                    name="name"
                                    id="name"
                                    value="{{ old('name', $category->name) }}"
-                                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                   class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                    required>
 
                             {{-- Tampilkan Error Validasi --}}
                             @error('name')
-                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-sm text-rose-600 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
                         {{-- Tombol Submit --}}
-                        <div class="flex items-center justify-end mt-4">
-                            <a href="{{ route('categories.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">
+                        <div class="flex items-center justify-end mt-6">
+                            <a href="{{ route('categories.index') }}" class="text-sm text-slate-600 hover:text-slate-900 mr-4 font-medium">
                                 Batal
                             </a>
 
-                            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm transition duration-150">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
                                 Perbarui Kategori
                             </button>
                         </div>

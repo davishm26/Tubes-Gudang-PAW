@@ -1,6 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">Dashboard Super Admin - StockMaster</x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Beranda Super Admin') }}</h2>
+        <h2 class="font-semibold text-xl text-slate-900 leading-tight">{{ __('Beranda Super Admin') }}</h2>
     </x-slot>
 
     <div class="py-12">
@@ -37,7 +38,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             @foreach($tenants as $t)
-                                <tr class="hover:bg-gray-50 transition">
+                                <tr class="hover:bg-emerald-50/30 transition">
                                     <td class="px-6 py-4 text-center text-sm text-gray-900 w-1/3">{{ $t->name }}</td>
                                     <td class="px-6 py-4 text-center text-sm w-1/3">
                                         <span class="px-3 py-1 rounded-full text-xs font-medium {{ $t->subscription_status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">

@@ -1,6 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">Tambah Tenant - StockMaster</x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Buat Penyewa</h2>
+        <h2 class="font-semibold text-xl text-slate-900 leading-tight">Buat Penyewa</h2>
     </x-slot>
 
     <div class="py-12">

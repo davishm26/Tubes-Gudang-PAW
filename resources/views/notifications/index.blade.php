@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">Notifikasi - StockMaster</x-slot>
     @php
         $isDemo = session('is_demo', false) || session('demo_mode', false);
         // Convert notifications to array if it's a collection

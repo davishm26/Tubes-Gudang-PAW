@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="title">Konfirmasi Kata Sandi - StockMaster</x-slot>
     <div class="mb-4 text-sm text-gray-600">
         {{ __('Ini area aman aplikasi. Mohon konfirmasi kata sandi Anda sebelum melanjutkan.') }}
     </div>

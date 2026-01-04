@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="title">Daftar - StockMaster</x-slot>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Langganan Sistem Gudang</title>
+    <title>Langganan StockMaster</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen flex items-center justify-center">
         <div class="max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
-            <h1 class="text-2xl font-bold text-center mb-6">Langganan Sistem Gudang</h1>
+            <h1 class="text-2xl font-bold text-center mb-6">Langganan StockMaster</h1>
             @if(session('error'))
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                     {{ session('error') }}

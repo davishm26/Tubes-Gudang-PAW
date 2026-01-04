@@ -68,7 +68,7 @@ class SubscriptionController extends Controller
         }
 
         // Generate QR Code with payment info text
-        $paymentInfo = "Pembayaran Sistem Gudang\nHarga: Rp " . number_format($subscription['price'], 0, ',', '.') . "\nToken: " . $subscription['token'];
+        $paymentInfo = "Pembayaran StockMaster\nHarga: Rp " . number_format($subscription['price'], 0, ',', '.') . "\nToken: " . $subscription['token'];
 
         $builder = new Builder(
             writer: new SvgWriter(),

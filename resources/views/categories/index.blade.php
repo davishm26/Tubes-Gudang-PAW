@@ -1,6 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">Manajemen Kategori - StockMaster</x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-slate-900 leading-tight">
             {{ __('Manajemen Kategori') }}
         </h2>
     </x-slot>
@@ -9,49 +10,49 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 @if (session('success'))
-                    <div class="mb-4 p-3 rounded bg-green-50 text-green-800 border border-green-200">
+                    <div class="mb-4 p-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-300">
                         {{ session('success') }}
                     </div>
                 @endif
                 @if (session('info'))
-                    <div class="mb-4 p-3 rounded bg-blue-50 text-blue-800 border border-blue-200">
+                    <div class="mb-4 p-3 rounded-lg bg-sky-50 text-sky-800 border border-sky-300">
                         {{ session('info') }}
                     </div>
                 @endif
                 @if (session('error'))
-                    <div class="mb-4 p-3 rounded bg-red-50 text-red-800 border border-red-200">
+                    <div class="mb-4 p-3 rounded-lg bg-rose-50 text-rose-800 border border-rose-300">
                         {{ session('error') }}
                     </div>
                 @endif
 
-                <a href="{{ route('categories.create') }}" class="bg-indigo-500 text-white p-2 rounded mb-4 inline-block">Tambah Kategori</a>
+                <a href="{{ route('categories.create') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg mb-4 inline-block font-semibold transition">Tambah Kategori</a>
 
                 {{-- Form Pencarian --}}
                 <form method="GET" action="{{ route('categories.index') }}" class="mb-4">
                     <div class="flex">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori..." class="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r-md">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori..." class="flex-1 px-4 py-2 border border-emerald-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-r-lg font-semibold transition">
                             Cari
                         </button>
                     </div>
                 </form>
 
                 <table class="w-full text-left border-collapse">
-                    <thead>
+                    <thead class="bg-emerald-50">
                         <tr>
-                            <th class="py-2 px-4 border-b">No.</th>
-                            <th class="py-2 px-4 border-b">Nama Kategori</th>
-                            <th class="py-2 px-4 border-b">Aksi</th>
+                            <th class="py-3 px-4 border-b-2 border-emerald-300 font-semibold text-emerald-700">No.</th>
+                            <th class="py-3 px-4 border-b-2 border-emerald-300 font-semibold text-emerald-700">Nama Kategori</th>
+                            <th class="py-3 px-4 border-b-2 border-emerald-300 font-semibold text-emerald-700">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-slate-200">
                         @foreach ($categories as $category)
-                            <tr>
-                                <td class="py-2 px-4 border-b">{{ $loop->iteration }}</td>
-                                <td class="py-2 px-4 border-b">{{ $category->name }}</td>
-                                <td class="py-2 px-4 border-b">
+                            <tr class="hover:bg-emerald-50/30 transition">
+                                <td class="py-3 px-4 text-slate-900">{{ $loop->iteration }}</td>
+                                <td class="py-3 px-4 text-slate-900 font-medium">{{ $category->name }}</td>
+                                <td class="py-3 px-4">
                                     {{-- 1. TOMBOL EDIT --}}
-                                    <a href="{{ route('categories.edit', $category->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">
+                                    <a href="{{ route('categories.edit', $category->id) }}" class="text-emerald-600 hover:text-emerald-900 font-semibold mr-4">
                                         Edit
                                     </a>
 
@@ -66,7 +67,7 @@
                                         <button
                                             type="submit"
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus kategori: {{ $category->name }}?')"
-                                            class="text-red-600 hover:text-red-900">
+                                            class="text-rose-600 hover:text-rose-900 font-semibold">
                                             Hapus
                                         </button>
                                     </form>

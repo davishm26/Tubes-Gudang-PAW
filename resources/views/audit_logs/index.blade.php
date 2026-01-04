@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">Riwayat Audit - StockMaster</x-slot>
     @php
         // Check demo mode
         $isDemo = session('is_demo', false) || session('demo_mode', false);
