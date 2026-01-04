@@ -2,22 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Green Theme for StockMaster */
+/* Custom StockMaster Brand Theme */
+:root {
+    --primary-green: #1F8F6A;
+    --primary-dark: #166B50;
+    --primary-light: #E9F6F1;
+    --text-primary: #1F2937;
+    --border-color: #E5E7EB;
+    --info-blue: #3B82F6;
+    --success-green: #22C55E;
+    --danger-red: #EF4444;
+    --warning-orange: #F97316;
+}
+
 @layer components {
     .btn-primary {
-        @apply inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-xl font-semibold text-sm text-white hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150;
+        @apply inline-flex items-center px-4 py-2 bg-[#1F8F6A] border border-transparent rounded-xl font-semibold text-sm text-white hover:bg-[#166B50] focus:bg-[#166B50] active:bg-[#0F4C37] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-2 transition ease-in-out duration-150;
     }
 
     .btn-ghost {
-        @apply inline-flex items-center px-4 py-2 bg-white border border-emerald-200 rounded-xl font-semibold text-sm text-emerald-700 hover:bg-emerald-50 focus:bg-emerald-50 active:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150;
+        @apply inline-flex items-center px-4 py-2 bg-white border border-[#E5E7EB] rounded-xl font-semibold text-sm text-[#1F8F6A] hover:bg-[#E9F6F1] focus:bg-[#E9F6F1] active:bg-[#D1EDE5] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-2 transition ease-in-out duration-150;
     }
 
     .btn-danger {
-        @apply inline-flex items-center px-4 py-2 bg-rose-600 border border-transparent rounded-xl font-semibold text-sm text-white hover:bg-rose-700 focus:bg-rose-700 active:bg-rose-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition ease-in-out duration-150;
+        @apply inline-flex items-center px-4 py-2 bg-[#EF4444] border border-transparent rounded-xl font-semibold text-sm text-white hover:bg-[#DC2626] focus:bg-[#DC2626] active:bg-[#B91C1C] focus:outline-none focus:ring-2 focus:ring-[#EF4444] focus:ring-offset-2 transition ease-in-out duration-150;
     }
 
     .badge-soft {
-        @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700;
+        @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#E9F6F1] text-[#1F8F6A];
     }
 
     .card {
@@ -25,7 +37,7 @@
     }
 
     .card-muted {
-        @apply rounded-xl p-4 bg-emerald-50/50 border border-emerald-100;
+        @apply rounded-xl p-4 bg-[#E9F6F1]/50 border border-[#E9F6F1];
     }
 
     .surface-glass {

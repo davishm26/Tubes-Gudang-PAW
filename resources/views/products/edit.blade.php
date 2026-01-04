@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Edit Produk - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-900 leading-tight">
@@ -9,7 +9,7 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-emerald-200">
+                <div class="p-6 bg-white border-b border-[#E5E7EB]">
 
                     <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
                         @csrf
@@ -22,7 +22,7 @@
                                 <label for="name" class="block text-sm font-semibold text-slate-700">Nama Produk</label>
                                 <input type="text" name="name" id="name"
                                     value="{{ old('name', $product->name) }}"
-                                    class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                    class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                 @error('name')
                                     <p class="text-sm text-rose-600 mt-1">{{ $message }}</p>
                                 @enderror
@@ -33,7 +33,7 @@
                                 <label for="sku" class="block text-sm font-semibold text-slate-700">SKU (Kode Produk)</label>
                                 <input type="text" name="sku" id="sku"
                                     value="{{ old('sku', $product->sku) }}"
-                                    class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                    class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                 @error('sku')
                                     <p class="text-sm text-rose-600 mt-1">{{ $message }}</p>
                                 @enderror
@@ -42,7 +42,7 @@
                             {{-- Field Kategori (Relasi) --}}
                             <div>
                                 <label for="category_id" class="block text-sm font-semibold text-slate-700">Kategori</label>
-                                <select name="category_id" id="category_id" class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                <select name="category_id" id="category_id" class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                     <option value="" disabled>-- Pilih Kategori --</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}"
@@ -59,7 +59,7 @@
                             {{-- Field Pemasok (Relasi) --}}
                             <div>
                                 <label for="supplier_id" class="block text-sm font-semibold text-slate-700">Pemasok</label>
-                                <select name="supplier_id" id="supplier_id" class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                <select name="supplier_id" id="supplier_id" class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                     <option value="" disabled>-- Pilih Pemasok --</option>
                                     @foreach($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}"
@@ -128,3 +128,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

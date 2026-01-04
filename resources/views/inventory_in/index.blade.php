@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Barang Masuk - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-900 leading-tight">
@@ -14,7 +14,7 @@
                     {{-- Tombol Tambah Stok Masuk --}}
                     <div class="mb-6 flex justify-between items-center">
                         <h3 class="text-lg font-semibold text-slate-900">Daftar Barang Masuk</h3>
-                        <a href="{{ route('inventory-in.create') }}" class="px-4 py-2 bg-emerald-600 border border-transparent rounded-xl font-semibold text-sm text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition">
+                        <a href="{{ route('inventory-in.create') }}" class="px-4 py-2 bg-[#1F8F6A] border border-transparent rounded-xl font-semibold text-sm text-white hover:bg-[#166B50] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-2 transition">
                             + Tambah Stok Masuk
                         </a>
                     </div>
@@ -22,7 +22,7 @@
                     {{-- Tabel Riwayat --}}
                     <div class="relative overflow-x-auto shadow-md sm:rounded-xl">
                         <table class="w-full text-sm text-left text-slate-600">
-                            <thead class="text-xs text-emerald-700 uppercase bg-emerald-50 font-semibold">
+                            <thead class="text-xs text-[#166B50] uppercase bg-[#E9F6F1] font-semibold">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">No</th>
                                     <th scope="col" class="px-6 py-3">Tanggal</th>
@@ -68,3 +68,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

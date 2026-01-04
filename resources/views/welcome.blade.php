@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -63,7 +63,7 @@
                             </span>
                             <span>
                                 Lihat
-                                <a href="{{ route('subscription.landing') }}" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-emerald-600 dark:text-emerald-400 ml-1">
+                                <a href="{{ route('subscription.landing') }}" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#1F8F6A] dark:text-[#1F8F6A] ml-1">
                                     <span>Fitur Lengkap</span>
                                     <svg
                                         width="10"
@@ -90,7 +90,7 @@
                             </span>
                             <span>
                                 Sudah punya akun?
-                                <a href="{{ route('login') }}" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-emerald-600 dark:text-emerald-400 ml-1">
+                                <a href="{{ route('login') }}" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#1F8F6A] dark:text-[#1F8F6A] ml-1">
                                     <span>Masuk Sekarang</span>
                                     <svg
                                         width="10"
@@ -112,27 +112,38 @@
                     </ul>
                     <ul class="flex gap-3 text-sm leading-normal">
                         <li>
-                            <a href="{{ route('subscription.subscribe') }}" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-1.5 rounded-lg text-sm leading-normal transition-colors duration-200">
+                            <a href="{{ route('subscription.subscribe') }}" class="inline-block bg-[#1F8F6A] hover:bg-[#166B50] text-white px-5 py-1.5 rounded-lg text-sm leading-normal transition-colors duration-200">
                                 Langganan Sekarang
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden flex items-center justify-center">
+                <div class="bg-gradient-to-br from-[#E9F6F1] to-[#F0FAF7] relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden flex items-center justify-center">
                     {{-- StockMaster Logo --}}
-                    <div class="flex flex-col items-center justify-center">
-                        <svg class="w-32 h-32 text-emerald-600" viewBox="0 0 64 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="6" y="10" width="52" height="44" rx="8" fill="currentColor" opacity="0.18" />
-                            <rect x="14" y="18" width="36" height="28" rx="4" fill="currentColor" opacity="0.28" />
-                            <rect x="18" y="22" width="10" height="18" rx="2" fill="currentColor" />
-                            <rect x="30" y="22" width="16" height="10" rx="2" fill="currentColor" />
-                            <rect x="30" y="34" width="16" height="6" rx="2" fill="currentColor" opacity="0.8" />
-                            <rect x="22" y="28" width="2" height="10" rx="1" fill="white" />
-                            <rect x="34" y="28" width="2" height="6" rx="1" fill="white" />
-                            <rect x="38" y="28" width="2" height="6" rx="1" fill="white" />
+                    <div class="flex flex-col items-center justify-center select-none">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-48 h-48" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));">
+                            <circle cx="32" cy="32" r="30" fill="#00A676"/>
+                            <circle cx="32" cy="32" r="30" fill="url(#grad1)" opacity="0.3"/>
+
+                            <rect x="18" y="18" width="28" height="28" rx="4" fill="white" opacity="0.9"/>
+                            <rect x="18" y="18" width="28" height="28" rx="4" fill="url(#grad2)" opacity="0.2"/>
+                            <rect x="23" y="24" width="18" height="3" rx="1.5" fill="#00A676" opacity="0.5"/>
+                            <rect x="23" y="30" width="12" height="3" rx="1.5" fill="#00A676" opacity="0.5"/>
+                            <path d="M26 38 L30 42 L38 34" stroke="#00A676" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+                            <defs>
+                                <linearGradient id="grad1" x1="0" y1="0" x2="64" y2="64">
+                                    <stop offset="0%" stop-color="white" stop-opacity="0.3"/>
+                                    <stop offset="100%" stop-color="black" stop-opacity="0.1"/>
+                                </linearGradient>
+                                <linearGradient id="grad2" x1="18" y1="18" x2="46" y2="46">
+                                    <stop offset="0%" stop-color="black" stop-opacity="0.1"/>
+                                    <stop offset="100%" stop-color="transparent"/>
+                                </linearGradient>
+                            </defs>
                         </svg>
-                        <p class="mt-6 text-2xl font-bold text-emerald-700">StockMaster</p>
-                        <p class="mt-2 text-sm text-emerald-600">Sistem Manajemen Gudang Modern</p>
+                        <p class="mt-6 font-extrabold" style="font-size: 36px; letter-spacing: -0.5px; color: #2c3e50;">StockMaster</p>
+                        <p class="mt-2 font-bold uppercase" style="font-size: 13px; color: #009966; letter-spacing: 1px;">Inventory System</p>
                     </div>
                 </div>
             </main>
@@ -285,3 +296,9 @@
         @endif
     </body>
 </html>
+
+
+
+
+
+

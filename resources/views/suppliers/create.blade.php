@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Tambah Pemasok - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-900 leading-tight">
@@ -9,7 +9,7 @@
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-emerald-200">
+                <div class="p-6 bg-white border-b border-[#E5E7EB]">
 
                     <form method="POST" action="{{ route('suppliers.store') }}">
                         @csrf
@@ -21,7 +21,7 @@
                                    name="name"
                                    id="name"
                                    value="{{ old('name') }}"
-                                   class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                   class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A] sm:text-sm"
                                    required>
 
                             @error('name')
@@ -36,7 +36,7 @@
                                    name="contact"
                                    id="contact"
                                    value="{{ old('contact') }}"
-                                   class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                                   class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A] sm:text-sm">
 
                             @error('contact')
                                 <p class="text-sm text-rose-600 mt-1">{{ $message }}</p>
@@ -49,7 +49,7 @@
                                 Batal
                             </a>
 
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
+                            <button type="submit" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
                                 Simpan Pemasok
                             </button>
                         </div>
@@ -60,3 +60,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

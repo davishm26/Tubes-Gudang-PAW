@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Permintaan Reaktivasi - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-slate-900">
@@ -10,20 +10,20 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
 
             @if(session('success'))
-                <div class="mb-6 rounded-lg bg-emerald-50 border border-emerald-300 p-4">
-                    <p class="text-sm font-medium text-emerald-800">✓ {{ session('success') }}</p>
+                <div class="mb-6 rounded-lg bg-[#E9F6F1] border border-[#C8E6DF] p-4">
+                    <p class="text-sm font-medium text-[#1F2937]">âœ“ {{ session('success') }}</p>
                 </div>
             @endif
 
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 border-b border-emerald-200">
+                <div class="p-6 border-b border-[#E5E7EB]">
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900">Daftar Permintaan Reaktivasi</h3>
                             <p class="text-sm text-slate-600 mt-1">Kelola permintaan reaktivasi dari perusahaan yang ter-suspend</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-[#F0FAF7] text-[#1F2937]">
                                 Total: {{ $requests->count() }} permintaan
                             </span>
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800">
@@ -45,9 +45,9 @@
                     @else
                         <div class="space-y-4">
                             @foreach($requests as $request)
-                                <div class="border border-emerald-200 rounded-lg {{ !$request['is_read'] ? 'bg-emerald-50' : '' }}">
+                                <div class="border border-[#E5E7EB] rounded-lg {{ !$request['is_read'] ? 'bg-[#E9F6F1]' : '' }}">
                                     <!-- Header -->
-                                    <div class="px-6 py-4 border-b border-emerald-200 bg-emerald-50/50">
+                                    <div class="px-6 py-4 border-b border-[#E5E7EB] bg-[#E9F6F1]/50">
                                         <div class="flex items-start justify-between">
                                             <div class="flex items-start gap-3">
                                                 @if(!$request['is_read'])
@@ -72,11 +72,11 @@
                                                 <div class="flex items-center gap-2">
                                                     @if($isSuspended)
                                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                            🔒 Tersuspend
+                                                            ðŸ”’ Tersuspend
                                                         </span>
                                                     @else
                                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                            ✓ Aktif
+                                                            âœ“ Aktif
                                                         </span>
                                                     @endif
                                                 </div>
@@ -143,7 +143,7 @@
                                         </div>
 
                                         <!-- Message -->
-                                        <div class="bg-emerald-50 rounded-lg border border-emerald-200 p-4">
+                                        <div class="bg-[#E9F6F1] rounded-lg border border-[#E5E7EB] p-4">
                                             <h5 class="text-sm font-semibold text-gray-900 mb-2">Pesan dari Pengirim:</h5>
                                             <p class="text-sm text-gray-700 whitespace-pre-line">{{ $request['message'] }}</p>
                                         </div>
@@ -156,7 +156,7 @@
                                     @endphp
 
                                     @if($isSuspended && $isUnread)
-                                        <div class="px-6 py-4 bg-emerald-50 border-t border-emerald-200 flex items-center justify-end gap-3">
+                                        <div class="px-6 py-4 bg-[#E9F6F1] border-t border-[#E5E7EB] flex items-center justify-end gap-3">
                                             <!-- Reject Button with Modal -->
                                             <button onclick="openRejectModal({{ $request['company']->id }}, '{{ $request['company_name'] }}')"
                                                 class="inline-flex items-center px-4 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500">
@@ -181,10 +181,10 @@
                                         </div>
                                     @elseif(!$isSuspended)
                                         <div class="px-6 py-4 bg-green-50 border-t border-green-200">
-                                            <p class="text-sm text-green-800 font-medium">✓ Akun sudah aktif kembali</p>
+                                            <p class="text-sm text-green-800 font-medium">âœ“ Akun sudah aktif kembali</p>
                                         </div>
                                     @else
-                                        <div class="px-6 py-4 bg-emerald-50 border-t border-emerald-200">
+                                        <div class="px-6 py-4 bg-[#E9F6F1] border-t border-[#E5E7EB]">
                                             <p class="text-sm text-gray-600 font-medium">Permintaan sudah ditangani</p>
                                         </div>
                                     @endif
@@ -218,7 +218,7 @@
 
                     <div class="flex gap-3 justify-end">
                         <button type="button" onclick="closeRejectModal()"
-                            class="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-lg hover:bg-emerald-200">
+                            class="px-4 py-2 bg-[#F0FAF7] text-[#1F2937] rounded-lg hover:bg-emerald-200">
                             Batal
                         </button>
                         <button type="submit"
@@ -251,3 +251,9 @@
         });
     </script>
 </x-app-layout>
+
+
+
+
+
+

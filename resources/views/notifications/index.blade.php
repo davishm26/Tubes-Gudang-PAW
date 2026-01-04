@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Notifikasi - StockMaster</x-slot>
     @php
         $isDemo = session('is_demo', false) || session('demo_mode', false);
@@ -83,7 +83,7 @@
                                         @else
                                             <span>{{ __('Dari') }}: {{ optional($notification->sender ?? null)->name ?? 'System' }}</span>
                                         @endif
-                                        <span class="text-gray-300">•</span>
+                                        <span class="text-gray-300">â€¢</span>
                                         @if(isset($notification['created_at']))
                                             <span>{{ \Carbon\Carbon::parse($notification['created_at'])->diffForHumans() }}</span>
                                         @else
@@ -127,3 +127,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Kirim Notifikasi - StockMaster</x-slot>
     <x-slot name="header">
         <h1 class="text-xl font-semibold text-gray-800">Kirim Notifikasi</h1>
@@ -64,3 +64,9 @@
         });
     </script>
 </x-app-layout>
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Tambah Pengguna - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-900 leading-tight">{{ __('Tambah Pengguna') }}</h2>
@@ -14,30 +14,30 @@
                     <div class="grid grid-cols-1 gap-4">
                         <div>
                             <label class="block text-sm font-semibold text-slate-700">Nama</label>
-                            <input type="text" name="name" value="{{ old('name') }}" class="mt-1 block w-full border border-emerald-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                            <input type="text" name="name" value="{{ old('name') }}" class="mt-1 block w-full border border-[#E5E7EB] rounded-xl px-4 py-2 focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                             @error('name')<p class="text-sm text-rose-600 mt-1">{{ $message }}</p>@enderror
                         </div>
 
                         <div>
                             <label class="block text-sm font-semibold text-slate-700">Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}" class="mt-1 block w-full border border-emerald-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                            <input type="email" name="email" value="{{ old('email') }}" class="mt-1 block w-full border border-[#E5E7EB] rounded-xl px-4 py-2 focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                             @error('email')<p class="text-sm text-rose-600 mt-1">{{ $message }}</p>@enderror
                         </div>
 
                         <div>
                             <label class="block text-sm font-semibold text-slate-700">Password</label>
-                            <input type="password" name="password" class="mt-1 block w-full border border-emerald-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                            <input type="password" name="password" class="mt-1 block w-full border border-[#E5E7EB] rounded-xl px-4 py-2 focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                             @error('password')<p class="text-sm text-rose-600 mt-1">{{ $message }}</p>@enderror
                         </div>
 
                         <div>
                             <label class="block text-sm font-semibold text-slate-700">Konfirmasi Password</label>
-                            <input type="password" name="password_confirmation" class="mt-1 block w-full border border-emerald-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                            <input type="password" name="password_confirmation" class="mt-1 block w-full border border-[#E5E7EB] rounded-xl px-4 py-2 focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                         </div>
 
                         <div>
                             <label class="block text-sm font-semibold text-slate-700">Role</label>
-                            <select name="role" class="mt-1 block w-full border border-emerald-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <select name="role" class="mt-1 block w-full border border-[#E5E7EB] rounded-xl px-4 py-2 focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]">
                                 @foreach($roles as $r)
                                     <option value="{{ $r }}" {{ old('role')===$r ? 'selected' : '' }}>{{ $r === 'staf' ? 'Staf' : ucfirst($r) }}</option>
                                 @endforeach
@@ -47,7 +47,7 @@
 
                         <div class="flex justify-end gap-3 mt-4">
                             <a href="{{ route('users.index') }}" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 border border-slate-300 rounded-xl hover:bg-slate-50 transition">Batal</a>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-xl font-semibold transition">Simpan</button>
+                            <button type="submit" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white px-6 py-2 rounded-xl font-semibold transition">Simpan</button>
                         </div>
                     </div>
                 </form>
@@ -56,3 +56,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

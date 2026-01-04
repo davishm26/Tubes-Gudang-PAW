@@ -1,4 +1,4 @@
-<x-guest-layout>
+﻿<x-guest-layout>
     <x-slot name="title">Verifikasi Email - StockMaster</x-slot>
     <div class="mb-4 text-sm text-gray-600">
         {{ __('Terima kasih telah mendaftar! Sebelum mulai, mohon verifikasi alamat email Anda dengan mengklik tautan yang baru kami kirimkan. Jika belum menerima email, kami akan dengan senang hati mengirimkannya kembali.') }}
@@ -30,3 +30,9 @@
         </form>
     </div>
 </x-guest-layout>
+
+
+
+
+
+

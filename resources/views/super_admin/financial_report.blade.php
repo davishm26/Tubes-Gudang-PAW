@@ -1,10 +1,10 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Laporan Keuangan - StockMaster</x-slot>
     <x-slot name="header">
         <div class="bg-white flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-semibold text-slate-900">Financial Report</h1>
-                <p class="text-sm text-slate-500">Period: {{ \Carbon\Carbon::parse($startDate)->format('Y-m-d') }} – {{ \Carbon\Carbon::parse($endDate)->format('Y-m-d') }}</p>
+                <p class="text-sm text-slate-500">Period: {{ \Carbon\Carbon::parse($startDate)->format('Y-m-d') }} â€“ {{ \Carbon\Carbon::parse($endDate)->format('Y-m-d') }}</p>
             </div>
             <div class="flex flex-wrap items-end gap-3">
                 <div class="space-y-1">
@@ -22,7 +22,7 @@
                     @csrf
                     <input type="hidden" name="start_date" value="{{ $startDate }}">
                     <input type="hidden" name="end_date" value="{{ $endDate }}">
-                    <button type="submit" class="inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1">Download PDF</button>
+                    <button type="submit" class="inline-flex items-center rounded-lg bg-[#1F8F6A] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#166B50] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-1">Download PDF</button>
                 </form>
             </div>
         </div>
@@ -148,3 +148,9 @@
         });
     </script>
 </x-app-layout>
+
+
+
+
+
+

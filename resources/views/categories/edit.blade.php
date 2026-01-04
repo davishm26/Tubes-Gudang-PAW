@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Edit Kategori - StockMaster</x-slot>
     <x-slot name="header">
         {{-- Tampilkan nama kategori yang sedang diedit di header --}}
@@ -10,11 +10,11 @@
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-emerald-200">
+                <div class="p-6 bg-white border-b border-[#E5E7EB]">
 
                     {{-- === TAMBAHAN: NOTIFIKASI SUKSES === --}}
                     @if (session('success'))
-                        <div class="bg-emerald-50 border border-emerald-300 text-emerald-800 px-4 py-3 rounded-lg relative mb-4" role="alert">
+                        <div class="bg-[#E9F6F1] border border-[#C8E6DF] text-[#1F8F6A] px-4 py-3 rounded-lg relative mb-4" role="alert">
                             <strong class="font-bold">Berhasil!</strong>
                             <span class="block sm:inline">{{ session('success') }}</span>
                         </div>
@@ -33,7 +33,7 @@
                                    name="name"
                                    id="name"
                                    value="{{ old('name', $category->name) }}"
-                                   class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                   class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A] sm:text-sm"
                                    required>
 
                             {{-- Tampilkan Error Validasi --}}
@@ -48,7 +48,7 @@
                                 Batal
                             </a>
 
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
+                            <button type="submit" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
                                 Perbarui Kategori
                             </button>
                         </div>
@@ -59,3 +59,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

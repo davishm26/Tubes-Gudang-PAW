@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Card Container -->
@@ -7,7 +7,7 @@
                 <!-- Header Section -->
                 <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-8 py-6 border-b border-slate-700">
                     <h1 class="text-2xl font-bold text-white mb-1">Edit Tenant Profile</h1>
-                    <p class="text-slate-300 text-sm">Update {{ $company->name }} — access controls and tenant information</p>
+                    <p class="text-slate-300 text-sm">Update {{ $company->name }} â€” access controls and tenant information</p>
                 </div>
 
                 <!-- Form Section -->
@@ -77,7 +77,7 @@
                                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
                             <div class="p-3 rounded-lg bg-blue-50 border border-blue-200">
-                                <p class="text-xs text-blue-700"><span class="font-semibold">ℹ️ Note:</span> Controls tenant access only. Subscription and billing are not affected by status changes.</p>
+                                <p class="text-xs text-blue-700"><span class="font-semibold">â„¹ï¸ Note:</span> Controls tenant access only. Subscription and billing are not affected by status changes.</p>
                             </div>
                         </div>
                     </div>
@@ -157,8 +157,14 @@
 
             <!-- Help Text -->
             <div class="mt-6 p-4 rounded-lg bg-slate-100 border border-slate-200">
-                <p class="text-xs text-slate-600"><span class="font-semibold">💡 Tip:</span> Changes take effect immediately. Suspension prevents tenant login but does not affect existing data or subscriptions.</p>
+                <p class="text-xs text-slate-600"><span class="font-semibold">ðŸ’¡ Tip:</span> Changes take effect immediately. Suspension prevents tenant login but does not affect existing data or subscriptions.</p>
             </div>
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

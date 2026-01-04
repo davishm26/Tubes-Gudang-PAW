@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white/85 backdrop-blur-md border border-white/40 shadow-sm shadow-emerald-500/10">
+﻿<nav x-data="{ open: false }" class="bg-white/85 backdrop-blur-md border border-white/40 shadow-sm shadow-[#1F8F6A]/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @php
             // Cek apakah mode demo aktif
@@ -19,7 +19,7 @@
                 {{-- LOGO --}}
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-emerald-700" />
+                        <x-application-logo class="block h-12 w-auto" />
                     </a>
                 </div>
 
@@ -204,7 +204,7 @@
                 {{-- Demo Mode Badge --}}
                 @if($isDemo)
                     <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300 mr-3">
-                        🎭 DEMO MODE ({{ strtoupper($demoRole) }})
+                        ðŸŽ­ DEMO MODE ({{ strtoupper($demoRole) }})
                     </span>
                 @endif
 
@@ -234,7 +234,7 @@
                                 Semua perubahan tidak akan disimpan
                             </div>
                             <x-dropdown-link :href="route('demo.exit')">
-                                {{ __('🚪 Keluar Mode Demo') }}
+                                {{ __('ðŸšª Keluar Mode Demo') }}
                             </x-dropdown-link>
                         @else
                             <form method="POST" action="{{ route('logout') }}">
@@ -395,7 +395,7 @@
                         Semua perubahan tidak disimpan
                     </div>
                     <x-responsive-nav-link :href="route('demo.exit')">
-                        {{ __('🚪 Keluar Mode Demo') }}
+                        {{ __('ðŸšª Keluar Mode Demo') }}
                     </x-responsive-nav-link>
                 @else
                     <x-responsive-nav-link :href="route('profile.edit')">
@@ -413,3 +413,9 @@
         </div>
     </div>
 </nav>
+
+
+
+
+
+

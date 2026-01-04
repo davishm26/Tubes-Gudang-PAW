@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Dashboard - StockMaster</x-slot>
     <x-slot name="header">
         <div class="flex items-center justify-between">
@@ -127,7 +127,7 @@
                     {{-- A. Notifikasi Stok Rendah --}}
                     <div>
                         <h4 class="text-lg font-semibold mb-4 text-red-700 border-b pb-2 flex justify-between items-center">
-                            ⚠️ Notifikasi Stok Kritis
+                            âš ï¸ Notifikasi Stok Kritis
                             <span class="text-sm font-normal text-gray-500">({{ $lowStockProducts->count() }} Item)</span>
                         </h4>
 
@@ -147,17 +147,17 @@
                                         <td class="px-6 py-4 text-red-600 font-bold">{{ $product->stock }} unit</td>
                                         <td class="px-6 py-4">
                                             @if ($product->stock === 0)
-                                                <span class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold">❌ HABIS</span>
+                                                <span class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold">âŒ HABIS</span>
                                             @elseif ($product->stock < 5)
-                                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-semibold">🔴 SANGAT KRITIS</span>
+                                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-semibold">ðŸ”´ SANGAT KRITIS</span>
                                             @else
-                                                <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold">🟡 KRITIS</span>
+                                                <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold">ðŸŸ¡ KRITIS</span>
                                             @endif
                                         </td>
                                     </tr>
                                     @empty
                                     <tr class="bg-white border-b">
-                                        <td colspan="3" class="px-6 py-4 text-center">🎉 Semua stok dalam kondisi aman!</td>
+                                        <td colspan="3" class="px-6 py-4 text-center">ðŸŽ‰ Semua stok dalam kondisi aman!</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -205,3 +205,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

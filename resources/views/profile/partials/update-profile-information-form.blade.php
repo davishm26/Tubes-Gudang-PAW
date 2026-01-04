@@ -1,4 +1,4 @@
-<section>
+﻿<section>
     @php
         $isDemo = session('is_demo', false) || session('demo_mode', false);
     @endphp
@@ -82,3 +82,9 @@
         </div>
     </form>
 </section>
+
+
+
+
+
+

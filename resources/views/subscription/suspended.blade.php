@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -60,10 +60,10 @@
                                             <p class="text-sm font-semibold text-slate-600 uppercase tracking-wide mb-2">Kategori Pembatasan</p>
                                             @php
                                                 $reasonTypeLabels = [
-                                                    'payment_failed' => ['label' => 'Pembayaran Tertunda', 'icon' => '💳', 'desc' => 'Terdapat masalah pembayaran yang perlu diselesaikan'],
-                                                    'policy_violation' => ['label' => 'Pelanggaran Kebijakan', 'icon' => '⚖️', 'desc' => 'Terdapat aktivitas yang melanggar ketentuan layanan'],
-                                                    'admin_action' => ['label' => 'Tindakan Administratif', 'icon' => '🔒', 'desc' => 'Dibatasi atas keputusan administratif'],
-                                                    'other' => ['label' => 'Alasan Lainnya', 'icon' => '📋', 'desc' => 'Pembatasan untuk alasan tertentu'],
+                                                    'payment_failed' => ['label' => 'Pembayaran Tertunda', 'icon' => 'ðŸ’³', 'desc' => 'Terdapat masalah pembayaran yang perlu diselesaikan'],
+                                                    'policy_violation' => ['label' => 'Pelanggaran Kebijakan', 'icon' => 'âš–ï¸', 'desc' => 'Terdapat aktivitas yang melanggar ketentuan layanan'],
+                                                    'admin_action' => ['label' => 'Tindakan Administratif', 'icon' => 'ðŸ”’', 'desc' => 'Dibatasi atas keputusan administratif'],
+                                                    'other' => ['label' => 'Alasan Lainnya', 'icon' => 'ðŸ“‹', 'desc' => 'Pembatasan untuk alasan tertentu'],
                                                 ];
                                                 $reasonInfo = $reasonTypeLabels[$suspendReasonType] ?? $reasonTypeLabels['other'];
                                             @endphp
@@ -101,21 +101,21 @@
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">Langkah yang Dapat Anda Lakukan</h3>
                         <div class="space-y-3">
                             <div class="flex gap-3 items-start">
-                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white flex-shrink-0 text-sm font-semibold">✓</div>
+                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white flex-shrink-0 text-sm font-semibold">âœ“</div>
                                 <div>
                                     <p class="font-medium text-slate-900">Hubungi Tim Dukungan Kami</p>
                                     <p class="text-sm text-slate-600 mt-1">Tim administrator siap membantu Anda mengatasi masalah pembatasan akun</p>
                                 </div>
                             </div>
                             <div class="flex gap-3 items-start">
-                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white flex-shrink-0 text-sm font-semibold">✓</div>
+                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white flex-shrink-0 text-sm font-semibold">âœ“</div>
                                 <div>
                                     <p class="font-medium text-slate-900">Tinjau Kebijakan Layanan</p>
                                     <p class="text-sm text-slate-600 mt-1">Pastikan aktivitas Anda sesuai dengan ketentuan layanan yang berlaku</p>
                                 </div>
                             </div>
                             <div class="flex gap-3 items-start">
-                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white flex-shrink-0 text-sm font-semibold">✓</div>
+                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white flex-shrink-0 text-sm font-semibold">âœ“</div>
                                 <div>
                                     <p class="font-medium text-slate-900">Selesaikan Kewajiban Yang Tertunda</p>
                                     <p class="text-sm text-slate-600 mt-1">Jika ada pembayaran atau dokumentasi yang diperlukan, harap segera diselesaikan</p>
@@ -152,7 +152,7 @@
                                 @endif
                                 <div class="mt-4 pt-4 border-t border-blue-200">
                                     <p class="text-blue-800 text-xs">
-                                        💡 <strong>Catatan:</strong> Untuk mengaktifkan kembali akun, harap selesaikan pembayaran yang tertunda atau hubungi tim dukungan untuk informasi lebih lanjut.
+                                        ðŸ’¡ <strong>Catatan:</strong> Untuk mengaktifkan kembali akun, harap selesaikan pembayaran yang tertunda atau hubungi tim dukungan untuk informasi lebih lanjut.
                                     </p>
                                 </div>
                             </div>
@@ -171,13 +171,13 @@
 
                         @if(session('success'))
                             <div class="mb-4 p-4 bg-green-100 border border-green-300 rounded-lg">
-                                <p class="text-sm text-green-800 font-medium">✓ {{ session('success') }}</p>
+                                <p class="text-sm text-green-800 font-medium">âœ“ {{ session('success') }}</p>
                             </div>
                         @endif
 
                         @if(session('error'))
                             <div class="mb-4 p-4 bg-red-100 border border-red-300 rounded-lg">
-                                <p class="text-sm text-red-800 font-medium">✗ {{ session('error') }}</p>
+                                <p class="text-sm text-red-800 font-medium">âœ— {{ session('error') }}</p>
                             </div>
                         @endif
 
@@ -217,7 +217,7 @@
                             </div>
 
                             <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:from-green-700 hover:to-emerald-700 active:from-green-800 active:to-emerald-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                                📨 Kirim Permintaan Reaktivasi
+                                ðŸ“¨ Kirim Permintaan Reaktivasi
                             </button>
                         </form>
                     </div>
@@ -257,7 +257,7 @@
                 <!-- Footer Action -->
                 <div class="bg-slate-50 border-t border-slate-200 px-8 py-6 flex justify-center">
                     <a href="{{ route('subscription.landing') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-slate-600 text-white font-semibold shadow-md hover:bg-slate-700 active:bg-slate-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
-                        ← Kembali ke Halaman Utama
+                        â† Kembali ke Halaman Utama
                     </a>
                 </div>
             </div>
@@ -272,3 +272,9 @@
     </div>
 </body>
 </html>
+
+
+
+
+
+

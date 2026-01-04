@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Manajemen Produk - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-900 leading-tight">
@@ -26,14 +26,14 @@
                 {{-- Tombol untuk Mencatat Baru (Hanya Admin) --}}
                 @if ($isAdmin)
                     <a href="{{ route('products.create') }}"
-                       class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl mb-4 inline-block shadow-md font-semibold transition">
+                       class="bg-[#1F8F6A] hover:bg-[#166B50] text-white px-4 py-2 rounded-xl mb-4 inline-block shadow-md font-semibold transition">
                         + Tambah Produk Baru
                     </a>
                 @endif
 
                 {{-- Pesan Sukses/Error --}}
                 @if (session('success'))
-                    <div class="bg-emerald-50 border border-emerald-300 text-emerald-800 px-4 py-3 rounded-lg relative mb-4">
+                    <div class="bg-[#E9F6F1] border border-[#C8E6DF] text-[#1F2937] px-4 py-3 rounded-lg relative mb-4">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -46,8 +46,8 @@
                 {{-- Form Pencarian --}}
                 <form method="GET" action="{{ route('products.index') }}" class="mb-4">
                     <div class="flex">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk, SKU, kategori, atau pemasok..." class="flex-1 px-4 py-2 border border-emerald-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-r-lg font-semibold transition">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk, SKU, kategori, atau pemasok..." class="flex-1 px-4 py-2 border border-[#E5E7EB] rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#1F8F6A]">
+                        <button type="submit" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white px-4 py-2 rounded-r-lg font-semibold transition">
                             Cari
                         </button>
                     </div>
@@ -56,15 +56,15 @@
                 {{-- Tabel Data --}}
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-200">
-                        <thead class="bg-emerald-50">
+                        <thead class="bg-[#E9F6F1]">
                             <tr>
-                                <th class="py-3 px-6 text-left text-xs font-semibold text-emerald-700 uppercase tracking-wider">Gambar</th>
-                                <th class="py-3 px-6 text-left text-xs font-semibold text-emerald-700 uppercase tracking-wider">Nama & SKU</th>
-                                <th class="py-3 px-6 text-left text-xs font-semibold text-emerald-700 uppercase tracking-wider">Kategori</th>
-                                <th class="py-3 px-6 text-left text-xs font-semibold text-emerald-700 uppercase tracking-wider">Pemasok</th>
-                                <th class="py-3 px-6 text-left text-xs font-semibold text-emerald-700 uppercase tracking-wider">Stok</th>
+                                <th class="py-3 px-6 text-left text-xs font-semibold text-[#166B50] uppercase tracking-wider">Gambar</th>
+                                <th class="py-3 px-6 text-left text-xs font-semibold text-[#166B50] uppercase tracking-wider">Nama & SKU</th>
+                                <th class="py-3 px-6 text-left text-xs font-semibold text-[#166B50] uppercase tracking-wider">Kategori</th>
+                                <th class="py-3 px-6 text-left text-xs font-semibold text-[#166B50] uppercase tracking-wider">Pemasok</th>
+                                <th class="py-3 px-6 text-left text-xs font-semibold text-[#166B50] uppercase tracking-wider">Stok</th>
                                 @if ($isAdmin)
-                                    <th class="py-3 px-6 text-left text-xs font-semibold text-emerald-700 uppercase tracking-wider">Aksi</th>
+                                    <th class="py-3 px-6 text-left text-xs font-semibold text-[#166B50] uppercase tracking-wider">Aksi</th>
                                 @endif
                             </tr>
                         </thead>
@@ -122,3 +122,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

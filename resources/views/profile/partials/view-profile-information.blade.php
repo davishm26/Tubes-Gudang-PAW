@@ -1,4 +1,4 @@
-@php
+﻿@php
     $user = $user ?? Auth::user();
     $isArray = is_array($user);
 @endphp
@@ -99,3 +99,9 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+

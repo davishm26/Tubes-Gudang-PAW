@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Manajemen Tenant - StockMaster</x-slot>
     <x-slot name="header">
         <div class="flex items-center justify-between">
@@ -64,7 +64,7 @@
                                         $isExpired = $deadline ? \Carbon\Carbon::parse($deadline)->isPast() : false;
                                         $isSuspended = $company->suspended || $company->subscription_status === 'suspended';
                                         $statusLabel = $isExpired ? 'Expired' : ($isSuspended ? 'Suspended' : ($company->subscription_status ?? 'Active'));
-                                        $statusColor = $isExpired ? 'bg-rose-50 text-rose-700 ring-rose-100' : ($isSuspended ? 'bg-amber-50 text-amber-700 ring-amber-100' : 'bg-emerald-50 text-emerald-700 ring-emerald-100');
+                                        $statusColor = $isExpired ? 'bg-rose-50 text-rose-700 ring-rose-100' : ($isSuspended ? 'bg-amber-50 text-amber-700 ring-amber-100' : 'bg-[#E9F6F1] text-[#166B50] ring-[#E9F6F1]');
                                     @endphp
                                     <tr class="hover:bg-slate-50">
                                         <td class="px-6 py-4 font-medium text-slate-900">{{ $company->name }}</td>
@@ -117,3 +117,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

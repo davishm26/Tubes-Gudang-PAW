@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Riwayat Audit - StockMaster</x-slot>
     @php
         // Check demo mode
@@ -325,3 +325,9 @@
     </script>
     @endpush
 </x-app-layout>
+
+
+
+
+
+

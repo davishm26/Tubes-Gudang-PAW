@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Tambah Tenant - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-900 leading-tight">Buat Penyewa</h2>
@@ -25,3 +25,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

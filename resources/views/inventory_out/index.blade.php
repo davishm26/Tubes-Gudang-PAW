@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Barang Keluar - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-900 leading-tight">
@@ -22,7 +22,7 @@
                     {{-- Tabel Riwayat --}}
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left text-slate-600">
-                            <thead class="text-xs text-emerald-700 uppercase bg-emerald-50 font-semibold">
+                            <thead class="text-xs text-[#166B50] uppercase bg-[#E9F6F1] font-semibold">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">No</th>
                                     <th scope="col" class="px-6 py-3">Tanggal</th>
@@ -34,7 +34,7 @@
                             <tbody class="divide-y divide-slate-200">
                                 {{-- Loop Data (Pastikan Controller mengirim variabel $inventoryOuts) --}}
                                 @forelse ($inventoryOuts ?? [] as $index => $item)
-                                <tr class="bg-white hover:bg-emerald-50/30 transition">
+                                <tr class="bg-white hover:bg-[#E9F6F1]/30 transition">
                                     <td class="px-6 py-4 text-slate-900">{{ $index + 1 }}</td>
                                     <td class="px-6 py-4 text-slate-900">{{ \Carbon\Carbon::parse($item->date)->format('d M Y') }}</td>
                                     <td class="px-6 py-4 font-medium text-slate-900">
@@ -64,3 +64,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+

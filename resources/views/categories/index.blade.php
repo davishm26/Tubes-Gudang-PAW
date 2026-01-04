@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="title">Manajemen Kategori - StockMaster</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-900 leading-tight">
@@ -10,7 +10,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 @if (session('success'))
-                    <div class="mb-4 p-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-300">
+                    <div class="mb-4 p-3 rounded-lg bg-[#E9F6F1] text-[#1F8F6A] border border-[#C8E6DF]">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -25,34 +25,34 @@
                     </div>
                 @endif
 
-                <a href="{{ route('categories.create') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg mb-4 inline-block font-semibold transition">Tambah Kategori</a>
+                <a href="{{ route('categories.create') }}" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white px-4 py-2 rounded-lg mb-4 inline-block font-semibold transition">Tambah Kategori</a>
 
                 {{-- Form Pencarian --}}
                 <form method="GET" action="{{ route('categories.index') }}" class="mb-4">
                     <div class="flex">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori..." class="flex-1 px-4 py-2 border border-emerald-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-r-lg font-semibold transition">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori..." class="flex-1 px-4 py-2 border border-[#E5E7EB] rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#1F8F6A]">
+                        <button type="submit" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white px-4 py-2 rounded-r-lg font-semibold transition">
                             Cari
                         </button>
                     </div>
                 </form>
 
                 <table class="w-full text-left border-collapse">
-                    <thead class="bg-emerald-50">
+                    <thead class="bg-[#E9F6F1]">
                         <tr>
-                            <th class="py-3 px-4 border-b-2 border-emerald-300 font-semibold text-emerald-700">No.</th>
-                            <th class="py-3 px-4 border-b-2 border-emerald-300 font-semibold text-emerald-700">Nama Kategori</th>
-                            <th class="py-3 px-4 border-b-2 border-emerald-300 font-semibold text-emerald-700">Aksi</th>
+                            <th class="py-3 px-4 border-b-2 border-[#C8E6DF] font-semibold text-[#1F8F6A]">No.</th>
+                            <th class="py-3 px-4 border-b-2 border-[#C8E6DF] font-semibold text-[#1F8F6A]">Nama Kategori</th>
+                            <th class="py-3 px-4 border-b-2 border-[#C8E6DF] font-semibold text-[#1F8F6A]">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200">
                         @foreach ($categories as $category)
-                            <tr class="hover:bg-emerald-50/30 transition">
+                            <tr class="hover:bg-[#E9F6F1]/30 transition">
                                 <td class="py-3 px-4 text-slate-900">{{ $loop->iteration }}</td>
                                 <td class="py-3 px-4 text-slate-900 font-medium">{{ $category->name }}</td>
                                 <td class="py-3 px-4">
                                     {{-- 1. TOMBOL EDIT --}}
-                                    <a href="{{ route('categories.edit', $category->id) }}" class="text-emerald-600 hover:text-emerald-900 font-semibold mr-4">
+                                    <a href="{{ route('categories.edit', $category->id) }}" class="text-[#1F8F6A] hover:text-[#0F4C37] font-semibold mr-4">
                                         Edit
                                     </a>
 
@@ -80,3 +80,9 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+
