@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany; // Tambahkan ini
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Company;
@@ -13,7 +14,7 @@ use App\Models\Company;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, \App\Traits\Auditable;
+    use HasFactory, Notifiable, HasApiTokens, \App\Traits\Auditable;
 
     /**
      * Exclude password from audit logs

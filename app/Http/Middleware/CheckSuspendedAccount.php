@@ -16,6 +16,11 @@ class CheckSuspendedAccount
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Skip check untuk API routes
+        if ($request->is('api/*')) {
+            return $next($request);
+        }
+
         $user = Auth::user();
 
         // Skip check jika:
