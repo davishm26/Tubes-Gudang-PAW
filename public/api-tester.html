@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockMaster API Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1F8F6A 0%, #166B50 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .panel h2 {
+            color: #1F8F6A;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1F8F6A;
+        }
+
+        textarea {
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+        }
+
+        button {
+            background: linear-gradient(135deg, #1F8F6A 0%, #166B50 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(31, 143, 106, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .response {
+            background: #212529;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .token-display {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .token-display.show {
+            display: block;
+        }
+
+        .token-text {
+            color: #856404;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            font-size: 12px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quick-btn {
+            padding: 8px 15px;
+            font-size: 13px;
+            background: #6c757d;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 StockMaster API Tester</h1>
+            <p>Test REST API Endpoints dengan mudah</p>
+        </div>
+
+        <div class="content">
+            <!-- Left Panel - Request -->
+            <div class="panel">
+                <h2>📤 Request</h2>
+
+                <div class="form-group">
+                    <label>Endpoint</label>
+                    <select id="endpoint">
+                        <option value="login">POST /api/login</option>
+                        <option value="products">GET /api/products</option>
+                        <option value="categories">GET /api/categories</option>
+                        <option value="suppliers">GET /api/suppliers</option>
+                        <option value="inventory-in">GET /api/inventory-in</option>
+                        <option value="inventory-out">GET /api/inventory-out</option>
+                        <option value="user">GET /api/user</option>
+                        <option value="create-category">POST /api/categories</option>
+                        <option value="create-supplier">POST /api/suppliers</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="emailGroup">
+                    <label>Email</label>
+                    <input type="email" id="email" value="superadmin@example.com" placeholder="Email">
+                </div>
+
+                <div class="form-group" id="passwordGroup">
+                    <label>Password</label>
+                    <input type="password" id="password" value="password" placeholder="Password">
+                </div>
+
+                <div class="form-group" id="bodyGroup" style="display: none;">
+                    <label>Request Body (JSON)</label>
+                    <textarea id="requestBody" placeholder='{"name": "Category Name"}'></textarea>
+                </div>
+
+                <div class="form-group" id="tokenGroup" style="display: none;">
+                    <label>Authorization Token</label>
+                    <input type="text" id="token" placeholder="Paste token here">
+                </div>
+
+                <button onclick="sendRequest()">🚀 Send Request</button>
+
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="clearResponse()">Clear Response</button>
+                    <button class="quick-btn" onclick="copyResponse()">Copy Response</button>
+                </div>
+
+                <div class="token-display" id="tokenDisplay">
+                    <strong>🔑 Saved Token:</strong>
+                    <p class="token-text" id="savedToken"></p>
+                </div>
+            </div>
+
+            <!-- Right Panel - Response -->
+            <div class="panel">
+                <h2>📥 Response</h2>
+                <div id="statusBadge"></div>
+                <div class="response" id="response">Waiting for request...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let savedToken = '';
+        const baseURL = 'http://localhost:8000/api';
+
+        // Update form fields based on endpoint selection
+        document.getElementById('endpoint').addEventListener('change', function() {
+            const endpoint = this.value;
+            const emailGroup = document.getElementById('emailGroup');
+            const passwordGroup = document.getElementById('passwordGroup');
+            const tokenGroup = document.getElementById('tokenGroup');
+            const bodyGroup = document.getElementById('bodyGroup');
+            const requestBody = document.getElementById('requestBody');
+
+            // Hide all groups first
+            emailGroup.style.display = 'none';
+            passwordGroup.style.display = 'none';
+            tokenGroup.style.display = 'none';
+            bodyGroup.style.display = 'none';
+
+            if (endpoint === 'login') {
+                emailGroup.style.display = 'block';
+                passwordGroup.style.display = 'block';
+            } else if (endpoint === 'create-category') {
+                tokenGroup.style.display = 'block';
+                bodyGroup.style.display = 'block';
+                requestBody.value = '{\n  "name": "Elektronik"\n}';
+            } else if (endpoint === 'create-supplier') {
+                tokenGroup.style.display = 'block';
+                bodyGroup.style.display = 'block';
+                requestBody.value = '{\n  "name": "PT Maju Jaya",\n  "contact": "081234567890",\n  "address": "Jakarta"\n}';
+            } else {
+                tokenGroup.style.display = 'block';
+            }
+
+            // Auto-fill token if available
+            if (savedToken && tokenGroup.style.display !== 'none') {
+                document.getElementById('token').value = savedToken;
+            }
+        });
+
+        async function sendRequest() {
+            const endpoint = document.getElementById('endpoint').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const token = document.getElementById('token').value;
+            const requestBody = document.getElementById('requestBody').value;
+            const responseDiv = document.getElementById('response');
+            const statusBadge = document.getElementById('statusBadge');
+
+            responseDiv.textContent = 'Loading...';
+            statusBadge.innerHTML = '';
+
+            try {
+                let url = baseURL;
+                let options = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                };
+
+                // Configure request based on endpoint
+                if (endpoint === 'login') {
+                    url += '/login';
+                    options.method = 'POST';
+                    options.body = JSON.stringify({ email, password });
+                } else if (endpoint === 'create-category') {
+                    url += '/categories';
+                    options.method = 'POST';
+                    options.headers['Authorization'] = `Bearer ${token}`;
+                    options.body = requestBody;
+                } else if (endpoint === 'create-supplier') {
+                    url += '/suppliers';
+                    options.method = 'POST';
+                    options.headers['Authorization'] = `Bearer ${token}`;
+                    options.body = requestBody;
+                } else {
+                    url += `/${endpoint}`;
+                    options.method = 'GET';
+                    options.headers['Authorization'] = `Bearer ${token}`;
+                }
+
+                const response = await fetch(url, options);
+                const data = await response.json();
+
+                // Display response
+                responseDiv.textContent = JSON.stringify(data, null, 2);
+
+                // Show status
+                if (response.ok) {
+                    statusBadge.innerHTML = `<span class="status-badge status-success">✓ ${response.status} ${response.statusText}</span>`;
+                } else {
+                    statusBadge.innerHTML = `<span class="status-badge status-error">✗ ${response.status} ${response.statusText}</span>`;
+                }
+
+                // Save token if login successful
+                if (endpoint === 'login' && data.success && data.data.token) {
+                    savedToken = data.data.token;
+                    document.getElementById('savedToken').textContent = savedToken;
+                    document.getElementById('tokenDisplay').classList.add('show');
+
+                    // Show success message
+                    alert('✓ Login berhasil! Token telah disimpan.\n\nSekarang Anda bisa test endpoint lain.');
+                }
+
+            } catch (error) {
+                responseDiv.textContent = `Error: ${error.message}\n\nPastikan server Laravel berjalan di http://localhost:8000`;
+                statusBadge.innerHTML = `<span class="status-badge status-error">✗ Connection Error</span>`;
+            }
+        }
+
+        function clearResponse() {
+            document.getElementById('response').textContent = 'Waiting for request...';
+            document.getElementById('statusBadge').innerHTML = '';
+        }
+
+        function copyResponse() {
+            const responseText = document.getElementById('response').textContent;
+            navigator.clipboard.writeText(responseText).then(() => {
+                alert('✓ Response copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>

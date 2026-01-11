@@ -21,6 +21,10 @@
     <body class="font-sans antialiased bg-gradient-to-br from-[#E9F6F1] via-[#E9F6F1] to-white m-0 p-0">
         @include('layouts.navigation')
 
+        @php
+            $isDemoMode = session('is_demo', false) || session('demo_mode', false);
+        @endphp
+
         <!-- Page Heading -->
         @isset($header)
             <header>
@@ -30,30 +34,6 @@
 
         <div class="min-h-screen {{ isset($header) ? '' : 'pt-16' }}">
 
-            <!-- Demo Mode Banner -->
-            @if(session('demo_mode') === 'true')
-                <div class="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 text-white shadow-lg">
-                    <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
-                        <div class="flex items-center justify-between flex-wrap">
-                            <div class="flex items-center space-x-3">
-                                <svg class="w-6 h-6 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                                </svg>
-                                <div>
-                                    <p class="font-bold text-sm">Mode Demo - {{ ucfirst(session('demo_role', 'Staff')) }}</p>
-                                    <p class="text-xs opacity-90">Semua data hanya disimpan di browser Anda. Tidak ada perubahan permanen.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-2 mt-2 sm:mt-0">
-                                <a href="{{ route('demo.exit') }}" class="bg-white text-orange-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-100 transition-colors duration-200 shadow-md">
-                                    Keluar Demo
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}
@@ -61,7 +41,7 @@
         </div>
 
         <!-- Demo Mode Script -->
-        @if(session('demo_mode') === 'true')
+        @if($isDemoMode)
             <script src="{{ asset('js/demo-mode.js') }}"></script>
             <script src="{{ asset('js/demo-display.js') }}"></script>
         @endif

@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __('Saat akun dihapus, seluruh sumber daya dan data akan terhapus permanen. Sebelum melanjutkan, unduh data yang ingin Anda simpan.') }}
+            {{ __('Menghapus akun akan menghapus semua data secara permanen. Pastikan Anda sudah mengunduh data penting sebelum melanjutkan.') }}
         </p>
     </header>
 

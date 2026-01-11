@@ -164,11 +164,16 @@ class SubscriptionController extends Controller
 
     public function startDemo(Request $request)
     {
-        $role = $request->input('role', 'staff');
+        $role = $request->input('role', 'staf');
+
+        // Backward compatibility
+        if ($role === 'staff') {
+            $role = 'staf';
+        }
 
         // Validasi role
-        if (!in_array($role, ['admin', 'staff'])) {
-            $role = 'staff';
+        if (!in_array($role, ['admin', 'staf'], true)) {
+            $role = 'staf';
         }
 
         // Load semua demo data dari config (sesuai dengan mode real)
@@ -193,7 +198,7 @@ class SubscriptionController extends Controller
             'demo_profile_data' => $demoData['profile_data'][$role],
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Mode Demo aktif! Data dummy telah dimuat dengan 3 optional features (audit logs, notifications, profile management).');
+        return redirect()->route('dashboard')->with('success', 'Mode Demo aktif! Data dummy telah dimuat dengan 3 fitur opsional (aktivitas, notifikasi, manajemen profil).');
     }
 
     public function exitDemo()

@@ -30,10 +30,19 @@
 
                     <div>
                         <label for="template" class="block text-gray-700 text-sm font-bold mb-2">Template:</label>
+                        @php
+                            $templateLabels = [
+                                'maintenance' => 'Pemeliharaan',
+                                'update' => 'Pembaruan Sistem',
+                                'reminder' => 'Pengingat',
+                                'subscription_expiry' => 'Masa Langganan Hampir Habis',
+                                'announcement' => 'Pengumuman',
+                            ];
+                        @endphp
                         <select name="template" id="template" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             <option value="">Pilih Template (Opsional)</option>
                             @foreach($templates as $key => $template)
-                                <option value="{{ $key }}">{{ ucfirst($key) }}</option>
+                                <option value="{{ $key }}">{{ $templateLabels[$key] ?? ucwords(str_replace('_', ' ', (string) $key)) }}</option>
                             @endforeach
                         </select>
                     </div>

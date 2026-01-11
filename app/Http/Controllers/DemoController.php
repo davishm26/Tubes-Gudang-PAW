@@ -11,14 +11,19 @@ class DemoController extends Controller
      * Masuk ke mode demo dengan role tertentu
      * Seeder semua data demo dari config/demo_data.php
      *
-     * @param string $role ('admin' atau 'staff')
+     * @param string $role ('admin' atau 'staf')
      * @return \Illuminate\Http\RedirectResponse
      */
     public function enter($role)
     {
+        // Backward compatibility
+        if ($role === 'staff') {
+            $role = 'staf';
+        }
+
         // Validasi role yang diperbolehkan
-        if (!in_array($role, ['admin', 'staff'])) {
-            return redirect('/')->with('error', 'Role tidak valid. Pilih admin atau staff.');
+        if (!in_array($role, ['admin', 'staf'], true)) {
+            return redirect('/')->with('error', 'Role tidak valid. Pilih admin atau staf.');
         }
 
         // Load semua demo data dari config
@@ -48,7 +53,7 @@ class DemoController extends Controller
         Session::put('demo_profile_data', $demoData['profile_data'][$role]);
 
         // Flash message sukses dengan ringkasan data
-        Session::flash('success', "Mode Demo aktif sebagai {$role}! Anda dapat mencoba semua fitur (17 produk, 6 supplier, 8 audit logs, 7 notifications, lengkap profile management).");
+        Session::flash('success', "Mode Demo aktif sebagai {$role}! Anda dapat mencoba semua fitur (17 produk, 6 supplier, 8 aktivitas, 7 notifikasi, lengkap manajemen profil).");
 
         // Redirect ke dashboard
         return redirect()->route('dashboard');

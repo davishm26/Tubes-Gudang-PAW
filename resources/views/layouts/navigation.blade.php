@@ -31,15 +31,15 @@
                         <a href="{{ route('super_admin.tenants.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.tenants.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Tenant') }}</a>
                         <a href="{{ route('audit-logs.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('audit-logs.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Aktivitas') }}</a>
                         <a href="{{ route('super_admin.reactivation.requests') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.reactivation.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Permintaan Reaktivasi') }}</a>
-                        <a href="{{ route('super_admin.financial-report') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.financial-report*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Laporan') }}</a>
                         <a href="{{ route('super_admin.notifications.create') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.notifications.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Kirim Notifikasi') }}</a>
+                        <a href="{{ route('super_admin.financial-report') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.financial-report*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Laporan') }}</a>
                     @elseif($currentUser && $currentUser->role === 'admin')
                         <a href="{{ route('dashboard') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('dashboard') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Beranda') }}</a>
                         <a href="{{ route('products.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('products.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Produk') }}</a>
                         <a href="{{ route('suppliers.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('suppliers.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Pemasok') }}</a>
                         <a href="{{ route('categories.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('categories.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Kategori') }}</a>
 
-                        @if(!$isDemo || $demoRole !== 'staff')
+                        @if(!$isDemo || !in_array($demoRole, ['staf', 'staff'], true))
                             <a href="{{ route('users.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('users.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Pengguna') }}</a>
                         @endif
                         @if(!$isDemo || ($isDemo && $demoRole === 'admin'))
@@ -57,7 +57,39 @@
                                 <a href="{{ route('inventory-in.history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Stok Masuk') }}</a>
                                 <a href="{{ route('inventory-out.history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Stok Keluar') }}</a>
                             </div>
-                        </div>                    @else
+                        </div>
+                    @elseif($currentUser && in_array($currentUser->role ?? null, ['staf', 'staff'], true))
+                        <a href="{{ route('dashboard') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('dashboard') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Beranda') }}</a>
+                        <a href="{{ route('products.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('products.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Produk') }}</a>
+
+                        <!-- Dropdown Catat Stok -->
+                        <div class="relative" x-data="{ openCatatStok: false }">
+                            <button @click="openCatatStok = !openCatatStok" class="px-3 py-1 text-sm font-medium {{ request()->routeIs('inventory-in.create') || request()->routeIs('inventory-out.create') ? 'text-[#1F8F6A] border-b-2 border-[#1F8F6A]' : 'text-slate-700 hover:text-[#1F8F6A]' }} transition flex items-center gap-1">
+                                {{ __('Catat Stok') }}
+                                <svg class="w-4 h-4" :class="{'rotate-180': openCatatStok}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div x-show="openCatatStok" @click.away="openCatatStok = false" class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
+                                <a href="{{ route('inventory-in.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Stok Masuk') }}</a>
+                                <a href="{{ route('inventory-out.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Stok Keluar') }}</a>
+                            </div>
+                        </div>
+
+                        <!-- Dropdown Riwayat -->
+                        <div class="relative" x-data="{ openRiwayat: false }">
+                            <button @click="openRiwayat = !openRiwayat" class="px-3 py-1 text-sm font-medium {{ request()->routeIs('inventory-in.history') || request()->routeIs('inventory-out.history') ? 'text-[#1F8F6A] border-b-2 border-[#1F8F6A]' : 'text-slate-700 hover:text-[#1F8F6A]' }} transition flex items-center gap-1">
+                                {{ __('Riwayat') }}
+                                <svg class="w-4 h-4" :class="{'rotate-180': openRiwayat}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div x-show="openRiwayat" @click.away="openRiwayat = false" class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
+                                <a href="{{ route('inventory-in.history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Stok Masuk') }}</a>
+                                <a href="{{ route('inventory-out.history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Stok Keluar') }}</a>
+                            </div>
+                        </div>
+                    @else
                         <a href="{{ route('dashboard') }}" class="px-3 py-1 text-sm font-medium {{ request()->routeIs('dashboard') ? 'text-[#1F8F6A]' : 'text-slate-700 hover:text-[#1F8F6A]' }} transition">{{ __('Beranda') }}</a>
                     @endif
                 </div>
@@ -66,16 +98,21 @@
             <!-- Right: Notifications and User Menu -->
             <div class="flex items-center gap-4">
                 <!-- Notification Icon -->
-                <button class="p-1 rounded-full text-slate-600 hover:text-[#1F8F6A] transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                    </svg>
-                </button>
+                @php
+                    $navRole = $currentUser->role ?? $demoRole;
+                @endphp
+                @if($currentUser && in_array($navRole, ['admin', 'super_admin'], true))
+                    <a href="{{ route('notifications.index') }}" aria-label="Notifikasi" class="relative z-10 block p-1.5 rounded-full text-slate-600 hover:text-[#1F8F6A] hover:bg-gray-100 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#1F8F6A]">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                    </a>
+                @endif
 
                 <!-- User Menu Dropdown -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white hover:bg-[#E9F6F1] border border-[#D1EDE5] text-sm text-slate-800 transition">
-                        <span class="font-medium">{{ $currentUser->email ?? 'User' }}</span>
+                        <span class="font-medium">{{ $currentUser->name ?? $currentUser->email ?? 'User' }}</span>
                         <svg class="w-4 h-4" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                         </svg>
@@ -84,10 +121,16 @@
                     <!-- Dropdown Menu -->
                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
                         <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Profile') }}</a>
-                        <form method="POST" action="{{ route('logout') }}" class="block">
-                            @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Logout') }}</button>
-                        </form>
+                        @if($isDemo)
+                            <a href="{{ route('demo.exit') }}" class="block px-4 py-2 text-sm text-orange-600 hover:bg-orange-50 transition font-medium">
+                                Keluar Demo
+                            </a>
+                        @else
+                            <form method="POST" action="{{ route('logout') }}" class="block">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Logout') }}</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
 
@@ -111,8 +154,8 @@
                     <a href="{{ route('super_admin.tenants.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Tenant') }}</a>
                     <a href="{{ route('audit-logs.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Aktivitas') }}</a>
                     <a href="{{ route('super_admin.reactivation.requests') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Permintaan Reaktivasi') }}</a>
-                    <a href="{{ route('super_admin.financial-report') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Laporan') }}</a>
                     <a href="{{ route('super_admin.notifications.create') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Kirim Notifikasi') }}</a>
+                    <a href="{{ route('super_admin.financial-report') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Laporan') }}</a>
                 @elseif($currentUser->role === 'admin')
                     <a href="{{ route('dashboard') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Beranda') }}</a>
                     <a href="{{ route('products.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Produk') }}</a>
@@ -122,6 +165,21 @@
                     <a href="{{ route('audit-logs.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Aktivitas') }}</a>
 
                     <!-- Dropdown Riwayat Mobile -->
+                    <div class="border-t border-gray-200 mt-2 pt-2">
+                        <div class="px-3 py-1 text-xs text-gray-500 font-semibold uppercase">{{ __('Riwayat') }}</div>
+                        <a href="{{ route('inventory-in.history') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Stok Masuk') }}</a>
+                        <a href="{{ route('inventory-out.history') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Stok Keluar') }}</a>
+                    </div>
+                @elseif(in_array($currentUser->role ?? null, ['staf', 'staff'], true))
+                    <a href="{{ route('dashboard') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Beranda') }}</a>
+                    <a href="{{ route('products.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Produk') }}</a>
+
+                    <div class="border-t border-gray-200 mt-2 pt-2">
+                        <div class="px-3 py-1 text-xs text-gray-500 font-semibold uppercase">{{ __('Catat Stok') }}</div>
+                        <a href="{{ route('inventory-in.create') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Stok Masuk') }}</a>
+                        <a href="{{ route('inventory-out.create') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Stok Keluar') }}</a>
+                    </div>
+
                     <div class="border-t border-gray-200 mt-2 pt-2">
                         <div class="px-3 py-1 text-xs text-gray-500 font-semibold uppercase">{{ __('Riwayat') }}</div>
                         <a href="{{ route('inventory-in.history') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Stok Masuk') }}</a>

@@ -13,12 +13,12 @@
             <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
 
                 <!-- Header Section -->
-                <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200 px-8 py-12">
+                <div class="bg-gradient-to-r from-[#E9F6F1] to-emerald-50 border-b border-[#C8E6DF] px-8 py-12">
                     <div class="flex items-start gap-4">
                         <!-- Icon -->
                         <div class="flex-shrink-0">
-                            <div class="flex items-center justify-center h-14 w-14 rounded-full bg-amber-100 border border-amber-300">
-                                <svg class="h-7 w-7 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="flex items-center justify-center h-14 w-14 rounded-full bg-white border border-[#C8E6DF]">
+                                <svg class="h-7 w-7 text-[#166B50]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
                             </div>
@@ -39,7 +39,7 @@
 
                     <!-- Status Information Card -->
                     @if(!empty($suspendReason) || !empty($suspendReasonType))
-                        <div class="mb-8 p-6 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200">
+                        <div class="mb-8 p-6 rounded-xl bg-gradient-to-br from-[#E9F6F1] to-emerald-50 border border-[#C8E6DF]">
                             <h2 class="text-lg font-semibold text-slate-900 mb-6">Informasi Status Akun</h2>
 
                             <div class="space-y-5">
@@ -60,16 +60,32 @@
                                             <p class="text-sm font-semibold text-slate-600 uppercase tracking-wide mb-2">Kategori Pembatasan</p>
                                             @php
                                                 $reasonTypeLabels = [
-                                                    'payment_failed' => ['label' => 'Pembayaran Tertunda', 'icon' => '??', 'desc' => 'Terdapat masalah pembayaran yang perlu diselesaikan'],
-                                                    'policy_violation' => ['label' => 'Pelanggaran Kebijakan', 'icon' => '??', 'desc' => 'Terdapat aktivitas yang melanggar ketentuan layanan'],
-                                                    'admin_action' => ['label' => 'Tindakan Administratif', 'icon' => '??', 'desc' => 'Dibatasi atas keputusan administratif'],
-                                                    'other' => ['label' => 'Alasan Lainnya', 'icon' => '??', 'desc' => 'Pembatasan untuk alasan tertentu'],
+                                                    'payment_failed' => [
+                                                        'label' => 'Pembayaran Tertunda',
+                                                        'icon' => '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h.01M11 15h2M6 19h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>',
+                                                        'desc' => 'Terdapat masalah pembayaran yang perlu diselesaikan',
+                                                    ],
+                                                    'policy_violation' => [
+                                                        'label' => 'Pelanggaran Kebijakan',
+                                                        'icon' => '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>',
+                                                        'desc' => 'Terdapat aktivitas yang melanggar ketentuan layanan',
+                                                    ],
+                                                    'admin_action' => [
+                                                        'label' => 'Tindakan Administratif',
+                                                        'icon' => '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11a4 4 0 100-8 4 4 0 000 8z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a2.2 2.2 0 11-3.1 3.1 2.2 2.2 0 013.1-3.1z"/></svg>',
+                                                        'desc' => 'Dibatasi atas keputusan administratif',
+                                                    ],
+                                                    'other' => [
+                                                        'label' => 'Alasan Lainnya',
+                                                        'icon' => '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 1010 10A10 10 0 0012 2z"/></svg>',
+                                                        'desc' => 'Pembatasan untuk alasan tertentu',
+                                                    ],
                                                 ];
                                                 $reasonInfo = $reasonTypeLabels[$suspendReasonType] ?? $reasonTypeLabels['other'];
                                             @endphp
-                                            <div class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-amber-300">
-                                                <span class="text-lg">{{ $reasonInfo['icon'] }}</span>
-                                                <span class="font-semibold text-amber-900">{{ $reasonInfo['label'] }}</span>
+                                            <div class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-[#C8E6DF] text-[#0F4C37]">
+                                                <span class="text-[#166B50]">{!! $reasonInfo['icon'] !!}</span>
+                                                <span class="font-semibold">{{ $reasonInfo['label'] }}</span>
                                             </div>
                                             <p class="text-sm text-slate-600 mt-2">{{ $reasonInfo['desc'] }}</p>
                                         </div>
@@ -89,7 +105,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="mb-8 p-6 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200">
+                        <div class="mb-8 p-6 rounded-xl bg-gradient-to-br from-[#E9F6F1] to-emerald-50 border border-[#C8E6DF]">
                             <p class="text-slate-700 leading-relaxed">
                                 Akun perusahaan Anda telah dibatasi oleh administrator sistem. Untuk informasi lebih lengkap mengenai penyebab pembatasan, silakan hubungi tim dukungan kami.
                             </p>
@@ -100,22 +116,36 @@
                     <div class="bg-slate-50 rounded-xl border border-slate-200 p-6 mb-8">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">Langkah yang Dapat Anda Lakukan</h3>
                         <div class="space-y-3">
-                            <div class="flex gap-3 items-start">
-                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-[#1F8F6A] text-white flex-shrink-0 text-sm font-semibold">?</div>
+                            <div class="flex gap-3 items-center">
+                                <div class="inline-grid place-items-center h-7 w-7 rounded-full bg-[#1F8F6A] text-white flex-shrink-0">
+                                    <svg class="block h-4 w-4 -translate-y-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
                                 <div>
                                     <p class="font-medium text-slate-900">Hubungi Tim Dukungan Kami</p>
                                     <p class="text-sm text-slate-600 mt-1">Tim administrator siap membantu Anda mengatasi masalah pembatasan akun</p>
                                 </div>
                             </div>
-                            <div class="flex gap-3 items-start">
-                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-[#1F8F6A] text-white flex-shrink-0 text-sm font-semibold">?</div>
+                            <div class="flex gap-3 items-center">
+                                <div class="inline-grid place-items-center h-7 w-7 rounded-full bg-[#1F8F6A] text-white flex-shrink-0">
+                                    <svg class="block h-4 w-4 -translate-y-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01" />
+                                    </svg>
+                                </div>
                                 <div>
                                     <p class="font-medium text-slate-900">Tinjau Kebijakan Layanan</p>
                                     <p class="text-sm text-slate-600 mt-1">Pastikan aktivitas Anda sesuai dengan ketentuan layanan yang berlaku</p>
                                 </div>
                             </div>
-                            <div class="flex gap-3 items-start">
-                                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-[#1F8F6A] text-white flex-shrink-0 text-sm font-semibold">?</div>
+                            <div class="flex gap-3 items-center">
+                                <div class="inline-grid place-items-center h-7 w-7 rounded-full bg-[#1F8F6A] text-white flex-shrink-0">
+                                    <svg class="block h-4 w-4 -translate-y-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3v1H8a2 2 0 00-2 2v4h12v-4a2 2 0 00-2-2h-1v-1c0-1.657-1.343-3-3-3z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12V11a3 3 0 016 0v1" />
+                                    </svg>
+                                </div>
                                 <div>
                                     <p class="font-medium text-slate-900">Selesaikan Kewajiban Yang Tertunda</p>
                                     <p class="text-sm text-slate-600 mt-1">Jika ada pembayaran atau dokumentasi yang diperlukan, harap segera diselesaikan</p>
@@ -152,7 +182,7 @@
                                 @endif
                                 <div class="mt-4 pt-4 border-t border-blue-200">
                                     <p class="text-[#166B50] text-xs">
-                                        ?? <strong>Catatan:</strong> Untuk mengaktifkan kembali akun, harap selesaikan pembayaran yang tertunda atau hubungi tim dukungan untuk informasi lebih lanjut.
+                                        <strong>Catatan:</strong> Untuk mengaktifkan kembali akun, harap selesaikan pembayaran yang tertunda atau hubungi tim dukungan untuk informasi lebih lanjut.
                                     </p>
                                 </div>
                             </div>
@@ -217,7 +247,7 @@
                             </div>
 
                             <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:from-green-700 hover:to-emerald-700 active:from-green-800 active:to-emerald-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                                ?? Kirim Permintaan Reaktivasi
+                                Kirim Permintaan Reaktivasi
                             </button>
                         </form>
                     </div>
@@ -257,7 +287,10 @@
                 <!-- Footer Action -->
                 <div class="bg-slate-50 border-t border-slate-200 px-8 py-6 flex justify-center">
                     <a href="{{ route('subscription.landing') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-[#1F8F6A] to-[#166B50] text-white font-semibold shadow-md hover:from-[#166B50] hover:to-[#0F4C37] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-2">
-                        ? Kembali ke Halaman Utama
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M9 21V9h6v12" />
+                        </svg>
+                        Kembali ke Halaman Utama
                     </a>
                 </div>
             </div>

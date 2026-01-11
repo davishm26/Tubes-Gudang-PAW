@@ -9,6 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('companies', function (Blueprint $table) {
+            $table->text('suspend_reason')->nullable();
             $table->enum('suspend_reason_type', ['payment_failed', 'policy_violation', 'admin_action', 'other'])->nullable()->after('suspend_reason');
         });
     }
@@ -16,7 +17,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('suspend_reason_type');
+            $table->dropColumn(['suspend_reason_type', 'suspend_reason']);
         });
     }
 };

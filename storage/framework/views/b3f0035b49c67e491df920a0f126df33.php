@@ -113,7 +113,7 @@
                                             <a href="<?php echo e(route('products.edit', $product->id)); ?>" class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-blue-50 text-blue-700 hover:bg-blue-100 transition">Edit</a>
 
                                             
-                                            <?php if(!$isDemo || $demoRole !== 'staff'): ?>
+                                            <?php if(!$isDemo || !in_array($demoRole, ['staf', 'staff'], true)): ?>
                                                 <form action="<?php echo e(route('products.destroy', $product->id)); ?>" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
                                                     <?php echo csrf_field(); ?>
                                                     <?php echo method_field('DELETE'); ?>

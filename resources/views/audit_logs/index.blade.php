@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="title">Riwayat Audit - StockMaster</x-slot>
+    <x-slot name="title">Aktivitas - StockMaster</x-slot>
     @php
         // Check demo mode
         $isDemo = session('is_demo', false) || session('demo_mode', false);
@@ -45,8 +45,8 @@
     <x-slot name="header">
         <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="font-semibold text-2xl text-white leading-tight">
-                    {{ __('Riwayat Audit') }}
+                <h2 class="w-full text-center font-semibold text-2xl text-white leading-tight">
+                    {{ __('Aktivitas') }}
                 </h2>
             </div>
         </div>
@@ -159,7 +159,7 @@
                         </div>
                     </form>
 
-                    {{-- Tabel Riwayat Audit --}}
+                    {{-- Tabel Aktivitas --}}
                     <div class="overflow-x-auto">
                         <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
                             <!-- TABLE HEADER -->
@@ -173,48 +173,86 @@
                                         <th class="px-6 py-4 text-left text-xs font-semibold text-[#1F8F6A] uppercase tracking-wide">Pengguna</th>
                                         <th class="px-6 py-4 text-left text-xs font-semibold text-[#1F8F6A] uppercase tracking-wide">Entitas</th>
                                     @endif
-                                    <th class="px-6 py-4 text-left text-xs font-semibold text-[#1F8F6A] uppercase tracking-wide">Aksi</th>
+                                    <th class="px-6 py-4 text-center text-xs font-semibold text-[#1F8F6A] uppercase tracking-wide">Aksi</th>
                                     <th class="px-6 py-4 text-left text-xs font-semibold text-[#1F8F6A] uppercase tracking-wide">Perubahan</th>
-                                    <th class="px-6 py-4 text-left text-xs font-semibold text-[#1F8F6A] uppercase tracking-wide">Alamat IP</th>
-                                    <th class="px-6 py-4 text-right text-xs font-semibold text-[#1F8F6A] uppercase tracking-wide">Tindakan</th>
+                                    <th class="px-6 py-4 text-center text-xs font-semibold text-[#1F8F6A] uppercase tracking-wide">Detail</th>
                                 </tr>
                             </thead>
 
                             <!-- TABLE BODY -->
                             <tbody class="bg-white divide-y divide-gray-100">
                                 @forelse($logs as $log)
+                                    @php
+                                        $isArray = is_array($log);
+
+                                        $createdAtRaw = $isArray
+                                            ? ($log['timestamp'] ?? $log['created_at'] ?? null)
+                                            : ($log->created_at ?? null);
+
+                                        $createdAt = $createdAtRaw
+                                            ? \Carbon\Carbon::parse($createdAtRaw)->setTimezone(config('app.timezone'))
+                                            : null;
+
+                                        $logId = $isArray ? ($log['id'] ?? null) : ($log->id ?? null);
+                                        $action = $isArray ? ($log['action'] ?? '') : ($log->action ?? '');
+
+                                        $entityTypeRaw = $isArray ? ($log['entity'] ?? null) : ($log->entity_type ?? null);
+                                        $entityTypeLabel = $entityTypeRaw ? class_basename($entityTypeRaw) : '-';
+
+                                        $entityName = $isArray ? ($log['entity_name'] ?? null) : ($log->entity_name ?? null);
+                                        if (!$entityName && !$isArray) {
+                                            $entityName = getEntityName($log) ?? '[Unknown]';
+                                        }
+
+                                        $userName = $isArray ? ($log['user_name'] ?? '-') : ($log->user?->name ?? '-');
+                                        $companyName = $isArray ? '-' : ($log->company?->name ?? '-');
+
+                                        $changes = null;
+                                        if ($isArray) {
+                                            if (array_key_exists('old_values', $log) || array_key_exists('new_values', $log)) {
+                                                $changes = [
+                                                    'Perubahan Data' => [
+                                                        'old' => $log['old_values'] ?? null,
+                                                        'new' => $log['new_values'] ?? null,
+                                                    ],
+                                                ];
+                                            }
+                                        } else {
+                                            $changes = $log->changes;
+                                        }
+                                    @endphp
                                     <tr class="hover:bg-gray-50 transition">
                                         <!-- WAKTU -->
                                         <td class="px-6 py-5 whitespace-nowrap">
                                             <div class="text-sm font-medium text-gray-900">
-                                                {{ $log->created_at->setTimezone(config('app.timezone'))->format('d/m/Y H:i') }}
+                                                {{ $createdAt ? $createdAt->format('d/m/Y H:i') : '-' }}
                                             </div>
                                             <div class="text-xs text-gray-500 mt-1">
-                                                {{ $log->created_at->setTimezone(config('app.timezone'))->locale(config('app.locale'))->diffForHumans() }}
+                                                {{ $createdAt ? $createdAt->locale(config('app.locale'))->diffForHumans() : '-' }}
                                             </div>
                                         </td>
                                         @if(Auth::check() && Auth::user()->role === 'super_admin')
                                             <!-- PERUSAHAAN (super admin) -->
-                                            <td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">{{ $log->company?->name ?? '-' }}</td>
+                                            <td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">{{ $companyName }}</td>
                                             <!-- ENTITAS (super admin) -->
                                             <td class="px-6 py-5">
-                                                <div class="text-sm font-semibold text-gray-900">{{ class_basename($log->entity_type) }}</div>
-                                                <div class="text-xs text-gray-500 mt-1">{{ $log->entity_name ?? getEntityName($log) ?? '[Unknown]' }}</div>
+                                                <div class="text-sm font-semibold text-gray-900">{{ $entityTypeLabel }}</div>
+                                                <div class="text-xs text-gray-500 mt-1">{{ $entityName ?? '[Unknown]' }}</div>
                                             </td>
                                         @else
                                             <!-- PENGGUNA (admin) -->
                                             <td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {{ $log->user?->name ?? '-' }}
+                                                {{ $userName }}
                                             </td>
                                             <!-- ENTITAS (admin) -->
                                             <td class="px-6 py-5">
-                                                <div class="text-sm font-semibold text-gray-900">{{ class_basename($log->entity_type) }}</div>
-                                                <div class="text-xs text-gray-500 mt-1">{{ $log->entity_name ?? getEntityName($log) ?? '[Unknown]' }}</div>
+                                                <div class="text-sm font-semibold text-gray-900">{{ $entityTypeLabel }}</div>
+                                                <div class="text-xs text-gray-500 mt-1">{{ $entityName ?? '[Unknown]' }}</div>
                                             </td>
                                         @endif
 
                                         <!-- AKSI -->
-                                        <td class="px-6 py-5 whitespace-nowrap">
+                                        <td class="px-6 py-5 whitespace-nowrap text-center">
                                             @php
                                                 $actionStyles = [
                                                     'created' => 'bg-green-100 text-green-700 border border-green-200',
@@ -224,15 +262,15 @@
                                                 ];
                                             @endphp
                                             <span
-                                                class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full {{ $actionStyles[$log->action] ?? 'bg-gray-100 text-gray-700 border border-gray-200' }}">
-                                                {{ strtoupper($log->action) }}
+                                                class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full {{ $actionStyles[$action] ?? 'bg-gray-100 text-gray-700 border border-gray-200' }}">
+                                                {{ strtoupper($action) }}
                                             </span>
                                         </td>
 
                                         <!-- PERUBAHAN -->
                                         <td class="px-6 py-5 text-sm">
-                                            @if ($log->changes)
-                                                <button onclick="showChanges({{ json_encode($log->changes) }})"
+                                            @if ($changes)
+                                                <button onclick='showChanges(@json($changes))'
                                                     class="text-[#1F8F6A] font-medium hover:underline">
                                                     Lihat Perubahan
                                                 </button>
@@ -241,23 +279,22 @@
                                             @endif
                                         </td>
 
-                                        <!-- IP -->
-                                        <td class="px-6 py-5 whitespace-nowrap text-sm text-gray-600">
-                                            {{ $log->ip_address ?? '-' }}
-                                        </td>
-
                                         <!-- TINDAKAN -->
                                         <td class="px-6 py-5 whitespace-nowrap text-center text-sm font-medium">
-                                            <a href="{{ route('audit-logs.show', $log->id) }}"
-                                                class="text-[#1F8F6A] hover:text-[#0F4C37] font-semibold">
-                                                DETAIL
-                                            </a>
+                                            @if($logId)
+                                                <a href="{{ route('audit-logs.show', $logId) }}"
+                                                    class="text-[#1F8F6A] hover:text-[#0F4C37] font-semibold">
+                                                    DETAIL
+                                                </a>
+                                            @else
+                                                <span class="text-gray-400">-</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="px-6 py-10 text-center text-sm text-gray-500">
-                                            Tidak ada riwayat audit.
+                                        <td colspan="6" class="px-6 py-10 text-center text-sm text-gray-500">
+                                            Tidak ada aktivitas.
                                         </td>
                                     </tr>
                                 @endforelse

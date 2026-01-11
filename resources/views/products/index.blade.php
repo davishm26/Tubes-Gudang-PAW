@@ -100,8 +100,8 @@
                                         <td class="py-3 px-4 flex justify-center gap-1">
                                             <a href="{{ route('products.edit', $product->id) }}" class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-blue-50 text-blue-700 hover:bg-blue-100 transition">Edit</a>
 
-                                            {{-- Tombol Hapus - Sembunyikan jika staff di mode demo --}}
-                                            @if (!$isDemo || $demoRole !== 'staff')
+                                            {{-- Tombol Hapus - Sembunyikan jika staf di mode demo --}}
+                                            @if (!$isDemo || !in_array($demoRole, ['staf', 'staff'], true))
                                                 <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
                                                     @csrf
                                                     @method('DELETE')

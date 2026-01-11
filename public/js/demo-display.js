@@ -215,7 +215,7 @@
                 <td class="px-6 py-4">${user.email}</td>
                 <td class="px-6 py-4">
                     <span class="px-2 py-1 rounded text-xs ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}">
-                        ${user.role === 'admin' ? 'Admin' : 'Staff'}
+                        ${user.role === 'admin' ? 'Admin' : 'Staf'}
                     </span>
                 </td>
                 <td class="px-6 py-4">

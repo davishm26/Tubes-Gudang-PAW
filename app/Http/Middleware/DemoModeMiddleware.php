@@ -19,13 +19,18 @@ class DemoModeMiddleware
         $isDemoMode = Session::get('is_demo') || Session::get('demo_mode');
 
         if ($isDemoMode) {
-            $role = Session::get('demo_role', 'staff');
+            $role = Session::get('demo_role', 'staf');
+
+            // Backward compatibility: normalize legacy value
+            if ($role === 'staff') {
+                $role = 'staf';
+            }
 
             // Buat object user dummy sebagai array untuk view
             $demoUser = [
                 'id' => $role === 'admin' ? 999 : 998,
-                'name' => $role === 'admin' ? 'Demo Admin' : 'Demo Staff',
-                'email' => $role === 'admin' ? 'admin@demo.com' : 'staff@demo.com',
+                'name' => $role === 'admin' ? 'Demo Admin' : 'Demo Staf',
+                'email' => $role === 'admin' ? 'admin@demo.com' : 'staf@demo.com',
                 'role' => $role,
                 'company_id' => 999,
                 'is_demo' => true

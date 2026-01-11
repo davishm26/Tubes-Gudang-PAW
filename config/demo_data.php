@@ -305,16 +305,16 @@ return [
     ],
 
     'inventory_outs' => [
-        ['id' => 1, 'product_id' => 1, 'product_name' => 'Monitor LED 24" Full HD', 'quantity' => 5, 'date' => '2025-01-15', 'description' => 'Penjualan ke PT ABC', 'user' => 'Demo Staff'],
-        ['id' => 2, 'product_id' => 4, 'product_name' => 'Laptop Gaming Pro 15" RTX 4070', 'quantity' => 2, 'date' => '2025-01-16', 'description' => 'Order dari toko retail Jakarta', 'user' => 'Demo Staff'],
-        ['id' => 3, 'product_id' => 7, 'product_name' => 'Keyboard Mechanical RGB Hot-swap', 'quantity' => 8, 'date' => '2025-01-17', 'description' => 'Penjualan e-commerce', 'user' => 'Demo Staff'],
-        ['id' => 4, 'product_id' => 10, 'product_name' => 'Mouse Wireless Pro 2.4GHz', 'quantity' => 12, 'date' => '2025-01-18', 'description' => 'Pengiriman ke distributor regional', 'user' => 'Demo Staff'],
-        ['id' => 5, 'product_id' => 13, 'product_name' => 'Headset Gaming Stereo 7.1', 'quantity' => 6, 'date' => '2025-01-19', 'description' => 'Penjualan retail counter', 'user' => 'Demo Staff'],
-        ['id' => 6, 'product_id' => 2, 'product_name' => 'Monitor Curved 27" 144Hz', 'quantity' => 3, 'date' => '2025-01-20', 'description' => 'Order khusus dari kantor pusat', 'user' => 'Demo Staff'],
-        ['id' => 7, 'product_id' => 5, 'product_name' => 'Laptop Ultrabook 13" i7-1360P', 'quantity' => 4, 'date' => '2025-01-21', 'description' => 'Penjualan online platform', 'user' => 'Demo Staff'],
-        ['id' => 8, 'product_id' => 11, 'product_name' => 'Mouse Gaming RGB 8 Button', 'quantity' => 7, 'date' => '2025-01-22', 'description' => 'Pengiriman ke toko mitra', 'user' => 'Demo Staff'],
-        ['id' => 9, 'product_id' => 16, 'product_name' => 'Printer Laser Monochrome A4', 'quantity' => 2, 'date' => '2025-01-23', 'description' => 'Order ke perusahaan B', 'user' => 'Demo Staff'],
-        ['id' => 10, 'product_id' => 17, 'product_name' => 'Printer Inkjet Color All-in-One', 'quantity' => 3, 'date' => '2025-01-24', 'description' => 'Penjualan print shop', 'user' => 'Demo Staff'],
+        ['id' => 1, 'product_id' => 1, 'product_name' => 'Monitor LED 24" Full HD', 'quantity' => 5, 'date' => '2025-01-15', 'description' => 'Penjualan ke PT ABC', 'user' => 'Demo Staf'],
+        ['id' => 2, 'product_id' => 4, 'product_name' => 'Laptop Gaming Pro 15" RTX 4070', 'quantity' => 2, 'date' => '2025-01-16', 'description' => 'Order dari toko retail Jakarta', 'user' => 'Demo Staf'],
+        ['id' => 3, 'product_id' => 7, 'product_name' => 'Keyboard Mechanical RGB Hot-swap', 'quantity' => 8, 'date' => '2025-01-17', 'description' => 'Penjualan e-commerce', 'user' => 'Demo Staf'],
+        ['id' => 4, 'product_id' => 10, 'product_name' => 'Mouse Wireless Pro 2.4GHz', 'quantity' => 12, 'date' => '2025-01-18', 'description' => 'Pengiriman ke distributor regional', 'user' => 'Demo Staf'],
+        ['id' => 5, 'product_id' => 13, 'product_name' => 'Headset Gaming Stereo 7.1', 'quantity' => 6, 'date' => '2025-01-19', 'description' => 'Penjualan retail counter', 'user' => 'Demo Staf'],
+        ['id' => 6, 'product_id' => 2, 'product_name' => 'Monitor Curved 27" 144Hz', 'quantity' => 3, 'date' => '2025-01-20', 'description' => 'Order khusus dari kantor pusat', 'user' => 'Demo Staf'],
+        ['id' => 7, 'product_id' => 5, 'product_name' => 'Laptop Ultrabook 13" i7-1360P', 'quantity' => 4, 'date' => '2025-01-21', 'description' => 'Penjualan online platform', 'user' => 'Demo Staf'],
+        ['id' => 8, 'product_id' => 11, 'product_name' => 'Mouse Gaming RGB 8 Button', 'quantity' => 7, 'date' => '2025-01-22', 'description' => 'Pengiriman ke toko mitra', 'user' => 'Demo Staf'],
+        ['id' => 9, 'product_id' => 16, 'product_name' => 'Printer Laser Monochrome A4', 'quantity' => 2, 'date' => '2025-01-23', 'description' => 'Order ke perusahaan B', 'user' => 'Demo Staf'],
+        ['id' => 10, 'product_id' => 17, 'product_name' => 'Printer Inkjet Color All-in-One', 'quantity' => 3, 'date' => '2025-01-24', 'description' => 'Penjualan print shop', 'user' => 'Demo Staf'],
     ],
 
     'users' => [
@@ -328,9 +328,9 @@ return [
         ],
         [
             'id' => 998,
-            'name' => 'Demo Staff',
-            'email' => 'staff@demo.com',
-            'role' => 'staff',
+            'name' => 'Demo Staf',
+            'email' => 'staf@demo.com',
+            'role' => 'staf',
             'company' => 'Demo Company',
             'is_demo' => true
         ],
@@ -357,11 +357,11 @@ return [
             'email' => 'admin@demo.com',
             'role' => 'admin',
         ],
-        'staff' => [
+        'staf' => [
             'id' => 998,
-            'name' => 'Demo Staff',
-            'email' => 'staff@demo.com',
-            'role' => 'staff',
+            'name' => 'Demo Staf',
+            'email' => 'staf@demo.com',
+            'role' => 'staf',
         ],
     ],
 
@@ -396,7 +396,7 @@ return [
         [
             'id' => 3,
             'user_id' => 998,
-            'user_name' => 'Demo Staff',
+            'user_name' => 'Demo Staf',
             'action' => 'created',
             'entity' => 'InventoryIn',
             'entity_id' => 1,
@@ -409,7 +409,7 @@ return [
         [
             'id' => 4,
             'user_id' => 998,
-            'user_name' => 'Demo Staff',
+            'user_name' => 'Demo Staf',
             'action' => 'created',
             'entity' => 'InventoryOut',
             'entity_id' => 1,
@@ -428,7 +428,7 @@ return [
             'entity_id' => 1,
             'entity_name' => 'John Doe',
             'old_values' => null,
-            'new_values' => ['name' => 'John Doe', 'email' => 'john@demo.com', 'role' => 'staff'],
+            'new_values' => ['name' => 'John Doe', 'email' => 'john@demo.com', 'role' => 'staf'],
             'timestamp' => '2025-01-20 09:00:00',
             'created_at' => '2025-01-20 09:00:00',
         ],
@@ -461,7 +461,7 @@ return [
         [
             'id' => 8,
             'user_id' => 998,
-            'user_name' => 'Demo Staff',
+            'user_name' => 'Demo Staf',
             'action' => 'viewed',
             'entity' => 'Report',
             'entity_id' => 1,
@@ -490,10 +490,10 @@ return [
         [
             'id' => 2,
             'company_id' => 1,
-            'sender_id' => 998, // From Staff
+            'sender_id' => 998, // From Staf
             'recipient_id' => 999, // Admin
             'template' => 'inventory_in_created',
-            'message' => 'Stok masuk 20 pcs Monitor LED telah berhasil dicatat oleh Demo Staff',
+            'message' => 'Stok masuk 20 pcs Monitor LED telah berhasil dicatat oleh Demo Staf',
             'read_at' => null,
             'created_at' => '2025-01-22 11:30:00',
             'updated_at' => '2025-01-22 11:30:00',
@@ -515,45 +515,10 @@ return [
             'sender_id' => null,
             'recipient_id' => 999,
             'template' => 'user_created',
-            'message' => 'User baru "Demo Staff" dengan role staff telah ditambahkan ke sistem',
+            'message' => 'User baru "Demo Staf" dengan role staf telah ditambahkan ke sistem',
             'read_at' => '2025-01-20 09:05:00',
             'created_at' => '2025-01-20 09:00:00',
             'updated_at' => '2025-01-20 09:05:00',
-        ],
-
-        // Notifications for Staff (recipient_id = 998)
-        [
-            'id' => 5,
-            'company_id' => 1,
-            'sender_id' => 999, // From Admin
-            'recipient_id' => 998, // Staff
-            'template' => 'task_assigned',
-            'message' => 'Tugas baru: Lakukan pengecekan stok produk kategori Monitor',
-            'read_at' => '2025-01-21 10:00:00',
-            'created_at' => '2025-01-21 09:30:00',
-            'updated_at' => '2025-01-21 10:00:00',
-        ],
-        [
-            'id' => 6,
-            'company_id' => 1,
-            'sender_id' => 999,
-            'recipient_id' => 998,
-            'template' => 'inventory_out_approved',
-            'message' => 'Pengeluaran stok 5 pcs Monitor LED ke PT ABC telah disetujui',
-            'read_at' => '2025-01-15 14:05:00',
-            'created_at' => '2025-01-15 14:00:00',
-            'updated_at' => '2025-01-15 14:05:00',
-        ],
-        [
-            'id' => 7,
-            'company_id' => 1,
-            'sender_id' => null,
-            'recipient_id' => 998,
-            'template' => 'system_update',
-            'message' => 'Sistem akan menjalani pemeliharaan rutin pada hari Minggu, 26 Januari 2025 pukul 02:00 - 04:00 WIB',
-            'read_at' => null,
-            'created_at' => '2025-01-22 08:00:00',
-            'updated_at' => '2025-01-22 08:00:00',
         ],
     ],
 
@@ -575,19 +540,19 @@ return [
             'notifications_enabled' => true,
             'email_notifications' => true,
         ],
-        'staff' => [
+        'staf' => [
             'id' => 998,
-            'name' => 'Demo Staff',
-            'email' => 'staff@demo.com',
+            'name' => 'Demo Staf',
+            'email' => 'staf@demo.com',
             'phone' => '082345678901',
             'company' => 'Demo Company',
-            'role' => 'staff',
+            'role' => 'staf',
             'department' => 'Operations',
             'address' => 'Jl. Demo No. 456, Jakarta Timur, 13210',
             'created_at' => '2025-01-01 09:00:00',
             'updated_at' => '2025-01-01 09:00:00',
-            'avatar' => 'https://ui-avatars.com/api/?name=Demo+Staff&background=764ba2&color=fff',
-            'about' => 'Saya adalah staff operasional yang menangani pencatatan stok masuk dan keluar.',
+            'avatar' => 'https://ui-avatars.com/api/?name=Demo+Staf&background=764ba2&color=fff',
+            'about' => 'Saya adalah staf operasional yang menangani pencatatan stok masuk dan keluar.',
             'notifications_enabled' => true,
             'email_notifications' => false,
         ],

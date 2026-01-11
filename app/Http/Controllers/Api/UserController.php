@@ -64,14 +64,16 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => ['required', Rule::in(['admin', 'staff'])],
+            'role' => ['required', Rule::in(['admin', 'staf', 'staff'])],
         ]);
+
+        $role = $request->role === 'staff' ? 'staf' : $request->role;
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role' => $role,
             'company_id' => $companyId,
         ]);
 
@@ -136,13 +138,15 @@ class UserController extends Controller
                 Rule::unique('users')->ignore($user->id),
             ],
             'password' => 'nullable|string|min:8',
-            'role' => ['required', Rule::in(['admin', 'staff'])],
+            'role' => ['required', Rule::in(['admin', 'staf', 'staff'])],
         ]);
+
+        $role = $request->role === 'staff' ? 'staf' : $request->role;
 
         $data = [
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role,
+            'role' => $role,
         ];
 
         if ($request->filled('password')) {

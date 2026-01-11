@@ -26,7 +26,7 @@
             @if($isDemo)
                 <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <p class="text-sm text-yellow-800">
-                        <strong>?? Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
+                        <strong>Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
                     </p>
                 </div>
             @endif

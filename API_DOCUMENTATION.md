@@ -11,6 +11,13 @@ API menggunakan Laravel Sanctum untuk autentikasi. Setelah login, gunakan token 
 Authorization: Bearer {your-token}
 ```
 
+Default akun hasil seeder:
+- Email: `superadmin@example.com`
+- Password: `password`
+
+Jika akun belum ada, jalankan seeder:
+`php artisan db:seed`
+
 ---
 
 ## Auth Endpoints
@@ -21,7 +28,7 @@ Authorization: Bearer {your-token}
 Request Body:
 ```json
 {
-  "email": "admin@example.com",
+  "email": "superadmin@example.com",
   "password": "password"
 }
 ```
@@ -35,8 +42,8 @@ Response:
     "user": {
       "id": 1,
       "name": "Admin User",
-      "email": "admin@example.com",
-      "role": "admin"
+      "email": "superadmin@example.com",
+      "role": "super_admin"
     },
     "token": "1|abcdef123456..."
   }
@@ -240,10 +247,10 @@ Query Parameters:
 Request Body:
 ```json
 {
-  "name": "Staff User",
-  "email": "staff@example.com",
+  "name": "Staf User",
+  "email": "staf@example.com",
   "password": "password123",
-  "role": "staff"
+  "role": "staf"
 }
 ```
 
@@ -261,7 +268,7 @@ Request Body:
 ```bash
 curl -X POST http://localhost:8000/api/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@example.com","password":"password"}'
+  -d '{"email":"superadmin@example.com","password":"password"}'
 ```
 
 ### Contoh Get Products:

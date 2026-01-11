@@ -59,7 +59,13 @@ Route::middleware([\App\Http\Middleware\DemoOrAuthMiddleware::class, \App\Http\M
         ->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
 
     // 4. Route Resource: Data Master (Produk, Supplier, Kategori)
-    Route::resource('products', ProductController::class)->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
+    // Products: staf hanya boleh melihat (index). CRUD hanya admin.
+    Route::resource('products', ProductController::class)
+        ->only(['index'])
+        ->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
+    Route::resource('products', ProductController::class)
+        ->except(['index', 'show'])
+        ->middleware([\App\Http\Middleware\NotSuperAdminMiddleware::class, \App\Http\Middleware\AdminMiddleware::class]);
     Route::resource('suppliers', SupplierController::class)->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
     Route::resource('categories', CategoryController::class)->middleware(\App\Http\Middleware\NotSuperAdminMiddleware::class);
     // 5. Route Resource: User Management (Hanya Admin)

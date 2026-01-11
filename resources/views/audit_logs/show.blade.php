@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="title">Detail Riwayat Audit - StockMaster</x-slot>
+    <x-slot name="title">Detail Aktivitas - StockMaster</x-slot>
     @php
         $isDemo = session('is_demo', false) || session('demo_mode', false);
         $isArray = is_array($log);
@@ -44,7 +44,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between">
                     <h2 class="font-semibold text-2xl text-white leading-tight">
-                        {{ __('Detail Riwayat Audit') }}
+                        {{ __('Detail Aktivitas') }}
                         @if($isDemo)
                             <span class="ml-2 px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full text-sm font-medium">Demo Mode</span>
                         @endif
@@ -137,17 +137,6 @@
                                     <p class="text-sm text-gray-900">#{{ $isArray ? ($log['entity_id'] ?? '-') : $log->entity_id }}</p>
                                 </div>
 
-                                @if(!$isDemo)
-                                <div>
-                                    <label class="text-sm font-medium text-gray-500">Alamat IP</label>
-                                    <p class="text-sm text-gray-900">{{ $log->ip_address ?? '-' }}</p>
-                                </div>
-
-                                <div>
-                                    <label class="text-sm font-medium text-gray-500">Agen Pengguna</label>
-                                    <p class="text-xs text-gray-900 break-all">{{ $log->user_agent ?? '-' }}</p>
-                                </div>
-                                @endif
                             </div>
                         </div>
                     </div>

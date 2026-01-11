@@ -37,7 +37,7 @@
             @if($isDemo)
                 <div class="mb-6 p-4 bg-[#E9F6F1] border border-[#C8E6DF] rounded-lg">
                     <p class="text-sm text-[#166B50]">
-                        <strong>Demo Mode:</strong> Anda sedang melihat notifikasi demo. Total {{ count($notificationsArray) }} notifikasi contoh.
+                        <strong>Demo Mode:</strong> Anda sedang melihat notifikasi demo. Total {{ $notificationsList->count() }} notifikasi contoh.
                     </p>
                 </div>
             @endif
@@ -54,7 +54,7 @@
                     @foreach($notificationsList as $notification)
                         @php
                             $isRead = (data_get($notification, 'read_at')) ? true : false;
-                            $notificationId = $notification->id ?? data_get($notification, 'id');
+                            $notificationId = data_get($notification, 'id');
                         @endphp
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border {{ $isRead ? 'border-gray-200' : 'border-[#C8E6DF]' }}">
                             <div class="p-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -89,7 +89,7 @@
                                         @if(data_get($notification, 'user_name'))
                                             <span>{{ __('Dari') }}: {{ data_get($notification, 'user_name') }}</span>
                                         @else
-                                            <span>{{ __('Dari') }}: {{ optional(data_get($notification, 'sender'))->name ?? optional($notification->sender ?? null)->name ?? 'System' }}</span>
+                                            <span>{{ __('Dari') }}: {{ data_get($notification, 'sender.name') ?? 'System' }}</span>
                                         @endif
                                         <span class="text-gray-300">•</span>
                                         @if(data_get($notification, 'created_at'))

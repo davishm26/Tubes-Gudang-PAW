@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         // Use raw SQL to avoid doctrine/dbal dependency
-        DB::statement("ALTER TABLE `users` MODIFY `role` VARCHAR(50) NOT NULL DEFAULT 'staff'");
+        DB::statement("ALTER TABLE `users` MODIFY `role` VARCHAR(50) NOT NULL DEFAULT 'staf'");
     }
 
     /**

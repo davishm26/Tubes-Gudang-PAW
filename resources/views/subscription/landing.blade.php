@@ -118,7 +118,7 @@
                         </div>
                     </button>
 
-                    <button onclick="startDemo('staff')" class="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-4 rounded-xl hover:from-green-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <button onclick="startDemo('staf')" class="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-4 rounded-xl hover:from-green-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
                                 <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
@@ -127,7 +127,7 @@
                                     </svg>
                                 </div>
                                 <div class="text-left">
-                                    <p class="font-semibold text-lg">Staff</p>
+                                    <p class="font-semibold text-lg">Staf</p>
                                     <p class="text-sm text-white/80">Akses terbatas untuk operasional</p>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
 
                 <div class="mt-6 p-4 bg-[#E9F6F1] rounded-lg">
                     <p class="text-sm text-[#1F8F6A]">
-                        <strong>?? Mode Demo:</strong> Semua data hanya disimpan di browser Anda dan tidak akan tersimpan secara permanen.
+                        <strong>Mode Demo:</strong> Semua data hanya disimpan di browser Anda dan tidak akan tersimpan secara permanen.
                     </p>
                 </div>
             </div>
@@ -208,7 +208,7 @@
                         Langganan Sekarang
                     </a>
                     <button onclick="openDemoModal()" class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#1F8F6A] transition-all duration-300">
-                        ?? Coba Demo
+                        Coba Demo
                     </button>
                 </div>
             </div>
@@ -284,8 +284,8 @@
                             <path fill-rule="evenodd" d="M9.401 1.518a1 1 0 011.198 0l6 4.5a1 1 0 01.401.8V12a7 7 0 01-3.11 5.81l-2.89 1.926a1 1 0 01-1.1 0l-2.89-1.926A7 7 0 013 12V6.818a1 1 0 01.401-.8l6-4.5zM10 11.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414L10 11.586z" clip-rule="evenodd"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Riwayat Audit</h3>
-                    <p class="text-gray-600">Lacak perubahan data beserta pengguna, aksi, alamat IP, dan waktu untuk audit trail lengkap.</p>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Aktivitas</h3>
+                    <p class="text-gray-600">Lacak perubahan data beserta pengguna, aksi, dan waktu untuk jejak aktivitas lengkap.</p>
                 </div>
 
                 <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.25rem)] max-w-md bg-gradient-to-br from-[#E9F6F1] to-[#D1EDE5] p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full" data-aos="fade-up" data-aos-delay="400">
@@ -305,7 +305,7 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">User Management</h3>
-                    <p class="text-gray-600">Kelola admin dan staff dengan role-based access control. Multi-level permissions.</p>
+                    <p class="text-gray-600">Kelola admin dan staf dengan role-based access control. Multi-level permissions.</p>
                 </div>
 
                 <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.25rem)] max-w-md bg-gradient-to-br from-[#E9F6F1] to-[#D1EDE5] p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full" data-aos="fade-up" data-aos-delay="600">

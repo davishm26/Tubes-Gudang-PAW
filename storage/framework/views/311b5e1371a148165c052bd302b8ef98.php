@@ -22,7 +22,7 @@
 
                     </h2>
                     <?php if($isDemo): ?>
-                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                        <span class="px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full text-sm font-medium">
                             Demo Mode - Read Only
                         </span>
                     <?php endif; ?>
@@ -36,7 +36,7 @@
             <?php if($isDemo): ?>
                 <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <p class="text-sm text-yellow-800">
-                        <strong>?? Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
+                        <strong>Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
                     </p>
                 </div>
             <?php endif; ?>

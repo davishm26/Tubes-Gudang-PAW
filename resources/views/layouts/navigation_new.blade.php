@@ -35,11 +35,11 @@
                         <a href="{{ route('super_admin.reactivation.requests') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.reactivation.*') ? 'bg-[#1F8F6A] text-white' : 'text-gray-700 hover:bg-gray-200' }} transition">
                             Permintaan Reaktivasi
                         </a>
-                        <a href="{{ route('super_admin.financial-report') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.financial-report*') ? 'bg-[#1F8F6A] text-white' : 'text-gray-700 hover:bg-gray-200' }} transition">
-                            Laporan
-                        </a>
                         <a href="{{ route('super_admin.notifications.create') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.notifications.*') ? 'bg-[#1F8F6A] text-white' : 'text-gray-700 hover:bg-gray-200' }} transition">
                             Kirim Notifikasi
+                        </a>
+                        <a href="{{ route('super_admin.financial-report') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.financial-report*') ? 'bg-[#1F8F6A] text-white' : 'text-gray-700 hover:bg-gray-200' }} transition">
+                            Laporan
                         </a>
                     @elseif($currentUser && ($currentUser->role === 'admin' || $currentUser->role === 'super_admin'))
                         <a href="{{ route('dashboard') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('dashboard') ? 'bg-[#1F8F6A] text-white' : 'text-gray-700 hover:bg-gray-200' }} transition">
@@ -54,7 +54,7 @@
                         <a href="{{ route('categories.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('categories.*') ? 'bg-[#1F8F6A] text-white' : 'text-gray-700 hover:bg-gray-200' }} transition">
                             Kategori
                         </a>
-                        @if(!$isDemo || $demoRole !== 'staff')
+                        @if(!$isDemo || !in_array($demoRole, ['staf', 'staff'], true))
                             <a href="{{ route('users.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('users.*') ? 'bg-[#1F8F6A] text-white' : 'text-gray-700 hover:bg-gray-200' }} transition">
                                 Pengguna
                             </a>
@@ -82,7 +82,7 @@
                 <!-- User Dropdown -->
                 <div class="relative" @click="userDropdown = !userDropdown">
                     <button class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-gray-50 border border-gray-200 text-sm text-gray-700 transition hover:shadow-md">
-                        <span class="font-semibold hidden sm:inline">{{ $currentUser->email ?? 'User' }}</span>
+                        <span class="font-semibold hidden sm:inline">{{ $currentUser->name ?? $currentUser->email ?? 'User' }}</span>
                         <svg class="w-4 h-4 transition" :class="{'rotate-180': userDropdown}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                         </svg>
@@ -92,12 +92,12 @@
                     <div x-show="userDropdown" @click.away="userDropdown = false" class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-20">
                         <div class="px-4 py-2 border-b border-gray-100">
                             <p class="text-xs text-gray-600">Signed in as</p>
-                            <p class="text-sm font-semibold text-gray-900">{{ $currentUser->email ?? 'User' }}</p>
+                            <p class="text-sm font-semibold text-gray-900">{{ $currentUser->name ?? $currentUser->email ?? 'User' }}</p>
                         </div>
 
                         @if($isDemo)
                             <div class="px-4 py-2 text-xs text-gray-500 border-b border-gray-100 bg-amber-50">
-                                🎭 <strong>Demo Mode</strong> - Perubahan tidak disimpan
+                                <strong>Demo Mode</strong> - Perubahan tidak disimpan
                             </div>
                         @endif
 
@@ -109,7 +109,7 @@
 
                         @if($isDemo)
                             <a href="{{ route('demo.exit') }}" class="block px-4 py-2 text-sm text-orange-600 hover:bg-orange-50 transition font-medium">
-                                🚪 Keluar Demo
+                                Keluar Demo
                             </a>
                         @else
                             <form method="POST" action="{{ route('logout') }}">
@@ -142,8 +142,8 @@
                     <a href="{{ route('super_admin.tenants.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">Tenant</a>
                     <a href="{{ route('audit-logs.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">Aktivitas</a>
                     <a href="{{ route('super_admin.reactivation.requests') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">Permintaan Reaktivasi</a>
-                    <a href="{{ route('super_admin.financial-report') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">Laporan</a>
                     <a href="{{ route('super_admin.notifications.create') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">Kirim Notifikasi</a>
+                    <a href="{{ route('super_admin.financial-report') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">Laporan</a>
                 @elseif($currentUser->role === 'admin')
                     <a href="{{ route('dashboard') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">Beranda</a>
                     <a href="{{ route('products.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">Produk</a>
