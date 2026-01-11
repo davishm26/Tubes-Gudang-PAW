@@ -15,9 +15,11 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $companyId = Auth::user()->company_id;
-
-        $query = Supplier::where('company_id', $companyId);
+        $companyId = $request->input('company_id');
+        $query = Supplier::query();
+        if ($companyId) {
+            $query->where('company_id', $companyId);
+        }
 
         if ($request->has('search')) {
             $search = $request->search;
@@ -41,7 +43,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        $companyId = Auth::user()->company_id;
+        $companyId = $request->input('company_id');
 
         $request->validate([
             'name' => [
@@ -71,12 +73,14 @@ class SupplierController extends Controller
     /**
      * Display the specified supplier
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $companyId = Auth::user()->company_id;
-
-        $supplier = Supplier::where('company_id', $companyId)->findOrFail($id);
-
+        $companyId = $request->input('company_id');
+        $supplier = Supplier::query();
+        if ($companyId) {
+            $supplier->where('company_id', $companyId);
+        }
+        $supplier = $supplier->findOrFail($id);
         return response()->json([
             'success' => true,
             'data' => $supplier,
@@ -88,9 +92,13 @@ class SupplierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $companyId = Auth::user()->company_id;
+        $companyId = $request->input('company_id');
 
-        $supplier = Supplier::where('company_id', $companyId)->findOrFail($id);
+        $supplier = Supplier::query();
+        if ($companyId) {
+            $supplier->where('company_id', $companyId);
+        }
+        $supplier = $supplier->findOrFail($id);
 
         $request->validate([
             'name' => [
@@ -121,11 +129,15 @@ class SupplierController extends Controller
     /**
      * Remove the specified supplier
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $companyId = Auth::user()->company_id;
+        $companyId = $request->input('company_id');
 
-        $supplier = Supplier::where('company_id', $companyId)->findOrFail($id);
+        $supplier = Supplier::query();
+        if ($companyId) {
+            $supplier->where('company_id', $companyId);
+        }
+        $supplier = $supplier->findOrFail($id);
 
         // Check if supplier has products
         if ($supplier->products()->count() > 0) {

@@ -16,19 +16,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // Only admin can access
-        if (Auth::user()->role !== 'admin') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unauthorized. Admin access required.',
-            ], 403);
+        $companyId = $request->input('company_id');
+        $query = User::query();
+        if ($companyId) {
+            $query->where('company_id', $companyId);
         }
-
-        $companyId = Auth::user()->company_id;
-
-        $query = User::where('company_id', $companyId)
-            ->where('role', '!=', 'super_admin');
-
+        $query->where('role', '!=', 'super_admin');
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -36,9 +29,7 @@ class UserController extends Controller
                   ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
-
         $users = $query->get();
-
         return response()->json([
             'success' => true,
             'data' => $users,
@@ -87,22 +78,15 @@ class UserController extends Controller
     /**
      * Display the specified user
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        // Only admin can access
-        if (Auth::user()->role !== 'admin') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unauthorized. Admin access required.',
-            ], 403);
+        $companyId = $request->input('company_id');
+        $user = User::query();
+        if ($companyId) {
+            $user->where('company_id', $companyId);
         }
-
-        $companyId = Auth::user()->company_id;
-
-        $user = User::where('company_id', $companyId)
-            ->where('role', '!=', 'super_admin')
-            ->findOrFail($id);
-
+        $user->where('role', '!=', 'super_admin');
+        $user = $user->findOrFail($id);
         return response()->json([
             'success' => true,
             'data' => $user,
@@ -114,20 +98,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Only admin can access
-        if (Auth::user()->role !== 'admin') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unauthorized. Admin access required.',
-            ], 403);
+        $companyId = $request->input('company_id');
+        $user = User::query();
+        if ($companyId) {
+            $user->where('company_id', $companyId);
         }
-
-        $companyId = Auth::user()->company_id;
-
-        $user = User::where('company_id', $companyId)
-            ->where('role', '!=', 'super_admin')
-            ->findOrFail($id);
-
+        $user->where('role', '!=', 'super_admin');
+        $user = $user->findOrFail($id);
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => [
@@ -140,21 +117,16 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8',
             'role' => ['required', Rule::in(['admin', 'staf', 'staff'])],
         ]);
-
         $role = $request->role === 'staff' ? 'staf' : $request->role;
-
         $data = [
             'name' => $request->name,
             'email' => $request->email,
             'role' => $role,
         ];
-
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
-
         $user->update($data);
-
         return response()->json([
             'success' => true,
             'message' => 'User updated successfully',
@@ -165,32 +137,16 @@ class UserController extends Controller
     /**
      * Remove the specified user
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        // Only admin can access
-        if (Auth::user()->role !== 'admin') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unauthorized. Admin access required.',
-            ], 403);
+        $companyId = $request->input('company_id');
+        $user = User::query();
+        if ($companyId) {
+            $user->where('company_id', $companyId);
         }
-
-        $companyId = Auth::user()->company_id;
-
-        $user = User::where('company_id', $companyId)
-            ->where('role', '!=', 'super_admin')
-            ->findOrFail($id);
-
-        // Prevent deleting yourself
-        if ($user->id === Auth::id()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot delete your own account',
-            ], 422);
-        }
-
+        $user->where('role', '!=', 'super_admin');
+        $user = $user->findOrFail($id);
         $user->delete();
-
         return response()->json([
             'success' => true,
             'message' => 'User deleted successfully',

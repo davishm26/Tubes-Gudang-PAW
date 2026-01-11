@@ -15,9 +15,11 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $companyId = Auth::user()->company_id;
-
-        $query = Category::where('company_id', $companyId);
+        $companyId = $request->input('company_id');
+        $query = Category::query();
+        if ($companyId) {
+            $query->where('company_id', $companyId);
+        }
 
         if ($request->has('search')) {
             $search = $request->search;
@@ -37,7 +39,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $companyId = Auth::user()->company_id;
+        $companyId = $request->input('company_id');
 
         $request->validate([
             'name' => [
@@ -63,12 +65,14 @@ class CategoryController extends Controller
     /**
      * Display the specified category
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $companyId = Auth::user()->company_id;
-
-        $category = Category::where('company_id', $companyId)->findOrFail($id);
-
+        $companyId = $request->input('company_id');
+        $category = Category::query();
+        if ($companyId) {
+            $category->where('company_id', $companyId);
+        }
+        $category = $category->findOrFail($id);
         return response()->json([
             'success' => true,
             'data' => $category,
@@ -80,9 +84,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $companyId = Auth::user()->company_id;
+        $companyId = $request->input('company_id');
 
-        $category = Category::where('company_id', $companyId)->findOrFail($id);
+        $category = Category::query();
+        if ($companyId) {
+            $category->where('company_id', $companyId);
+        }
+        $category = $category->findOrFail($id);
 
         $request->validate([
             'name' => [
@@ -109,11 +117,15 @@ class CategoryController extends Controller
     /**
      * Remove the specified category
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $companyId = Auth::user()->company_id;
+        $companyId = $request->input('company_id');
 
-        $category = Category::where('company_id', $companyId)->findOrFail($id);
+        $category = Category::query();
+        if ($companyId) {
+            $category->where('company_id', $companyId);
+        }
+        $category = $category->findOrFail($id);
 
         // Check if category has products
         if ($category->products()->count() > 0) {

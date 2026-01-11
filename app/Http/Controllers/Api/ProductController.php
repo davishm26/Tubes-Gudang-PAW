@@ -17,11 +17,11 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $companyId = Auth::user()->company_id;
-
-        $query = Product::with(['category', 'supplier'])
-            ->where('company_id', $companyId);
-
+        $companyId = $request->input('company_id');
+        $query = Product::with(['category', 'supplier']);
+        if ($companyId) {
+            $query->where('company_id', $companyId);
+        }
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -35,9 +35,7 @@ class ProductController extends Controller
                   });
             });
         }
-
         $products = $query->get();
-
         return response()->json([
             'success' => true,
             'data' => $products,
@@ -49,8 +47,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $companyId = Auth::user()->company_id;
-
+        $companyId = $request->input('company_id');
         $request->validate([
             'name' => 'required|string|max:255',
             'sku' => [
@@ -63,17 +60,13 @@ class ProductController extends Controller
             'supplier_id' => 'required|exists:suppliers,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
         $data = $request->except('image');
         $data['company_id'] = $companyId;
-
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
             $data['image'] = $path;
         }
-
         $product = Product::create($data);
-
         // Record initial stock if any
         if ($request->input('stock', 0) > 0) {
             InventoryIn::create([
@@ -83,10 +76,9 @@ class ProductController extends Controller
                 'quantity' => $request->input('stock'),
                 'date' => now(),
                 'description' => 'Initial stock for new product',
-                'user_id' => Auth::id(),
+                'user_id' => null,
             ]);
         }
-
         return response()->json([
             'success' => true,
             'message' => 'Product created successfully',
@@ -97,14 +89,14 @@ class ProductController extends Controller
     /**
      * Display the specified product
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $companyId = Auth::user()->company_id;
-
-        $product = Product::with(['category', 'supplier'])
-            ->where('company_id', $companyId)
-            ->findOrFail($id);
-
+        $companyId = $request->input('company_id');
+        $product = Product::with(['category', 'supplier']);
+        if ($companyId) {
+            $product->where('company_id', $companyId);
+        }
+        $product = $product->findOrFail($id);
         return response()->json([
             'success' => true,
             'data' => $product,
@@ -116,10 +108,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $companyId = Auth::user()->company_id;
-
-        $product = Product::where('company_id', $companyId)->findOrFail($id);
-
+        $companyId = $request->input('company_id');
+        $product = Product::query();
+        if ($companyId) {
+            $product->where('company_id', $companyId);
+        }
+        $product = $product->findOrFail($id);
         $request->validate([
             'name' => 'required|string|max:255',
             'sku' => [
@@ -134,9 +128,7 @@ class ProductController extends Controller
             'supplier_id' => 'required|exists:suppliers,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
         $data = $request->except('image');
-
         if ($request->hasFile('image')) {
             // Delete old image
             if ($product->image) {
@@ -145,9 +137,7 @@ class ProductController extends Controller
             $path = $request->file('image')->store('products', 'public');
             $data['image'] = $path;
         }
-
         $product->update($data);
-
         return response()->json([
             'success' => true,
             'message' => 'Product updated successfully',
@@ -158,19 +148,19 @@ class ProductController extends Controller
     /**
      * Remove the specified product
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $companyId = Auth::user()->company_id;
-
-        $product = Product::where('company_id', $companyId)->findOrFail($id);
-
+        $companyId = $request->input('company_id');
+        $product = Product::query();
+        if ($companyId) {
+            $product->where('company_id', $companyId);
+        }
+        $product = $product->findOrFail($id);
         // Delete image if exists
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
-
         $product->delete();
-
         return response()->json([
             'success' => true,
             'message' => 'Product deleted successfully',

@@ -213,6 +213,9 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('error', 'Anda tidak bisa menghapus akun sendiri.');
         }
 
+        // Hapus notifikasi yang terkait user ini
+        \App\Models\Notification::where('recipient_id', $user->id)->delete();
+
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus.');
     }
