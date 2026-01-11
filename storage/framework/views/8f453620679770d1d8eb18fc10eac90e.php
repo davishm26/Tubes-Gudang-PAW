@@ -1,4 +1,4 @@
-<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+﻿<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
 <?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('app-layout'); ?>
@@ -19,7 +19,7 @@
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-emerald-200">
+                <div class="p-6 bg-white border-b border-[#E5E7EB]">
 
                     
                     <form method="POST" action="<?php echo e(route('categories.store')); ?>">
@@ -32,7 +32,7 @@
                                    name="name"
                                    id="name"
                                    value="<?php echo e(old('name')); ?>"
-                                   class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                   class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A] sm:text-sm"
                                    required>
 
                             
@@ -54,7 +54,7 @@ unset($__errorArgs, $__bag); ?>
                                 Batal
                             </a>
 
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
+                            <button type="submit" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
                                 Simpan Kategori
                             </button>
                         </div>
@@ -74,4 +74,10 @@ unset($__errorArgs, $__bag); ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
+
+
+
+
+
+
 <?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/categories/create.blade.php ENDPATH**/ ?>

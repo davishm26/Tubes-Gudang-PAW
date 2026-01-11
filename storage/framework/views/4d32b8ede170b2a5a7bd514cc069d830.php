@@ -1,4 +1,4 @@
-﻿<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
+<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
 
 $__newAttributes = [];
 $__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['messages']));

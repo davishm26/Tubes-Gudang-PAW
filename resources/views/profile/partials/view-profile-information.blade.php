@@ -1,4 +1,4 @@
-﻿@php
+@php
     $user = $user ?? Auth::user();
     $isArray = is_array($user);
 @endphp
@@ -50,7 +50,7 @@
     <div>
         <x-input-label for="role" :value="__('Role')" />
         <div class="mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700">
-            <span class="px-2 py-1 rounded text-sm font-medium {{ $user['role'] === 'admin' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
+            <span class="px-2 py-1 rounded text-sm font-medium {{ $user['role'] === 'admin' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700' }}">
                 {{ ucfirst($user['role']) }}
             </span>
         </div>

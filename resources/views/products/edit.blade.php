@@ -1,9 +1,11 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="title">Edit Produk - StockMaster</x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-slate-900 leading-tight">
-            {{ __('Edit Produk: ') . $product->name }}
-        </h2>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-semibold text-2xl text-white leading-tight">{{ __('Edit Produk: ') . $product->name }}</h2>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -88,7 +90,7 @@
                             <div>
                                 <label for="image" class="block text-sm font-medium text-gray-700">Ganti Gambar Produk</label>
                                 <input type="file" name="image" id="image" accept="image/*"
-                                    class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                                    class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#E9F6F1] file:text-[#166B50] hover:file:bg-[#D1EDE5]">
                                 @error('image')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror
@@ -117,7 +119,7 @@
                             <a href="{{ route('products.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">
                                 Batal
                             </a>
-                            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm transition duration-150">
+                            <button type="submit" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white font-bold py-2 px-4 rounded-md shadow-sm transition duration-150 focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-1">
                                 Perbarui Produk
                             </button>
                         </div>

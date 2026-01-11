@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -57,7 +57,7 @@
                         value="{{ old('admin_email', Auth::check() ? Auth::user()->email : '') }}"
                     >
                 </div>
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Lanjutkan ke Pembayaran</button>
+                <button type="submit" class="w-full bg-[#1F8F6A] text-white py-2 rounded-lg hover:bg-[#166B50] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-1">Lanjutkan ke Pembayaran</button>
             </form>
         </div>
     </div>

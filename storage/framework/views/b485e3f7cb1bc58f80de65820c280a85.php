@@ -1,4 +1,4 @@
-<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+﻿<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
 <?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('app-layout'); ?>
@@ -19,7 +19,7 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-emerald-200">
+                <div class="p-6 bg-white border-b border-[#E5E7EB]">
 
                     
                     <form method="POST" action="<?php echo e(route('products.store')); ?>" enctype="multipart/form-data">
@@ -31,7 +31,7 @@
                             <div>
                                 <label for="name" class="block text-sm font-semibold text-slate-700">Nama Produk</label>
                                 <input type="text" name="name" id="name" value="<?php echo e(old('name')); ?>"
-                                    class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                    class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                 <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -48,7 +48,7 @@ unset($__errorArgs, $__bag); ?>
                             <div>
                                 <label for="sku" class="block text-sm font-semibold text-slate-700">SKU (Kode Produk)</label>
                                 <input type="text" name="sku" id="sku" value="<?php echo e(old('sku')); ?>"
-                                    class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                    class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                 <?php $__errorArgs = ['sku'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -64,7 +64,7 @@ unset($__errorArgs, $__bag); ?>
                             
                             <div>
                                 <label for="category_id" class="block text-sm font-semibold text-slate-700">Kategori</label>
-                                <select name="category_id" id="category_id" class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                <select name="category_id" id="category_id" class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                     <option value="" disabled selected>-- Pilih Kategori --</option>
                                     <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option value="<?php echo e($category->id); ?>" <?php echo e(old('category_id') == $category->id ? 'selected' : ''); ?>>
@@ -88,7 +88,7 @@ unset($__errorArgs, $__bag); ?>
                             
                             <div>
                                 <label for="supplier_id" class="block text-sm font-semibold text-slate-700">Pemasok</label>
-                                <select name="supplier_id" id="supplier_id" class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                <select name="supplier_id" id="supplier_id" class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                     <option value="" disabled selected>-- Pilih Pemasok --</option>
                                     <?php $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option value="<?php echo e($supplier->id); ?>" <?php echo e(old('supplier_id') == $supplier->id ? 'selected' : ''); ?>>
@@ -113,7 +113,7 @@ unset($__errorArgs, $__bag); ?>
                             <div>
                                 <label for="stock" class="block text-sm font-semibold text-slate-700">Stok Awal</label>
                                 <input type="number" name="stock" id="stock" value="<?php echo e(old('stock', 0)); ?>" min="0"
-                                    class="mt-1 block w-full border border-emerald-200 rounded-lg shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" required>
+                                    class="mt-1 block w-full border border-[#E5E7EB] rounded-lg shadow-sm focus:ring-2 focus:ring-[#1F8F6A] focus:border-[#1F8F6A]" required>
                                 <?php $__errorArgs = ['stock'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -130,7 +130,7 @@ unset($__errorArgs, $__bag); ?>
                             <div>
                                 <label for="image" class="block text-sm font-semibold text-slate-700">Gambar Produk</label>
                                 <input type="file" name="image" id="image" accept="image/*"
-                                    class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                                    class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#E9F6F1] file:text-[#1F8F6A] hover:file:bg-[#F0FAF7]">
                                 <?php $__errorArgs = ['image'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -146,11 +146,11 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         
-                        <div class="flex items-center justify-end mt-6 border-t border-emerald-200 pt-4">
+                        <div class="flex items-center justify-end mt-6 border-t border-[#E5E7EB] pt-4">
                             <a href="<?php echo e(route('products.index')); ?>" class="text-sm text-slate-600 hover:text-slate-900 mr-4 font-medium">
                                 Batal
                             </a>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
+                            <button type="submit" class="bg-[#1F8F6A] hover:bg-[#166B50] text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-150">
                                 Simpan Produk
                             </button>
                         </div>
@@ -170,4 +170,10 @@ unset($__errorArgs, $__bag); ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
+
+
+
+
+
+
 <?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/products/create.blade.php ENDPATH**/ ?>

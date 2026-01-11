@@ -1,19 +1,23 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="title">Edit Profil - StockMaster</x-slot>
     @php
         $isDemo = session('is_demo', false) || session('demo_mode', false);
     @endphp
 
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Profil') }}
-            </h2>
-            @if($isDemo)
-                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
-                    Demo Mode - Read Only
-                </span>
-            @endif
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-semibold text-2xl text-white leading-tight">
+                        {{ __('Profil') }}
+                    </h2>
+                    @if($isDemo)
+                        <span class="px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full text-sm font-medium">
+                            Demo Mode - Read Only
+                        </span>
+                    @endif
+                </div>
+            </div>
         </div>
     </x-slot>
 
@@ -22,7 +26,7 @@
             @if($isDemo)
                 <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <p class="text-sm text-yellow-800">
-                        <strong>ðŸŽ­ Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
+                        <strong>?? Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
                     </p>
                 </div>
             @endif

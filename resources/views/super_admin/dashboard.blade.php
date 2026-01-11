@@ -1,7 +1,11 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="title">Dashboard Super Admin - StockMaster</x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-slate-900 leading-tight">{{ __('Beranda Super Admin') }}</h2>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-semibold text-2xl text-white leading-tight">{{ __('Beranda Super Admin') }}</h2>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -41,7 +45,7 @@
                                 <tr class="hover:bg-[#E9F6F1]/30 transition">
                                     <td class="px-6 py-4 text-center text-sm text-gray-900 w-1/3">{{ $t->name }}</td>
                                     <td class="px-6 py-4 text-center text-sm w-1/3">
-                                        <span class="px-3 py-1 rounded-full text-xs font-medium {{ $t->subscription_status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        <span class="px-3 py-1 rounded-full text-xs font-medium {{ $t->subscription_status === 'active' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700' }}">
                                             {{ $t->subscription_status === 'active' ? 'Aktif' : 'Tersuspend' }}
                                         </span>
                                     </td>

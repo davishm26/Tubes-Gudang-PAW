@@ -10,7 +10,11 @@
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('title', null, []); ?> Dashboard Super Admin - StockMaster <?php $__env->endSlot(); ?>
      <?php $__env->slot('header', null, []); ?> 
-        <h2 class="font-semibold text-xl text-slate-900 leading-tight"><?php echo e(__('Beranda Super Admin')); ?></h2>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-semibold text-2xl text-white leading-tight"><?php echo e(__('Beranda Super Admin')); ?></h2>
+            </div>
+        </div>
      <?php $__env->endSlot(); ?>
 
     <div class="py-12">
@@ -47,10 +51,10 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             <?php $__currentLoopData = $tenants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $t): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr class="hover:bg-emerald-50/30 transition">
+                                <tr class="hover:bg-[#E9F6F1]/30 transition">
                                     <td class="px-6 py-4 text-center text-sm text-gray-900 w-1/3"><?php echo e($t->name); ?></td>
                                     <td class="px-6 py-4 text-center text-sm w-1/3">
-                                        <span class="px-3 py-1 rounded-full text-xs font-medium <?php echo e($t->subscription_status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'); ?>">
+                                        <span class="px-3 py-1 rounded-full text-xs font-medium <?php echo e($t->subscription_status === 'active' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'); ?>">
                                             <?php echo e($t->subscription_status === 'active' ? 'Aktif' : 'Tersuspend'); ?>
 
                                         </span>
@@ -75,4 +79,10 @@
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
+
+
+
+
+
+
 <?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/super_admin/dashboard.blade.php ENDPATH**/ ?>

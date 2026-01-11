@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    input,
+    select,
+    textarea,
+    button {
+        @apply focus:ring-[#1F8F6A] focus:border-[#1F8F6A];
+    }
+}
+
 /* Custom StockMaster Brand Theme */
 :root {
     --primary-green: #1F8F6A;

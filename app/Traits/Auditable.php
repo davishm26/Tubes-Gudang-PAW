@@ -12,8 +12,7 @@ trait Auditable
         // Log saat model dibuat
         static::created(function ($model) {
             if (static::shouldAudit('created')) {
-                // Debug: log model attributes
-                $name = $model->getAttribute('name') ?? $model->name ?? null;
+                $name = static::extractEntityName($model);
                 static::logAudit($model, 'created', [
                     'new' => $model->getAuditableAttributes(),
                 ], $name);
@@ -69,12 +68,12 @@ trait Auditable
         $companyId = $model->company_id ?? $user->company_id ?? null;
 
         // Skip jika tidak ada company_id (kecuali super admin)
-        if (!$companyId && (!method_exists($user, 'isSuperAdmin') || !$user->isSuperAdmin())) {
+        if (!$companyId && (($user->role ?? null) !== 'super_admin')) {
             return;
         }
 
         // Jika user adalah super admin dan tidak ada company_id, gunakan company pertama sebagai default
-        if (!$companyId && method_exists($user, 'isSuperAdmin') && $user->isSuperAdmin()) {
+        if (!$companyId && (($user->role ?? null) === 'super_admin')) {
             $companyId = \App\Models\Company::first()?->id;
 
             // Jika tidak ada company sama sekali, skip
@@ -85,7 +84,7 @@ trait Auditable
 
         // Extract entity name jika tidak diberikan
         if (!$entityName) {
-            $entityName = $model->name ?? $model->title ?? $model->email ?? null;
+            $entityName = static::extractEntityName($model);
         }
 
         $auditData = [
@@ -108,6 +107,16 @@ trait Auditable
      */
     protected static function extractEntityName($model): ?string
     {
+        // Model dapat mengoverride dengan method getAuditEntityName()
+        if (method_exists($model, 'getAuditEntityName')) {
+            try {
+                $custom = $model->getAuditEntityName();
+                if ($custom) return $custom;
+            } catch (\Throwable $e) {
+                // ignore failures
+            }
+        }
+
         return $model->name ?? $model->title ?? $model->email ?? null;
     }
 
@@ -127,9 +136,9 @@ trait Auditable
      */
     protected static function getAuditActions(): array
     {
-        return property_exists(static::class, 'auditActions')
-            ? static::$auditActions
-            : ['created', 'updated', 'deleted'];
+        $defaults = static::getDefaultStaticProperties();
+
+        return $defaults['auditActions'] ?? ['created', 'updated', 'deleted'];
     }
 
     /**
@@ -137,9 +146,21 @@ trait Auditable
      */
     protected static function getAuditExcludedAttributes(): array
     {
-        return property_exists(static::class, 'auditExcluded')
-            ? static::$auditExcluded
-            : ['password', 'remember_token', 'updated_at'];
+        $defaults = static::getDefaultStaticProperties();
+
+        return $defaults['auditExcluded'] ?? ['password', 'remember_token', 'updated_at'];
+    }
+
+    protected static function getDefaultStaticProperties(): array
+    {
+        static $cache = [];
+        $class = static::class;
+
+        if (!isset($cache[$class])) {
+            $cache[$class] = (new \ReflectionClass($class))->getDefaultProperties();
+        }
+
+        return $cache[$class];
     }
 
     /**

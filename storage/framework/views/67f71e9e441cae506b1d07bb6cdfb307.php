@@ -1,4 +1,4 @@
-﻿<section class="space-y-6">
+<section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             <?php echo e(__('Hapus Akun')); ?>
@@ -179,6 +179,9 @@
 <?php unset($__componentOriginal9f64f32e90b9102968f2bc548315018c); ?>
 <?php endif; ?>
 </section>
+
+
+
 
 
 

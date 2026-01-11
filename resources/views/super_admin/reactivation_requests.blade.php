@@ -1,9 +1,13 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="title">Permintaan Reaktivasi - StockMaster</x-slot>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-slate-900">
-            {{ __('Permintaan Reaktivasi Akun') }}
-        </h2>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-semibold leading-tight text-white">
+                    {{ __('Permintaan Reaktivasi Akun') }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -11,7 +15,7 @@
 
             @if(session('success'))
                 <div class="mb-6 rounded-lg bg-[#E9F6F1] border border-[#C8E6DF] p-4">
-                    <p class="text-sm font-medium text-[#1F2937]">âœ“ {{ session('success') }}</p>
+                    <p class="text-sm font-medium text-[#1F2937]">✓ {{ session('success') }}</p>
                 </div>
             @endif
 
@@ -71,12 +75,12 @@
                                                 @endphp
                                                 <div class="flex items-center gap-2">
                                                     @if($isSuspended)
-                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                            ðŸ”’ Tersuspend
+                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700">
+                                                            Ditolak
                                                         </span>
                                                     @else
-                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                            âœ“ Aktif
+                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
+                                                            ? Aktif
                                                         </span>
                                                     @endif
                                                 </div>
@@ -181,7 +185,7 @@
                                         </div>
                                     @elseif(!$isSuspended)
                                         <div class="px-6 py-4 bg-green-50 border-t border-green-200">
-                                            <p class="text-sm text-green-800 font-medium">âœ“ Akun sudah aktif kembali</p>
+                                            <p class="text-sm text-green-800 font-medium">✓ Akun sudah aktif kembali</p>
                                         </div>
                                     @else
                                         <div class="px-6 py-4 bg-[#E9F6F1] border-t border-[#E5E7EB]">

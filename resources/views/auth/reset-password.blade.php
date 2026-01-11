@@ -1,4 +1,4 @@
-﻿<x-guest-layout>
+<x-guest-layout>
     <x-slot name="title">Reset Kata Sandi - StockMaster</x-slot>
     <form method="POST" action="{{ route('password.store') }}">
         @csrf

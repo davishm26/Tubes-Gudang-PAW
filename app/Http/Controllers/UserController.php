@@ -129,10 +129,7 @@ class UserController extends Controller
         $isDemoMode = session('is_demo') || session('demo_mode');
 
         if ($isDemoMode) {
-            $users = [
-                config('demo_data.user.admin'),
-                config('demo_data.user.staff'),
-            ];
+            $users = config('demo_data.users', []);
             $user = collect($users)->firstWhere('id', (int)$id);
             if (!$user) {
                 return redirect()->route('users.index')->with('error', 'User tidak ditemukan.');

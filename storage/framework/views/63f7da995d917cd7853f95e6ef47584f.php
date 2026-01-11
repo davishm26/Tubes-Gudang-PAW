@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
     <head>
         <meta charset="utf-8">
@@ -7,6 +7,10 @@
 
         <title><?php echo e($title ?? config('app.name', 'StockMaster')); ?></title>
 
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="<?php echo e(asset('favicon.svg')); ?>">
+        <link rel="alternate icon" href="<?php echo e(asset('favicon.ico')); ?>">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -14,9 +18,18 @@
         <!-- Scripts -->
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     </head>
-    <body class="font-sans antialiased bg-gradient-to-br from-emerald-50 via-emerald-50 to-white">
-        <div class="min-h-screen">
-            <?php echo $__env->make('layouts.navigation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    <body class="font-sans antialiased bg-gradient-to-br from-[#E9F6F1] via-[#E9F6F1] to-white m-0 p-0">
+        <?php echo $__env->make('layouts.navigation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+
+        <!-- Page Heading -->
+        <?php if(isset($header)): ?>
+            <header>
+                <?php echo e($header); ?>
+
+            </header>
+        <?php endif; ?>
+
+        <div class="min-h-screen <?php echo e(isset($header) ? '' : 'pt-16'); ?>">
 
             <!-- Demo Mode Banner -->
             <?php if(session('demo_mode') === 'true'): ?>
@@ -42,16 +55,6 @@
                 </div>
             <?php endif; ?>
 
-            <!-- Page Heading -->
-            <?php if(isset($header)): ?>
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <?php echo e($header); ?>
-
-                    </div>
-                </header>
-            <?php endif; ?>
-
             <!-- Page Content -->
             <main>
                 <?php echo e($slot); ?>
@@ -69,6 +72,9 @@
         <?php echo $__env->yieldPushContent('scripts'); ?>
     </body>
 </html>
+
+
+
 
 
 

@@ -1,9 +1,13 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="title">Riwayat Barang Masuk - StockMaster</x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Riwayat Stok Masuk') }}
-        </h2>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-semibold text-2xl text-white leading-tight">
+                    {{ __('Riwayat Stok Masuk') }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -17,7 +21,7 @@
 
                     <div class="relative overflow-x-auto shadow-sm sm:rounded-lg border border-gray-100">
                         <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <thead class="text-xs text-[#1F8F6A] uppercase bg-[#E9F6F1] border-b border-[#1F8F6A]/20">
                                 <tr>
                                     <th class="px-6 py-3">Tanggal</th>
                                     <th class="px-6 py-3">Produk</th>
@@ -51,7 +55,7 @@
 
                                     {{-- Jumlah (Bold Hijau) --}}
                                     <td class="px-6 py-4 text-center">
-                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded border border-green-400">
+                                        <span class="bg-emerald-50 text-emerald-700 text-xs font-medium px-2.5 py-0.5 rounded">
                                             + {{ number_format($item->quantity) }}
                                         </span>
                                     </td>

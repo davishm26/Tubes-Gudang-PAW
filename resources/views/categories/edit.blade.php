@@ -1,10 +1,14 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="title">Edit Kategori - StockMaster</x-slot>
     <x-slot name="header">
-        {{-- Tampilkan nama kategori yang sedang diedit di header --}}
-        <h2 class="font-semibold text-xl text-slate-900 leading-tight">
-            {{ __('Edit Kategori: ') . $category->name }}
-        </h2>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {{-- Tampilkan nama kategori yang sedang diedit di header --}}
+                <h2 class="font-semibold text-2xl text-white leading-tight">
+                    {{ __('Edit Kategori: ') . $category->name }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">

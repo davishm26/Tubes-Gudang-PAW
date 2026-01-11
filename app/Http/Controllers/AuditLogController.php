@@ -41,7 +41,14 @@ class AuditLogController extends Controller
 
         // Filter berdasarkan entity type
         if ($request->filled('entity_type')) {
-            $query->where('entity_type', $request->entity_type);
+            // Support both full class name and basename
+            $entityType = $request->entity_type;
+            if (!str_contains($entityType, '\\')) {
+                // If basename provided, convert to full class name
+                $query->where('entity_type', 'like', '%\\' . $entityType);
+            } else {
+                $query->where('entity_type', $entityType);
+            }
         }
 
         // Filter berdasarkan action
@@ -75,12 +82,12 @@ class AuditLogController extends Controller
 
         $logs = $query->latest()->paginate(20)->withQueryString();
 
-        // Data untuk filter dropdown
+        // Data untuk filter dropdown - return as associative array with full path as key and basename as value
         $entityTypes = AuditLog::query()
             ->when($user->role !== 'super_admin', fn($q) => $q->where('company_id', $user->company_id))
             ->distinct()
             ->pluck('entity_type')
-            ->map(fn($type) => class_basename($type))
+            ->mapWithKeys(fn($type) => [class_basename($type) => class_basename($type)])
             ->sort()
             ->values();
 
@@ -119,6 +126,28 @@ class AuditLogController extends Controller
             $filtered = $filtered->where('entity', $request->entity_type);
         }
 
+        // Filter berdasarkan user
+        if ($request->filled('user_id')) {
+            $filtered = $filtered->where('user_id', (int)$request->user_id);
+        }
+
+        // Filter berdasarkan tanggal
+        if ($request->filled('date_from')) {
+            $dateFrom = strtotime($request->date_from);
+            $filtered = $filtered->filter(function($log) use ($dateFrom) {
+                $logDate = strtotime($log['timestamp'] ?? $log['created_at'] ?? '');
+                return $logDate >= $dateFrom;
+            });
+        }
+
+        if ($request->filled('date_to')) {
+            $dateTo = strtotime($request->date_to . ' 23:59:59');
+            $filtered = $filtered->filter(function($log) use ($dateTo) {
+                $logDate = strtotime($log['timestamp'] ?? $log['created_at'] ?? '');
+                return $logDate <= $dateTo;
+            });
+        }
+
         // Search
         if ($request->filled('search')) {
             $search = strtolower($request->search);
@@ -133,18 +162,18 @@ class AuditLogController extends Controller
         $logs = $filtered->sortByDesc('timestamp')->values();
 
         // Get unique values for filters
-        $entityTypes = collect($demoLogs)->pluck('entity')->unique()->sort();
+        $entityTypes = collect($demoLogs)->pluck('entity')->unique()->sort()->values();
         $actions = ['created', 'updated', 'deleted', 'viewed'];
 
         // Demo users for filter
-        $demoUsers = collect([
-            ['id' => 1, 'name' => 'Admin Demo'],
-            ['id' => 2, 'name' => 'Staff Demo'],
+        $users = collect([
+            (object)['id' => 1, 'name' => 'Admin Demo'],
+            (object)['id' => 2, 'name' => 'Staff Demo'],
         ]);
 
         $companies = [];
 
-        return view('audit_logs.index', compact('logs', 'entityTypes', 'actions', 'demoUsers', 'companies'))->with('isDemo', true);
+        return view('audit_logs.index', compact('logs', 'entityTypes', 'actions', 'users', 'companies'))->with('isDemo', true);
     }
 
     /**
@@ -191,11 +220,22 @@ class AuditLogController extends Controller
 
         // Apply same filters as index
         if ($request->filled('entity_type')) {
-            $query->where('entity_type', $request->entity_type);
+            // Support both full class name and basename
+            $entityType = $request->entity_type;
+            if (!str_contains($entityType, '\\')) {
+                // If basename provided, convert to full class name
+                $query->where('entity_type', 'like', '%\\' . $entityType);
+            } else {
+                $query->where('entity_type', $entityType);
+            }
         }
 
         if ($request->filled('action')) {
             $query->where('action', $request->action);
+        }
+
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
         }
 
         if ($request->filled('date_from')) {

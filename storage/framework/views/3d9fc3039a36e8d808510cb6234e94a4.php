@@ -10,10 +10,14 @@
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('title', null, []); ?> Riwayat Barang Masuk - StockMaster <?php $__env->endSlot(); ?>
      <?php $__env->slot('header', null, []); ?> 
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <?php echo e(__('Riwayat Stok Masuk')); ?>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-semibold text-2xl text-white leading-tight">
+                    <?php echo e(__('Riwayat Stok Masuk')); ?>
 
-        </h2>
+                </h2>
+            </div>
+        </div>
      <?php $__env->endSlot(); ?>
 
     <div class="py-12">
@@ -27,7 +31,7 @@
 
                     <div class="relative overflow-x-auto shadow-sm sm:rounded-lg border border-gray-100">
                         <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <thead class="text-xs text-[#1F8F6A] uppercase bg-[#E9F6F1] border-b border-[#1F8F6A]/20">
                                 <tr>
                                     <th class="px-6 py-3">Tanggal</th>
                                     <th class="px-6 py-3">Produk</th>
@@ -64,7 +68,7 @@
 
                                     
                                     <td class="px-6 py-4 text-center">
-                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded border border-green-400">
+                                        <span class="bg-emerald-50 text-emerald-700 text-xs font-medium px-2.5 py-0.5 rounded">
                                             + <?php echo e(number_format($item->quantity)); ?>
 
                                         </span>
@@ -118,4 +122,10 @@
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
+
+
+
+
+
+
 <?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/inventory_in/history.blade.php ENDPATH**/ ?>

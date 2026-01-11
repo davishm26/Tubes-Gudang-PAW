@@ -1,5 +1,5 @@
-﻿<nav x-data="{ open: false }" class="bg-white/85 backdrop-blur-md border border-white/40 shadow-sm shadow-[#1F8F6A]/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<nav x-data="{ open: false }" class="fixed w-full top-0 z-50 px-4 sm:px-6 lg:px-8 py-3">
+    <div class="w-full">
         @php
             // Cek apakah mode demo aktif
             $isDemo = session('is_demo', false);
@@ -14,402 +14,121 @@
 
         @endphp
 
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                {{-- LOGO --}}
+        <!-- Main Navbar Container - Rounded and Compact -->
+        <div class="flex justify-between items-center rounded-full bg-white px-6 py-3 h-14 shadow-sm border border-slate-200">
+            <!-- Left: Logo + Brand -->
+            <div class="flex items-center gap-6">
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-12 w-auto" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                        <x-application-logo class="block h-8 w-auto" />
                     </a>
                 </div>
 
-                {{-- MENU DESKTOP (Tampilan Laptop/PC) --}}
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <!-- Menu Items Desktop -->
+                <div class="hidden lg:flex items-center gap-1">
                     @if($currentUser && $currentUser->role === 'super_admin')
-                        <x-nav-link :href="route('super_admin.dashboard')" :active="request()->routeIs('super_admin.dashboard')">
-                            {{ __('Beranda') }}
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('super_admin.tenants.index')" :active="request()->routeIs('super_admin.tenants.*')">
-                            {{ __('Tenant') }}
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('super_admin.financial-report')" :active="request()->routeIs('super_admin.financial-report')">
-                            {{ __('Laporan Keuangan') }}
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('super_admin.reactivation.requests')" :active="request()->routeIs('super_admin.reactivation.*')">
-                            <span class="flex items-center gap-2">
-                                {{ __('Permintaan Reaktivasi') }}
-                                @php
-                                    $unreadCount = \App\Models\Notification::where('template', 'reactivation_request')
-                                        ->whereNull('read_at')
-                                        ->count();
-                                @endphp
-                                @if($unreadCount > 0)
-                                    <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-rose-600 rounded-full">
-                                        {{ $unreadCount }}
-                                    </span>
-                                @endif
-                            </span>
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('super_admin.notifications.create')" :active="request()->routeIs('super_admin.notifications.create')">
-                            {{ __('Kirim Notifikasi') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('audit-logs.index')" :active="request()->routeIs('audit-logs.*')">
-                            {{ __('Riwayat Audit') }}
-                        </x-nav-link>
+                        <a href="{{ route('super_admin.dashboard') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.dashboard') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Beranda') }}</a>
+                        <a href="{{ route('super_admin.tenants.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.tenants.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Tenant') }}</a>
+                        <a href="{{ route('audit-logs.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('audit-logs.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Aktivitas') }}</a>
+                        <a href="{{ route('super_admin.reactivation.requests') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.reactivation.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Permintaan Reaktivasi') }}</a>
+                        <a href="{{ route('super_admin.financial-report') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.financial-report*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Laporan') }}</a>
+                        <a href="{{ route('super_admin.notifications.create') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('super_admin.notifications.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Kirim Notifikasi') }}</a>
                     @elseif($currentUser && $currentUser->role === 'admin')
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Beranda') }}
-                        </x-nav-link>
+                        <a href="{{ route('dashboard') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('dashboard') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Beranda') }}</a>
+                        <a href="{{ route('products.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('products.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Produk') }}</a>
+                        <a href="{{ route('suppliers.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('suppliers.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Pemasok') }}</a>
+                        <a href="{{ route('categories.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('categories.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Kategori') }}</a>
 
-                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                            {{ __('Produk') }}
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                            {{ __('Pemasok') }}
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                            {{ __('Kategori') }}
-                        </x-nav-link>
-
-                        {{-- Hide "User Management" if staff in demo mode --}}
                         @if(!$isDemo || $demoRole !== 'staff')
-                            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                                {{ __('Manajemen Pengguna') }}
-                            </x-nav-link>
+                            <a href="{{ route('users.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('users.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Pengguna') }}</a>
                         @endif
-                        {{-- Riwayat Audit (Admin Only) --}}
                         @if(!$isDemo || ($isDemo && $demoRole === 'admin'))
-                            <x-nav-link :href="route('audit-logs.index')" :active="request()->routeIs('audit-logs.*')">
-                                {{ __('Riwayat Audit') }}
-                            </x-nav-link>
+                            <a href="{{ route('audit-logs.index') }}" class="px-3 py-1 text-sm font-medium rounded-full {{ request()->routeIs('audit-logs.*') ? 'bg-[#1F8F6A] text-white' : 'text-slate-700 hover:bg-gray-200' }} transition">{{ __('Aktivitas') }}</a>
                         @endif
-                        {{-- DROPDOWN HISTORY (Admin: full access) --}}
-                        <div class="hidden sm:flex sm:items-center">
-                            <x-dropdown align="right" width="56">
-                                <x-slot name="trigger">
-                                    <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Riwayat') }}</div>
-
-                                        <div class="ms-1">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <x-dropdown-link :href="route('inventory-in.history')">{{ __('Riwayat Stok Masuk') }}</x-dropdown-link>
-                                    <x-dropdown-link :href="route('inventory-out.history')">{{ __('Riwayat Stok Keluar') }}</x-dropdown-link>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
-
-                    @elseif($currentUser && ($currentUser->role === 'staff' || $currentUser->role === 'staf'))
-                        {{-- Staff: ordered navigation --}}
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Beranda') }}
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                            {{ __('Produk') }}
-                        </x-nav-link>
-
-                        {{-- Dropdown for Stock In and Out --}}
-                        <div class="hidden sm:flex sm:items-center">
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Stok') }}</div>
-                                        <div class="ms-1">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </x-slot>
-                                <x-slot name="content">
-                                    <x-dropdown-link :href="route('inventory-in.create')">{{ __('Catat Stok Masuk') }}</x-dropdown-link>
-                                    <x-dropdown-link :href="route('inventory-out.create')">{{ __('Catat Stok Keluar') }}</x-dropdown-link>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
-
-                        {{-- Dropdown for History In and Out --}}
-                        <div class="hidden sm:flex sm:items-center">
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out h-full">
-                                        <div>{{ __('Riwayat') }}</div>
-                                        <div class="ms-1">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </x-slot>
-                                <x-slot name="content">
-                                    <x-dropdown-link :href="route('inventory-in.history')">{{ __('Riwayat Stok Masuk') }}</x-dropdown-link>
-                                    <x-dropdown-link :href="route('inventory-out.history')">{{ __('Riwayat Stok Keluar') }}</x-dropdown-link>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
-                    @else
-                        {{-- Fallback: show minimal links --}}
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Beranda') }}
-                        </x-nav-link>
+                        <!-- Dropdown Riwayat -->
+                        <div class="relative" x-data="{ openRiwayat: false }">
+                            <button @click="openRiwayat = !openRiwayat" class="px-3 py-1 text-sm font-medium {{ request()->routeIs('inventory-in.*') || request()->routeIs('inventory-out.*') ? 'text-[#1F8F6A] border-b-2 border-[#1F8F6A]' : 'text-slate-700 hover:text-[#1F8F6A]' }} transition flex items-center gap-1">
+                                {{ __('Riwayat') }}
+                                <svg class="w-4 h-4" :class="{'rotate-180': openRiwayat}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div x-show="openRiwayat" @click.away="openRiwayat = false" class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
+                                <a href="{{ route('inventory-in.history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Stok Masuk') }}</a>
+                                <a href="{{ route('inventory-out.history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Stok Keluar') }}</a>
+                            </div>
+                        </div>                    @else
+                        <a href="{{ route('dashboard') }}" class="px-3 py-1 text-sm font-medium {{ request()->routeIs('dashboard') ? 'text-[#1F8F6A]' : 'text-slate-700 hover:text-[#1F8F6A]' }} transition">{{ __('Beranda') }}</a>
                     @endif
                 </div>
             </div>
 
-            {{-- USER SETTINGS DROPDOWN (Right Top) --}}
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                @php
-                    $showNotifications = false;
-                    if($currentUser && in_array($currentUser->role, ['admin', 'super_admin'])) {
-                        $showNotifications = true;
-                    } elseif($isDemo && $demoMode && in_array($demoRole ?? null, ['admin', 'super_admin'])) {
-                        $showNotifications = true;
-                    }
-                @endphp
+            <!-- Right: Notifications and User Menu -->
+            <div class="flex items-center gap-4">
+                <!-- Notification Icon -->
+                <button class="p-1 rounded-full text-slate-600 hover:text-[#1F8F6A] transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                </button>
 
-                @if($showNotifications)
-                    @php
-                        $unreadNotificationCount = 0;
-                        if($currentUser) {
-                            $unreadNotificationCount = \App\Models\Notification::where('recipient_id', $currentUser->id)
-                                ->whereNull('read_at')
-                                ->count();
-                        }
-                    @endphp
-                    <a href="{{ route('notifications.index') }}" class="relative mr-4 text-gray-600 hover:text-gray-800" aria-label="Notifikasi">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                <!-- User Menu Dropdown -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white hover:bg-[#E9F6F1] border border-[#D1EDE5] text-sm text-slate-800 transition">
+                        <span class="font-medium">{{ $currentUser->email ?? 'User' }}</span>
+                        <svg class="w-4 h-4" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                         </svg>
-                        @if($unreadNotificationCount > 0)
-                            <span class="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-semibold leading-none text-white bg-red-600 rounded-full">
-                                {{ $unreadNotificationCount }}
-                            </span>
-                        @endif
-                    </a>
-                @endif
+                    </button>
 
-                {{-- Demo Mode Badge --}}
-                @if($isDemo)
-                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300 mr-3">
-                        ðŸŽ­ DEMO MODE ({{ strtoupper($demoRole) }})
-                    </span>
-                @endif
+                    <!-- Dropdown Menu -->
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
+                        <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Profile') }}</a>
+                        <form method="POST" action="{{ route('logout') }}" class="block">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">{{ __('Logout') }}</button>
+                        </form>
+                    </div>
+                </div>
 
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div class="flex items-center gap-2">
-                                <span>{{ optional($currentUser)->name ?? 'Demo User' }}</span>
-                            </div>
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profil') }}
-                        </x-dropdown-link>
-
-                        @if($isDemo)
-                            <div class="border-t my-2"></div>
-                            <div class="px-4 py-2 text-xs text-gray-500">
-                                <strong>Anda sedang dalam Mode Demo</strong><br>
-                                Semua perubahan tidak akan disimpan
-                            </div>
-                            <x-dropdown-link :href="route('demo.exit')">
-                                {{ __('ðŸšª Keluar Mode Demo') }}
-                            </x-dropdown-link>
-                        @else
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                                        {{ __('Keluar') }}
-                                </x-dropdown-link>
-                            </form>
-                        @endif
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            {{-- TOMBOL HAMBURGER (Untuk Mobile) --}}
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <!-- Mobile Menu Button -->
+                <button @click="open = !open" class="lg:hidden p-1 rounded-lg text-slate-600 hover:text-[#1F8F6A] transition">
+                    <svg class="w-5 h-5" :class="{'hidden': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg class="w-5 h-5" :class="{'hidden': !open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
         </div>
-    </div>
 
-    {{-- MENU MOBILE (Tampilan HP) --}}
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            @if($currentUser && $currentUser->role === 'super_admin')
-                <x-responsive-nav-link :href="route('super_admin.dashboard')" :active="request()->routeIs('super_admin.dashboard')">
-                    {{ __('Beranda') }}
-                </x-responsive-nav-link>
+        <!-- Mobile Menu -->
+        <div x-show="open" class="lg:hidden mt-3 bg-white rounded-lg shadow-lg p-4">
+            @if($currentUser)
+                @if($currentUser->role === 'super_admin')
+                    <a href="{{ route('super_admin.dashboard') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Beranda') }}</a>
+                    <a href="{{ route('super_admin.tenants.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Tenant') }}</a>
+                    <a href="{{ route('audit-logs.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Aktivitas') }}</a>
+                    <a href="{{ route('super_admin.reactivation.requests') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Permintaan Reaktivasi') }}</a>
+                    <a href="{{ route('super_admin.financial-report') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Laporan') }}</a>
+                    <a href="{{ route('super_admin.notifications.create') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Kirim Notifikasi') }}</a>
+                @elseif($currentUser->role === 'admin')
+                    <a href="{{ route('dashboard') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Beranda') }}</a>
+                    <a href="{{ route('products.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Produk') }}</a>
+                    <a href="{{ route('suppliers.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Pemasok') }}</a>
+                    <a href="{{ route('categories.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Kategori') }}</a>
+                    <a href="{{ route('users.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Pengguna') }}</a>
+                    <a href="{{ route('audit-logs.index') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Aktivitas') }}</a>
 
-                <x-responsive-nav-link :href="route('super_admin.tenants.index')" :active="request()->routeIs('super_admin.tenants.*')">
-                    {{ __('Tenant') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('super_admin.financial-report')" :active="request()->routeIs('super_admin.financial-report')">
-                    {{ __('Laporan Keuangan') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('super_admin.reactivation.requests')" :active="request()->routeIs('super_admin.reactivation.*')">
-                    <span class="flex items-center gap-2">
-                        {{ __('Permintaan Reaktivasi') }}
-                        @php
-                            $unreadCount = \App\Models\Notification::where('template', 'reactivation_request')
-                                ->whereNull('read_at')
-                                ->count();
-                        @endphp
-                        @if($unreadCount > 0)
-                            <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-                                {{ $unreadCount }}
-                            </span>
-                        @endif
-                    </span>
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('super_admin.notifications.create')" :active="request()->routeIs('super_admin.notifications.create')">
-                    {{ __('Kirim Notifikasi') }}
-                </x-responsive-nav-link>
-
-            @elseif($currentUser && $currentUser->role === 'admin')
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Beranda') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                    {{ __('Produk') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                    {{ __('Pemasok') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                    {{ __('Kategori') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                    {{ __('Manajemen Pengguna') }}
-                </x-responsive-nav-link>
-
-                <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
-                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Riwayat') }}
+                    <!-- Dropdown Riwayat Mobile -->
+                    <div class="border-t border-gray-200 mt-2 pt-2">
+                        <div class="px-3 py-1 text-xs text-gray-500 font-semibold uppercase">{{ __('Riwayat') }}</div>
+                        <a href="{{ route('inventory-in.history') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Stok Masuk') }}</a>
+                        <a href="{{ route('inventory-out.history') }}" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">{{ __('Stok Keluar') }}</a>
                     </div>
-
-                    <x-responsive-nav-link :href="route('inventory-in.history')" :active="request()->routeIs('inventory-in.history')">
-                        {{ __('Riwayat Stok Masuk') }}
-                    </x-responsive-nav-link>
-
-                    <x-responsive-nav-link :href="route('inventory-out.history')" :active="request()->routeIs('inventory-out.history')">
-                        {{ __('Riwayat Stok Keluar') }}
-                    </x-responsive-nav-link>
-                </div>
-
-            @elseif($currentUser && ($currentUser->role === 'staff' || $currentUser->role === 'staf'))
-                {{-- Staff: ordered navigation for mobile --}}
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Beranda') }}
-                </x-responsive-nav-link>
-
-                <div class="border-t border-gray-200 mt-2 pt-2">
-                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Data Master') }}
-                    </div>
-                    <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                        {{ __('Produk') }}
-                    </x-responsive-nav-link>
-                </div>
-
-                <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
-                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Stok') }}
-                    </div>
-                    <x-responsive-nav-link :href="route('inventory-in.create')" :active="request()->routeIs('inventory-in.create')">
-                        {{ __('Catat Stok Masuk') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('inventory-out.create')" :active="request()->routeIs('inventory-out.create')">
-                        {{ __('Catat Stok Keluar') }}
-                    </x-responsive-nav-link>
-                </div>
-
-                <div class="border-t border-gray-200 mt-2 pt-2 pb-2">
-                    <div class="px-4 py-2 text-xs text-gray-400 font-semibold uppercase">
-                        {{ __('Riwayat Persediaan') }}
-                    </div>
-                    <x-responsive-nav-link :href="route('inventory-in.history')" :active="request()->routeIs('inventory-in.history')">
-                        {{ __('Riwayat Stok Masuk') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('inventory-out.history')" :active="request()->routeIs('inventory-out.history')">
-                        {{ __('Riwayat Stok Keluar') }}
-                    </x-responsive-nav-link>
-                </div>
-            @else
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Beranda') }}
-                </x-responsive-nav-link>
-            @endif
-        </div>
-
-        {{-- SETTINGS USER (MOBILE) --}}
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800 flex items-center gap-2">
-                    <span>{{ optional($currentUser)->name ?? 'Demo User' }}</span>
-                    @if(isset($isDemoMode) && $isDemoMode)
-                        <span class="px-2 py-0.5 text-xs rounded bg-orange-100 text-orange-700 border border-orange-300">Demo</span>
-                    @endif
-                </div>
-                <div class="font-medium text-sm text-gray-500">{{ optional($currentUser)->email ?? 'demo@example.com' }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                @if($isDemo)
-                    <div class="px-4 py-2 text-xs text-gray-500 border-b">
-                        <strong>Mode Demo Aktif</strong><br>
-                        Semua perubahan tidak disimpan
-                    </div>
-                    <x-responsive-nav-link :href="route('demo.exit')">
-                        {{ __('ðŸšª Keluar Mode Demo') }}
-                    </x-responsive-nav-link>
-                @else
-                    <x-responsive-nav-link :href="route('profile.edit')">
-                        {{ __('Profil') }}
-                    </x-responsive-nav-link>
-
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                            {{ __('Keluar') }}
-                        </x-responsive-nav-link>
-                    </form>
                 @endif
-            </div>
+            @endif
         </div>
     </div>
 </nav>

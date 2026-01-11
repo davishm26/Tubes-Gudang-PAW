@@ -10,30 +10,34 @@
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('title', null, []); ?> Permintaan Reaktivasi - StockMaster <?php $__env->endSlot(); ?>
      <?php $__env->slot('header', null, []); ?> 
-        <h2 class="text-xl font-semibold leading-tight text-slate-900">
-            <?php echo e(__('Permintaan Reaktivasi Akun')); ?>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-semibold leading-tight text-white">
+                    <?php echo e(__('Permintaan Reaktivasi Akun')); ?>
 
-        </h2>
+                </h2>
+            </div>
+        </div>
      <?php $__env->endSlot(); ?>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
 
             <?php if(session('success')): ?>
-                <div class="mb-6 rounded-lg bg-emerald-50 border border-emerald-300 p-4">
-                    <p class="text-sm font-medium text-emerald-800">✓ <?php echo e(session('success')); ?></p>
+                <div class="mb-6 rounded-lg bg-[#E9F6F1] border border-[#C8E6DF] p-4">
+                    <p class="text-sm font-medium text-[#1F2937]">✓ <?php echo e(session('success')); ?></p>
                 </div>
             <?php endif; ?>
 
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 border-b border-emerald-200">
+                <div class="p-6 border-b border-[#E5E7EB]">
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900">Daftar Permintaan Reaktivasi</h3>
                             <p class="text-sm text-slate-600 mt-1">Kelola permintaan reaktivasi dari perusahaan yang ter-suspend</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-[#F0FAF7] text-[#1F2937]">
                                 Total: <?php echo e($requests->count()); ?> permintaan
                             </span>
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800">
@@ -56,9 +60,9 @@
                     <?php else: ?>
                         <div class="space-y-4">
                             <?php $__currentLoopData = $requests; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $request): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="border border-emerald-200 rounded-lg <?php echo e(!$request['is_read'] ? 'bg-emerald-50' : ''); ?>">
+                                <div class="border border-[#E5E7EB] rounded-lg <?php echo e(!$request['is_read'] ? 'bg-[#E9F6F1]' : ''); ?>">
                                     <!-- Header -->
-                                    <div class="px-6 py-4 border-b border-emerald-200 bg-emerald-50/50">
+                                    <div class="px-6 py-4 border-b border-[#E5E7EB] bg-[#E9F6F1]/50">
                                         <div class="flex items-start justify-between">
                                             <div class="flex items-start gap-3">
                                                 <?php if(!$request['is_read']): ?>
@@ -83,12 +87,12 @@
                                                 ?>
                                                 <div class="flex items-center gap-2">
                                                     <?php if($isSuspended): ?>
-                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                            🔒 Tersuspend
+                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700">
+                                                            Ditolak
                                                         </span>
                                                     <?php else: ?>
-                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                            ✓ Aktif
+                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
+                                                            ? Aktif
                                                         </span>
                                                     <?php endif; ?>
                                                 </div>
@@ -155,7 +159,7 @@
                                         </div>
 
                                         <!-- Message -->
-                                        <div class="bg-emerald-50 rounded-lg border border-emerald-200 p-4">
+                                        <div class="bg-[#E9F6F1] rounded-lg border border-[#E5E7EB] p-4">
                                             <h5 class="text-sm font-semibold text-gray-900 mb-2">Pesan dari Pengirim:</h5>
                                             <p class="text-sm text-gray-700 whitespace-pre-line"><?php echo e($request['message']); ?></p>
                                         </div>
@@ -168,7 +172,7 @@
                                     ?>
 
                                     <?php if($isSuspended && $isUnread): ?>
-                                        <div class="px-6 py-4 bg-emerald-50 border-t border-emerald-200 flex items-center justify-end gap-3">
+                                        <div class="px-6 py-4 bg-[#E9F6F1] border-t border-[#E5E7EB] flex items-center justify-end gap-3">
                                             <!-- Reject Button with Modal -->
                                             <button onclick="openRejectModal(<?php echo e($request['company']->id); ?>, '<?php echo e($request['company_name']); ?>')"
                                                 class="inline-flex items-center px-4 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500">
@@ -196,7 +200,7 @@
                                             <p class="text-sm text-green-800 font-medium">✓ Akun sudah aktif kembali</p>
                                         </div>
                                     <?php else: ?>
-                                        <div class="px-6 py-4 bg-emerald-50 border-t border-emerald-200">
+                                        <div class="px-6 py-4 bg-[#E9F6F1] border-t border-[#E5E7EB]">
                                             <p class="text-sm text-gray-600 font-medium">Permintaan sudah ditangani</p>
                                         </div>
                                     <?php endif; ?>
@@ -230,7 +234,7 @@
 
                     <div class="flex gap-3 justify-end">
                         <button type="button" onclick="closeRejectModal()"
-                            class="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-lg hover:bg-emerald-200">
+                            class="px-4 py-2 bg-[#F0FAF7] text-[#1F2937] rounded-lg hover:bg-emerald-200">
                             Batal
                         </button>
                         <button type="submit"
@@ -272,4 +276,10 @@
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
+
+
+
+
+
+
 <?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/super_admin/reactivation_requests.blade.php ENDPATH**/ ?>

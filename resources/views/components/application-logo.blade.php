@@ -1,4 +1,4 @@
-﻿<div {{ $attributes->merge(['class' => 'flex items-center select-none']) }} style="gap: 12px;">
+<div {{ $attributes->merge(['class' => 'flex items-center select-none']) }} style="gap: 12px;">
     <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));">
         <circle cx="32" cy="32" r="30" fill="#1F8F6A"/>
         <circle cx="32" cy="32" r="30" fill="url(#grad1)" opacity="0.3"/>

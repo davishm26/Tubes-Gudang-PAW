@@ -1,4 +1,4 @@
-﻿<x-guest-layout>
+<x-guest-layout>
     <x-slot name="title">Lupa Kata Sandi - StockMaster</x-slot>
     <div class="mb-4 text-sm text-gray-600">
         {{ __('Lupa kata sandi? Tidak masalah. Beri tahu kami alamat email Anda dan kami akan mengirimkan tautan reset kata sandi untuk membuat yang baru.') }}

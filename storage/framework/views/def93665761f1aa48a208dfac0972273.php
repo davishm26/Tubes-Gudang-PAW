@@ -10,9 +10,13 @@
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('title', null, []); ?> Manajemen Tenant - StockMaster <?php $__env->endSlot(); ?>
      <?php $__env->slot('header', null, []); ?> 
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-semibold text-slate-900">Tenants</h1>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-semibold text-white">Tenant</h1>
+                    </div>
+                </div>
             </div>
         </div>
      <?php $__env->endSlot(); ?>
@@ -28,24 +32,24 @@
                                     type="text"
                                     name="search"
                                     value="<?php echo e($search ?? request('search')); ?>"
-                                    placeholder="Search tenants by name"
-                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                                    placeholder="Cari tenant berdasarkan nama"
+                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:border-[#1F8F6A] focus:ring-2 focus:ring-[#C8E6DF]"
                                 />
                             </div>
                             <div class="w-full md:w-48">
                                 <select
                                     name="status"
-                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:border-[#1F8F6A] focus:ring-2 focus:ring-[#C8E6DF]"
                                 >
-                                    <option value="">All status</option>
-                                    <option value="active" <?php if(($status ?? request('status')) === 'active'): echo 'selected'; endif; ?>>Active</option>
-                                    <option value="suspended" <?php if(($status ?? request('status')) === 'suspended'): echo 'selected'; endif; ?>>Suspended</option>
-                                    <option value="expired" <?php if(($status ?? request('status')) === 'expired'): echo 'selected'; endif; ?>>Expired</option>
+                                    <option value="">Semua status</option>
+                                    <option value="active" <?php if(($status ?? request('status')) === 'active'): echo 'selected'; endif; ?>>Aktif</option>
+                                    <option value="suspended" <?php if(($status ?? request('status')) === 'suspended'): echo 'selected'; endif; ?>>Ditangguhkan</option>
+                                    <option value="expired" <?php if(($status ?? request('status')) === 'expired'): echo 'selected'; endif; ?>>Kedaluwarsa</option>
                                 </select>
                             </div>
                         </div>
                         <div class="flex gap-3">
-                            <button type="submit" class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
+                            <button type="submit" class="inline-flex items-center rounded-lg bg-[#1F8F6A] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#166B50] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-1">
                                 Terapkan
                             </button>
                             <a href="<?php echo e(route('super_admin.tenants.index')); ?>" class="inline-flex items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
@@ -58,12 +62,12 @@
                 <?php if($companies->count()): ?>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-slate-200 text-sm">
-                            <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            <thead class="bg-[#E9F6F1] border-b border-[#1F8F6A]/20 text-left text-xs font-semibold uppercase tracking-wide text-[#1F8F6A]">
                                 <tr>
-                                    <th class="px-6 py-3">Tenant Name</th>
-                                    <th class="px-6 py-3 text-center">Subscription Status</th>
-                                    <th class="px-6 py-3 text-center">Subscription End Date</th>
-                                    <th class="px-6 py-3 text-right">Actions</th>
+                                    <th class="px-6 py-3">Nama Tenant</th>
+                                    <th class="px-6 py-3 text-center">Status Langganan</th>
+                                    <th class="px-6 py-3 text-center">Tanggal Berakhir Langganan</th>
+                                    <th class="px-6 py-3 text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-200 bg-white">
@@ -72,8 +76,8 @@
                                         $deadline = $company->subscription_end_date ?? $company->subscription_expires_at;
                                         $isExpired = $deadline ? \Carbon\Carbon::parse($deadline)->isPast() : false;
                                         $isSuspended = $company->suspended || $company->subscription_status === 'suspended';
-                                        $statusLabel = $isExpired ? 'Expired' : ($isSuspended ? 'Suspended' : ($company->subscription_status ?? 'Active'));
-                                        $statusColor = $isExpired ? 'bg-rose-50 text-rose-700 ring-rose-100' : ($isSuspended ? 'bg-amber-50 text-amber-700 ring-amber-100' : 'bg-emerald-50 text-emerald-700 ring-emerald-100');
+                                        $statusLabel = $isExpired ? 'Kedaluwarsa' : ($isSuspended ? 'Ditangguhkan' : 'Aktif');
+                                        $statusColor = $isExpired ? 'bg-rose-50 text-rose-700 ring-rose-100' : ($isSuspended ? 'bg-amber-50 text-amber-700 ring-amber-100' : 'bg-[#E9F6F1] text-[#166B50] ring-[#E9F6F1]');
                                     ?>
                                     <tr class="hover:bg-slate-50">
                                         <td class="px-6 py-4 font-medium text-slate-900"><?php echo e($company->name); ?></td>
@@ -88,12 +92,12 @@
                                                 <?php echo e(\Carbon\Carbon::parse($deadline)->format('d M Y')); ?>
 
                                             <?php else: ?>
-                                                <span class="text-slate-400">Not set</span>
+                                                <span class="text-slate-400">Belum diatur</span>
                                             <?php endif; ?>
                                         </td>
                                         <td class="px-6 py-4">
-                                            <div class="flex justify-end gap-2 text-sm">
-                                                <a href="<?php echo e(route('super_admin.tenants.edit', $company)); ?>" class="inline-flex items-center rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 font-medium text-indigo-700 hover:bg-indigo-100">Ubah</a>
+                                            <div class="flex justify-center gap-2 text-sm">
+                                                <a href="<?php echo e(route('super_admin.tenants.edit', $company)); ?>" class="inline-flex items-center rounded-md border border-[#C8E6DF] bg-[#E9F6F1] px-3 py-1.5 font-medium text-[#166B50] hover:bg-[#D1EDE5]">Ubah</a>
                                                 <a href="<?php echo e(route('super_admin.notifications.create', ['company_id' => $company->id])); ?>" class="inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50">Notifikasi</a>
                                             </div>
                                         </td>
@@ -104,7 +108,7 @@
                     </div>
                     <div class="flex flex-col gap-3 px-6 py-4 border-t border-slate-200 bg-slate-50 text-sm text-slate-600 md:flex-row md:items-center md:justify-between">
                         <div>
-                            Showing <?php echo e($companies->firstItem()); ?>-<?php echo e($companies->lastItem()); ?> of <?php echo e($companies->total()); ?> tenants
+                            Menampilkan <?php echo e($companies->firstItem()); ?>-<?php echo e($companies->lastItem()); ?> dari <?php echo e($companies->total()); ?> tenant
                         </div>
                         <div>
                             <?php echo e($companies->onEachSide(1)->links()); ?>
@@ -138,4 +142,10 @@
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
+
+
+
+
+
+
 <?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/super_admin/tenants/index.blade.php ENDPATH**/ ?>

@@ -40,4 +40,10 @@ class InventoryIn extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+
+    // Nama entity untuk audit log
+    public function getAuditEntityName(): ?string
+    {
+        return $this->product?->name;
+    }
 }

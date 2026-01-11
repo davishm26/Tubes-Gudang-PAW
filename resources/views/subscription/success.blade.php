@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,7 @@
             @endif
 
             <p class="mb-4">Berlaku hingga: {{ $company->subscription_end_date->format('d-m-Y') }}</p>
-            <a href="{{ route('login') }}" class="bg-blue-600 text-white px-4 py-2 rounded">Login Sekarang</a>
+            <a href="{{ route('login') }}" class="bg-[#1F8F6A] text-white px-4 py-2 rounded hover:bg-[#166B50] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-1">Login Sekarang</a>
         </div>
     </div>
 </body>

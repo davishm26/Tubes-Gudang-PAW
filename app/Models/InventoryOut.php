@@ -34,4 +34,10 @@ class InventoryOut extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // Nama entity untuk audit log
+    public function getAuditEntityName(): ?string
+    {
+        return $this->product?->name;
+    }
 }

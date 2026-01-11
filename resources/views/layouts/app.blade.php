@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -18,9 +18,17 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gradient-to-br from-[#E9F6F1] via-[#E9F6F1] to-white">
-        <div class="min-h-screen">
-            @include('layouts.navigation')
+    <body class="font-sans antialiased bg-gradient-to-br from-[#E9F6F1] via-[#E9F6F1] to-white m-0 p-0">
+        @include('layouts.navigation')
+
+        <!-- Page Heading -->
+        @isset($header)
+            <header>
+                {{ $header }}
+            </header>
+        @endisset
+
+        <div class="min-h-screen {{ isset($header) ? '' : 'pt-16' }}">
 
             <!-- Demo Mode Banner -->
             @if(session('demo_mode') === 'true')
@@ -45,15 +53,6 @@
                     </div>
                 </div>
             @endif
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
 
             <!-- Page Content -->
             <main>

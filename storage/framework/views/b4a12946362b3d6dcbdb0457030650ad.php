@@ -10,13 +10,15 @@
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('title', null, []); ?> Laporan Keuangan - StockMaster <?php $__env->endSlot(); ?>
      <?php $__env->slot('header', null, []); ?> 
-        <div class="bg-white flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div>
-                <h1 class="text-2xl font-semibold text-slate-900">Financial Report</h1>
-                <p class="text-sm text-slate-500">Period: <?php echo e(\Carbon\Carbon::parse($startDate)->format('Y-m-d')); ?> â€“ <?php echo e(\Carbon\Carbon::parse($endDate)->format('Y-m-d')); ?></p>
-            </div>
-            <div class="flex flex-wrap items-end gap-3">
-                <div class="space-y-1">
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-semibold text-white">Financial Report</h1>
+                        <p class="text-sm text-white/80">Period: <?php echo e(\Carbon\Carbon::parse($startDate)->format('Y-m-d')); ?> â€" <?php echo e(\Carbon\Carbon::parse($endDate)->format('Y-m-d')); ?></p>
+                    </div>
+                    <div class="flex flex-wrap items-end gap-3">
+                        <div class="space-y-1">
                     <label for="start_date" class="block text-xs font-semibold text-slate-600">Start Date</label>
                     <input type="date" name="start_date" id="start_date" value="<?php echo e($startDate); ?>" form="filterForm" class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" />
                 </div>
@@ -31,7 +33,7 @@
                     <?php echo csrf_field(); ?>
                     <input type="hidden" name="start_date" value="<?php echo e($startDate); ?>">
                     <input type="hidden" name="end_date" value="<?php echo e($endDate); ?>">
-                    <button type="submit" class="inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1">Download PDF</button>
+                    <button type="submit" class="inline-flex items-center rounded-lg bg-[#1F8F6A] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#166B50] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-1">Download PDF</button>
                 </form>
             </div>
         </div>
@@ -166,4 +168,10 @@
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
+
+
+
+
+
+
 <?php /**PATH D:\Semester 3\PAW\TUBES\tubes-gudang\resources\views/super_admin/financial_report.blade.php ENDPATH**/ ?>

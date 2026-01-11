@@ -1,4 +1,4 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="title">Detail Riwayat Audit - StockMaster</x-slot>
     @php
         $isDemo = session('is_demo', false) || session('demo_mode', false);
@@ -40,16 +40,20 @@
         }
     @endphp
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Detail Riwayat Audit') }}
-                @if($isDemo)
-                    <span class="ml-2 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">Demo Mode</span>
-                @endif
-            </h2>
-            <a href="{{ route('audit-logs.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
-                Kembali ke Daftar
-            </a>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-semibold text-2xl text-white leading-tight">
+                        {{ __('Detail Riwayat Audit') }}
+                        @if($isDemo)
+                            <span class="ml-2 px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full text-sm font-medium">Demo Mode</span>
+                        @endif
+                    </h2>
+                    <a href="{{ route('audit-logs.index') }}" class="inline-flex items-center px-4 py-2 bg-white/10 border border-white/20 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-white/20">
+                        Kembali ke Daftar
+                    </a>
+                </div>
+            </div>
         </div>
     </x-slot>
 
@@ -68,8 +72,8 @@
                                     @if($isArray)
                                         <p class="text-sm text-gray-900">{{ $log['created_at'] ?? '-' }}</p>
                                     @else
-                                        <p class="text-sm text-gray-900">{{ $log->created_at->format('Y-m-d H:i:s') }}</p>
-                                        <p class="text-xs text-gray-500">{{ $log->created_at->diffForHumans() }}</p>
+                                        <p class="text-sm text-gray-900">{{ $log->created_at->setTimezone(config('app.timezone'))->format('d/m/Y H:i') }}</p>
+                                        <p class="text-xs text-gray-500">{{ $log->created_at->setTimezone(config('app.timezone'))->locale(config('app.locale'))->diffForHumans() }}</p>
                                     @endif
                                 </div>
 
@@ -97,10 +101,10 @@
                                     <p>
                                         @php $action = $isArray ? ($log['action'] ?? '') : $log->action; @endphp
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                            {{ $action === 'created' || $action === 'create' ? 'bg-green-100 text-green-800' : '' }}
-                                            {{ $action === 'updated' || $action === 'update' ? 'bg-blue-100 text-blue-800' : '' }}
-                                            {{ $action === 'deleted' || $action === 'delete' ? 'bg-red-100 text-red-800' : '' }}
-                                            {{ $action === 'viewed' || $action === 'view' ? 'bg-gray-100 text-gray-800' : '' }}">
+                                            {{ $action === 'created' || $action === 'create' ? 'bg-emerald-50 text-emerald-700' : '' }}
+                                            {{ $action === 'updated' || $action === 'update' ? 'bg-blue-50 text-blue-700' : '' }}
+                                            {{ $action === 'deleted' || $action === 'delete' ? 'bg-red-50 text-red-700' : '' }}
+                                            {{ $action === 'viewed' || $action === 'view' ? 'bg-gray-50 text-gray-700' : '' }}">
                                             {{ ucfirst($action) }}
                                         </span>
                                     </p>
@@ -214,8 +218,8 @@
                                                 </div>
                                             </div>
                                         @else
-                                            <div class="bg-blue-50 p-3 rounded border border-blue-200">
-                                                <pre class="text-xs text-blue-900 overflow-auto">{{ is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value }}</pre>
+                                            <div class="bg-[#E9F6F1] p-3 rounded border border-[#C8E6DF]">
+                                                <pre class="text-xs text-[#0F4C37] overflow-auto">{{ is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value }}</pre>
                                             </div>
                                         @endif
                                     </div>

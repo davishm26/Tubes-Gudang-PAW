@@ -1,9 +1,13 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="title">Manajemen Tenant - StockMaster</x-slot>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-semibold text-slate-900">Tenants</h1>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-semibold text-white">Tenant</h1>
+                    </div>
+                </div>
             </div>
         </div>
     </x-slot>
@@ -19,24 +23,24 @@
                                     type="text"
                                     name="search"
                                     value="{{ $search ?? request('search') }}"
-                                    placeholder="Search tenants by name"
-                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                                    placeholder="Cari tenant berdasarkan nama"
+                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:border-[#1F8F6A] focus:ring-2 focus:ring-[#C8E6DF]"
                                 />
                             </div>
                             <div class="w-full md:w-48">
                                 <select
                                     name="status"
-                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:border-[#1F8F6A] focus:ring-2 focus:ring-[#C8E6DF]"
                                 >
-                                    <option value="">All status</option>
-                                    <option value="active" @selected(($status ?? request('status')) === 'active')>Active</option>
-                                    <option value="suspended" @selected(($status ?? request('status')) === 'suspended')>Suspended</option>
-                                    <option value="expired" @selected(($status ?? request('status')) === 'expired')>Expired</option>
+                                    <option value="">Semua status</option>
+                                    <option value="active" @selected(($status ?? request('status')) === 'active')>Aktif</option>
+                                    <option value="suspended" @selected(($status ?? request('status')) === 'suspended')>Ditangguhkan</option>
+                                    <option value="expired" @selected(($status ?? request('status')) === 'expired')>Kedaluwarsa</option>
                                 </select>
                             </div>
                         </div>
                         <div class="flex gap-3">
-                            <button type="submit" class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
+                            <button type="submit" class="inline-flex items-center rounded-lg bg-[#1F8F6A] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#166B50] focus:outline-none focus:ring-2 focus:ring-[#1F8F6A] focus:ring-offset-1">
                                 Terapkan
                             </button>
                             <a href="{{ route('super_admin.tenants.index') }}" class="inline-flex items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
@@ -49,12 +53,12 @@
                 @if($companies->count())
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-slate-200 text-sm">
-                            <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            <thead class="bg-[#E9F6F1] border-b border-[#1F8F6A]/20 text-left text-xs font-semibold uppercase tracking-wide text-[#1F8F6A]">
                                 <tr>
-                                    <th class="px-6 py-3">Tenant Name</th>
-                                    <th class="px-6 py-3 text-center">Subscription Status</th>
-                                    <th class="px-6 py-3 text-center">Subscription End Date</th>
-                                    <th class="px-6 py-3 text-right">Actions</th>
+                                    <th class="px-6 py-3">Nama Tenant</th>
+                                    <th class="px-6 py-3 text-center">Status Langganan</th>
+                                    <th class="px-6 py-3 text-center">Tanggal Berakhir Langganan</th>
+                                    <th class="px-6 py-3 text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-200 bg-white">
@@ -63,7 +67,7 @@
                                         $deadline = $company->subscription_end_date ?? $company->subscription_expires_at;
                                         $isExpired = $deadline ? \Carbon\Carbon::parse($deadline)->isPast() : false;
                                         $isSuspended = $company->suspended || $company->subscription_status === 'suspended';
-                                        $statusLabel = $isExpired ? 'Expired' : ($isSuspended ? 'Suspended' : ($company->subscription_status ?? 'Active'));
+                                        $statusLabel = $isExpired ? 'Kedaluwarsa' : ($isSuspended ? 'Ditangguhkan' : 'Aktif');
                                         $statusColor = $isExpired ? 'bg-rose-50 text-rose-700 ring-rose-100' : ($isSuspended ? 'bg-amber-50 text-amber-700 ring-amber-100' : 'bg-[#E9F6F1] text-[#166B50] ring-[#E9F6F1]');
                                     @endphp
                                     <tr class="hover:bg-slate-50">
@@ -77,12 +81,12 @@
                                             @if($deadline)
                                                 {{ \Carbon\Carbon::parse($deadline)->format('d M Y') }}
                                             @else
-                                                <span class="text-slate-400">Not set</span>
+                                                <span class="text-slate-400">Belum diatur</span>
                                             @endif
                                         </td>
                                         <td class="px-6 py-4">
-                                            <div class="flex justify-end gap-2 text-sm">
-                                                <a href="{{ route('super_admin.tenants.edit', $company) }}" class="inline-flex items-center rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 font-medium text-indigo-700 hover:bg-indigo-100">Ubah</a>
+                                            <div class="flex justify-center gap-2 text-sm">
+                                                <a href="{{ route('super_admin.tenants.edit', $company) }}" class="inline-flex items-center rounded-md border border-[#C8E6DF] bg-[#E9F6F1] px-3 py-1.5 font-medium text-[#166B50] hover:bg-[#D1EDE5]">Ubah</a>
                                                 <a href="{{ route('super_admin.notifications.create', ['company_id' => $company->id]) }}" class="inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50">Notifikasi</a>
                                             </div>
                                         </td>
@@ -93,7 +97,7 @@
                     </div>
                     <div class="flex flex-col gap-3 px-6 py-4 border-t border-slate-200 bg-slate-50 text-sm text-slate-600 md:flex-row md:items-center md:justify-between">
                         <div>
-                            Showing {{ $companies->firstItem() }}-{{ $companies->lastItem() }} of {{ $companies->total() }} tenants
+                            Menampilkan {{ $companies->firstItem() }}-{{ $companies->lastItem() }} dari {{ $companies->total() }} tenant
                         </div>
                         <div>
                             {{ $companies->onEachSide(1)->links() }}

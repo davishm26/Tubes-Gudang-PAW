@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -140,7 +140,7 @@
 
                 <div class="mt-6 p-4 bg-[#E9F6F1] rounded-lg">
                     <p class="text-sm text-[#1F8F6A]">
-                        <strong>💡 Mode Demo:</strong> Semua data hanya disimpan di browser Anda dan tidak akan tersimpan secara permanen.
+                        <strong>?? Mode Demo:</strong> Semua data hanya disimpan di browser Anda dan tidak akan tersimpan secara permanen.
                     </p>
                 </div>
             </div>
@@ -208,7 +208,7 @@
                         Langganan Sekarang
                     </a>
                     <button onclick="openDemoModal()" class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#1F8F6A] transition-all duration-300">
-                        🚀 Coba Demo
+                        ?? Coba Demo
                     </button>
                 </div>
             </div>

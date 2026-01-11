@@ -1,4 +1,4 @@
-﻿<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
 <?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('app-layout'); ?>
@@ -14,16 +14,20 @@
     ?>
 
      <?php $__env->slot('header', null, []); ?> 
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                <?php echo e(__('Profil')); ?>
+        <div class="bg-gradient-to-r from-[#1F8F6A] to-[#166B50] pt-20 pb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-semibold text-2xl text-white leading-tight">
+                        <?php echo e(__('Profil')); ?>
 
-            </h2>
-            <?php if($isDemo): ?>
-                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
-                    Demo Mode - Read Only
-                </span>
-            <?php endif; ?>
+                    </h2>
+                    <?php if($isDemo): ?>
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                            Demo Mode - Read Only
+                        </span>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
      <?php $__env->endSlot(); ?>
 
@@ -32,7 +36,7 @@
             <?php if($isDemo): ?>
                 <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <p class="text-sm text-yellow-800">
-                        <strong>ðŸŽ­ Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
+                        <strong>?? Demo Mode:</strong> Tampilan sama seperti mode real, tetapi semua perubahan tidak akan disimpan.
                     </p>
                 </div>
             <?php endif; ?>
@@ -86,6 +90,9 @@
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
+
+
+
 
 
 
